@@ -47,19 +47,26 @@ android {
 }
 
 dependencies {
+    val coreKtxVersion = rootProject.extra["core_ktx_version"] as String
+    val lifecycleRuntimeKtxVersion = rootProject.extra["lifecycle_runtime_ktx_version"] as String
+    val composeVersion = rootProject.extra["compose_version"] as String
+    val composeBomVersion = rootProject.extra["compose_bom_version"] as String
+    val junitVersion = rootProject.extra["junit_version"] as String
+    val androidJunitVersion = rootProject.extra["android_junit_version"] as String
+    val espressoCoreVersion = rootProject.extra["espresso_core_version"] as String
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
+    implementation("androidx.core:core-ktx:$coreKtxVersion")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtxVersion")
+    implementation("androidx.activity:activity-compose:$composeVersion")
+    implementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.4")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
+    testImplementation("junit:junit:$junitVersion")
+    androidTestImplementation("androidx.test.ext:junit:$androidJunitVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoCoreVersion")
+    androidTestImplementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
