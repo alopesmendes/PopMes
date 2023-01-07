@@ -1,4 +1,4 @@
-package fr.messager.popmes.ui.theme
+package fr.messager.popmes.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

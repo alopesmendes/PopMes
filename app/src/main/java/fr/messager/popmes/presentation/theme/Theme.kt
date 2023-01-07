@@ -1,4 +1,4 @@
-package fr.messager.popmes.ui.theme
+package fr.messager.popmes.presentation.theme
 
 import android.app.Activity
 import android.os.Build
