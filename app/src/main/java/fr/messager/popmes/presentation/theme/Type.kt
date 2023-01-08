@@ -1,4 +1,4 @@
-package fr.messager.popmes.ui.theme
+package fr.messager.popmes.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

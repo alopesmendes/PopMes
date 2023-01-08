@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "fr.messager.popmes"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -70,7 +70,6 @@ val gsonVersion = rootProject.extra["gson_version"] as String
 val navVersion = rootProject.extra["nav_version"] as String
 
 dependencies {
-
     implementation("androidx.core:core-ktx:$coreKtxVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtxVersion")
     implementation("androidx.activity:activity-compose:$composeVersion")
@@ -84,7 +83,6 @@ dependencies {
     // navigation
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
-
     // protobuf
     implementation("com.google.protobuf:protobuf-kotlin-lite:$protobufVersion")
     // grpc
@@ -94,7 +92,7 @@ dependencies {
     implementation("io.grpc:grpc-android:$grpcVersion")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
     implementation("io.grpc:grpc-netty-shaded:$grpcVersion")
-
+    
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoCoreVersion")
