@@ -6,6 +6,15 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
     id("com.google.protobuf") version "0.9.1"
+    id("com.google.dagger.hilt.android")
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+hilt {
+    enableAggregatingTask = true
 }
 
 android {
@@ -68,6 +77,7 @@ val grpcVersion = rootProject.extra["grpc_version"] as String
 val grpcKtVersion = rootProject.extra["grpc_kt_version"] as String
 val gsonVersion = rootProject.extra["gson_version"] as String
 val navVersion = rootProject.extra["nav_version"] as String
+val hiltVersion = rootProject.extra["hilt_version"] as String
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
@@ -92,6 +102,18 @@ dependencies {
     implementation("io.grpc:grpc-android:$grpcVersion")
     implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
     implementation("io.grpc:grpc-netty-shaded:$grpcVersion")
+
+    // dagger
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+
+    // For instrumentation tests
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:$hiltVersion")
+    kaptAndroidTest("com.google.dagger:hilt-compiler:$hiltVersion")
+
+    // For local unit tests
+    testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    kaptTest("com.google.dagger:hilt-compiler:$hiltVersion")
     
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidJunitVersion")
