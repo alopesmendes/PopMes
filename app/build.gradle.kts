@@ -80,6 +80,8 @@ val navVersion = rootProject.extra["nav_version"] as String
 val hiltVersion = rootProject.extra["hilt_version"] as String
 val roomVersion = rootProject.extra["room_version"] as String
 val roomPagingVersion = rootProject.extra["room_paging_version"] as String
+val pagingVersion = rootProject.extra["paging_version"] as String
+val pagingComposeVersion = rootProject.extra["paging_compose_version"] as String
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
@@ -123,7 +125,14 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$roomVersion")
     // optional - Paging 3 Integration
-    implementation("androidx.room:room-paging:$roomPagingVersion")
+//    implementation("androidx.room:room-paging:$roomPagingVersion")
+
+    // ---- paging ----
+    implementation("androidx.paging:paging-runtime:$pagingVersion")
+    // alternatively - without Android dependencies for tests
+    testImplementation("androidx.paging:paging-common:$pagingVersion")
+    // optional - Jetpack Compose integration
+    implementation("androidx.paging:paging-compose:$pagingComposeVersion")
     
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidJunitVersion")

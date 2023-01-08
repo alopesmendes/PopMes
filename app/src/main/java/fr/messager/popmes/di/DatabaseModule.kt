@@ -18,8 +18,8 @@ object DatabaseModule {
     fun providePopMesDatabase(
         @ApplicationContext context: Context,
     ) = Room.databaseBuilder(
-        context = context,
-        klass = PopMesDatabase::class.java,
-        name = "pop_mes_database",
+        context,
+        PopMesDatabase::class.java,
+        "pop_mes_database.db",
     ).build()
 }
