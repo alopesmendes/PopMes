@@ -10,6 +10,9 @@ buildscript {
         set("espresso_core_version", "3.5.0")
         set("nav_version", "2.5.2")
         set("gson_version", "2.10.1")
+        set("protobuf_version", "3.21.12")
+        set("grpc_version", "1.51.1")
+        set("grpc_kt_version", "1.3.0")
     }
 }
 
