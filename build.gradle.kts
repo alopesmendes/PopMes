@@ -14,6 +14,8 @@ buildscript {
         set("grpc_version", "1.51.1")
         set("grpc_kt_version", "1.3.0")
         set("hilt_version", "2.44.2")
+        set("room_version", "2.4.3")
+        set("room_paging_version", "2.5.0-alpha03")
     }
 }
 
@@ -22,5 +24,4 @@ plugins {
     id("com.android.library") version "8.0.0-alpha10" apply false
     id("org.jetbrains.kotlin.android") version "1.7.20" apply false
     id("com.google.dagger.hilt.android") version "2.44.2" apply false
-
 }

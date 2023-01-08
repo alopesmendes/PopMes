@@ -78,6 +78,8 @@ val grpcKtVersion = rootProject.extra["grpc_kt_version"] as String
 val gsonVersion = rootProject.extra["gson_version"] as String
 val navVersion = rootProject.extra["nav_version"] as String
 val hiltVersion = rootProject.extra["hilt_version"] as String
+val roomVersion = rootProject.extra["room_version"] as String
+val roomPagingVersion = rootProject.extra["room_paging_version"] as String
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
@@ -90,12 +92,12 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
-    // navigation
+    // ---- navigation ----
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
-    // protobuf
+    // ---- protobuf ----
     implementation("com.google.protobuf:protobuf-kotlin-lite:$protobufVersion")
-    // grpc
+    // ---- grpc ----
     implementation("io.grpc:grpc-okhttp:$grpcVersion")
     implementation("io.grpc:grpc-protobuf-lite:$grpcVersion")
     implementation("io.grpc:grpc-stub:$grpcVersion")
@@ -103,17 +105,25 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
     implementation("io.grpc:grpc-netty-shaded:$grpcVersion")
 
-    // dagger
+    // ---- dagger ----
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-
     // For instrumentation tests
     androidTestImplementation ("com.google.dagger:hilt-android-testing:$hiltVersion")
     kaptAndroidTest("com.google.dagger:hilt-compiler:$hiltVersion")
-
     // For local unit tests
     testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
     kaptTest("com.google.dagger:hilt-compiler:$hiltVersion")
+
+    //  ---- room ----
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$roomVersion")
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:$roomPagingVersion")
     
     testImplementation("junit:junit:$junitVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidJunitVersion")
