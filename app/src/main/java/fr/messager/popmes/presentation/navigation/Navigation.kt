@@ -24,8 +24,8 @@ fun Navigation(
         }
 
         composable(
-            route = Screen.GroupChat.route(),
-            arguments = Screen.GroupChat.navParams(),
+            route = Screen.Conversation.route(),
+            arguments = Screen.Conversation.navParams(),
         ) {
             // TODO add screen group chat
         }
