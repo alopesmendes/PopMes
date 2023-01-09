@@ -8,6 +8,8 @@ import androidx.navigation.compose.composable
 import fr.messager.popmes.common.Extension.contactsNavigation
 import fr.messager.popmes.common.Extension.conversationNavigation
 import fr.messager.popmes.common.Extension.tasksNavigation
+import fr.messager.popmes.presentation.screen.ConversationScreen
+import fr.messager.popmes.presentation.screen.HomeScreen
 
 @Composable
 fun Navigation(
@@ -24,20 +26,20 @@ fun Navigation(
         composable(
             route = Screen.Home.route(),
         ) {
-            // TODO add screen home
+            HomeScreen(navController = navController)
         }
 
         composable(
             route = Screen.Conversation.route(),
             arguments = Screen.Conversation.navParams(),
         ) {
-            // TODO add screen conversation
+            ConversationScreen(navController = navController)
         }
 
-        contactsNavigation()
+        contactsNavigation(navController = navController)
 
-        conversationNavigation()
+        conversationNavigation(navController = navController)
 
-        tasksNavigation()
+        tasksNavigation(navController = navController)
     }
 }

@@ -1,11 +1,18 @@
 package fr.messager.popmes.common
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import fr.messager.popmes.common.Constants.gson
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.navigation.arguments.NavData
+import fr.messager.popmes.presentation.screen.AddGroupScreen
+import fr.messager.popmes.presentation.screen.AddUserScreen
+import fr.messager.popmes.presentation.screen.ContactsScreen
+import fr.messager.popmes.presentation.screen.FileGeneratorScreen
+import fr.messager.popmes.presentation.screen.TasksElementScreen
+import fr.messager.popmes.presentation.screen.TasksScreen
 
 object Extension {
     inline fun <reified V: NavData> V.mapNavDataToJson(): String {
@@ -18,7 +25,9 @@ object Extension {
         return gson.fromJson(this, V::class.java)
     }
 
-    fun NavGraphBuilder.contactsNavigation() {
+    fun NavGraphBuilder.contactsNavigation(
+        navController: NavController,
+    ) {
         navigation(
             startDestination = Screen.Contacts.route(),
             route = Screen.Contacts.route(),
@@ -27,28 +36,28 @@ object Extension {
                 route = Screen.Contacts.route(),
                 arguments = Screen.Contacts.navParams(),
             ) {
-                // TODO add screen contacts
+                ContactsScreen(navController = navController)
             }
 
             composable(
                 route = Screen.AddGroup.route(),
                 arguments = Screen.AddGroup.navParams(),
             ) {
-                // TODO add screen add group
+                AddGroupScreen(navController = navController,)
             }
 
             composable(
                 route = Screen.AddUser.route(),
                 arguments = Screen.AddUser.navParams(),
             ) {
-                // TODO add screen add group
+                AddUserScreen(navController = navController)
             }
-
-
         }
     }
 
-    fun NavGraphBuilder.conversationNavigation() {
+    fun NavGraphBuilder.conversationNavigation(
+        navController: NavController
+    ) {
         navigation(
             startDestination = Screen.Conversation.route(),
             route = Screen.Conversation.route(),
@@ -57,19 +66,21 @@ object Extension {
                 route = Screen.Conversation.route(),
                 arguments = Screen.Conversation.navParams(),
             ) {
-                // TODO add screen conversation
+                ContactsScreen(navController = navController)
             }
 
             composable(
                 route = Screen.FileGenerator.route(),
                 arguments = Screen.FileGenerator.navParams(),
             ) {
-                // TODO add screen file generator
+                FileGeneratorScreen(navController = navController)
             }
         }
     }
 
-    fun NavGraphBuilder.tasksNavigation() {
+    fun NavGraphBuilder.tasksNavigation(
+        navController: NavController
+    ) {
         navigation(
             startDestination = Screen.Tasks.route(),
             route = Screen.Tasks.route(),
@@ -78,14 +89,14 @@ object Extension {
                 route = Screen.Tasks.route(),
                 arguments = Screen.Tasks.navParams(),
             ) {
-                // TODO add screen tasks
+                TasksScreen(navController = navController)
             }
 
             composable(
                 route = Screen.TasksElement.route(),
                 arguments = Screen.TasksElement.navParams(),
             ) {
-                // TODO add screen tasks element
+                TasksElementScreen(navController = navController)
             }
         }
     }
