@@ -18,6 +18,7 @@ buildscript {
         set("room_paging_version", "2.5.0-alpha03")
         set("paging_version", "3.1.1")
         set("paging_compose_version", "1.0.0-alpha17")
+        set("material3_version", "1.0.1")
     }
 }
 

@@ -82,6 +82,7 @@ val roomVersion = rootProject.extra["room_version"] as String
 val roomPagingVersion = rootProject.extra["room_paging_version"] as String
 val pagingVersion = rootProject.extra["paging_version"] as String
 val pagingComposeVersion = rootProject.extra["paging_compose_version"] as String
+val material3Version = rootProject.extra["material3_version"] as String
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
@@ -92,7 +93,8 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material3:material3:$material3Version")
+    implementation("androidx.compose.material3:material3-window-size-class:$material3Version")
 
     // ---- navigation ----
     implementation("androidx.navigation:navigation-compose:$navVersion")
