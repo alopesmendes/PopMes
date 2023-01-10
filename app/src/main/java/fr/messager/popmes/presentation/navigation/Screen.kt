@@ -3,7 +3,6 @@ package fr.messager.popmes.presentation.navigation
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import fr.messager.popmes.common.Constants
 
 sealed class Screen(
     private val route: String,
@@ -25,9 +24,34 @@ sealed class Screen(
         route = "Home"
     )
 
-    object GroupChat: Screen(
-        route = "GroupChat",
-        params = listOf(Constants.PARAM_GROUP_CHAT)
+    object Contacts: Screen(
+        route = "Contacts",
     )
+
+    object AddGroup: Screen(
+        route = "AddGroup"
+    )
+
+    object AddUser: Screen(
+        route = "AddUser"
+    )
+
+    object FileGenerator: Screen(
+        route = "FileGenerator"
+    )
+
+    object Tasks: Screen(
+        route = "Tasks"
+    )
+
+    object TasksElement: Screen(
+        route = "TasksElement"
+    )
+
+    object Conversation: Screen(
+        route = "Conversation",
+    )
+
+
 
 }

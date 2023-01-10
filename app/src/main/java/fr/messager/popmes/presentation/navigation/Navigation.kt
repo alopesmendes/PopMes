@@ -5,6 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import fr.messager.popmes.common.Extension.contactsNavigation
+import fr.messager.popmes.common.Extension.conversationNavigation
+import fr.messager.popmes.common.Extension.tasksNavigation
+import fr.messager.popmes.presentation.screen.ConversationScreen
+import fr.messager.popmes.presentation.screen.HomeScreen
 
 @Composable
 fun Navigation(
@@ -17,17 +22,24 @@ fun Navigation(
         startDestination = startDestination.route(),
         modifier = modifier,
     ) {
+
         composable(
             route = Screen.Home.route(),
         ) {
-            // TODO add screen home
+            HomeScreen(navController = navController)
         }
 
         composable(
-            route = Screen.GroupChat.route(),
-            arguments = Screen.GroupChat.navParams(),
+            route = Screen.Conversation.route(),
+            arguments = Screen.Conversation.navParams(),
         ) {
-            // TODO add screen group chat
+            ConversationScreen(navController = navController)
         }
+
+        contactsNavigation(navController = navController)
+
+        conversationNavigation(navController = navController)
+
+        tasksNavigation(navController = navController)
     }
 }
