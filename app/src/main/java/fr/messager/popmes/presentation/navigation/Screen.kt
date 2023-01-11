@@ -11,7 +11,7 @@ sealed class Screen(
     fun route() = "$route${params.joinToString("/", "/") { "{$it}" }}"
 
     fun navigate(
-        params: List<String>
+        params: List<String> = emptyList()
     ) = "$route${params.joinToString("/", "/")}"
 
     fun navParams(): List<NamedNavArgument> = params.map {
@@ -51,7 +51,4 @@ sealed class Screen(
     object Conversation: Screen(
         route = "Conversation",
     )
-
-
-
 }
