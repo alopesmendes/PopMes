@@ -1,6 +1,6 @@
 package fr.messager.popmes.mapper
 
-import fr.messager.popmes.domain.model.User
+import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.proto.UserProto
 import fr.messager.popmes.proto.userProto
 
