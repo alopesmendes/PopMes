@@ -1,11 +1,12 @@
 package fr.messager.popmes.presentation.screen
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 
 @Composable
 fun FileGeneratorScreen(
-    navController: NavController
+    activity: Activity,
+    onNavigate: (String) -> Unit,
 ) {
 
 }
