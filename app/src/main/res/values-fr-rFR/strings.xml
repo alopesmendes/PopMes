@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_item_title_home">Accueil</string>
+    <string name="nav_item_title_contacts">Contacts</string>
+    <string name="nav_item_title_tasks">Tâches</string>
+</resources>
