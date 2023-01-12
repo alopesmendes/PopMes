@@ -9,11 +9,13 @@ object UserToUserProto: ReverseMapper<User, UserProto> {
         id = this@mapTo.id
         firstName = this@mapTo.firstName
         lastName = this@mapTo.lastName
+        phoneNumber = this@mapTo.phoneNumber
     }
 
     override fun UserProto.reverseMapTo(): User = User(
         id = this@reverseMapTo.id,
         firstName = this@reverseMapTo.firstName,
-        lastName = this@reverseMapTo.lastName
+        lastName = this@reverseMapTo.lastName,
+        phoneNumber = this@reverseMapTo.phoneNumber,
     )
 }

@@ -67,6 +67,11 @@ fun NavigationGraph(
                 selectedItem = selectedItem,
                 scope = scope,
                 onSelectedItemChange = { selectedItem = it },
+                conversation = listOf(
+                    "Le romain est une fonte de caractères dont les caractères sont droits, par opposition à l'italique où les caractères sont inclinés vers la droite. L'écriture typographique romaine date des années 1465, lorsque l'imprimerie arrive en Italie.",
+                    "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    "Salut Comment ça va"
+                )
             )
         }
 

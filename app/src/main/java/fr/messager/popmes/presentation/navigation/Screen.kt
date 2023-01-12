@@ -1,13 +1,16 @@
 package fr.messager.popmes.presentation.navigation
 
+import android.os.Parcelable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 sealed class Screen(
     private val route: String,
     private val params: List<String> = emptyList()
-) {
+) : Parcelable {
     fun route() = "$route${params.joinToString("/", "/") { "{$it}" }}"
 
     fun navigate(

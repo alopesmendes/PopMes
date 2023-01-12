@@ -1,6 +1,7 @@
 package fr.messager.popmes.common
 
 import android.app.Activity
+import android.text.format.DateUtils
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.NavGraphBuilder
@@ -17,6 +18,7 @@ import fr.messager.popmes.presentation.screen.FileGeneratorScreen
 import fr.messager.popmes.presentation.screen.TasksElementScreen
 import fr.messager.popmes.presentation.screen.TasksScreen
 import kotlinx.coroutines.CoroutineScope
+import java.time.Instant
 
 object Extension {
     inline fun <reified V : NavData> V.mapNavDataToJson(): String {
@@ -145,5 +147,16 @@ object Extension {
                 onNavigate = onNavigate,
             )
         }
+    }
+
+    fun Instant.dateAgo(
+        now: Instant
+    ): String {
+        return DateUtils.getRelativeTimeSpanString(
+            toEpochMilli(),
+            now.toEpochMilli(),
+            DateUtils.SECOND_IN_MILLIS,
+            DateUtils.FORMAT_ABBREV_RELATIVE,
+        )?.toString() ?: ""
     }
 }
