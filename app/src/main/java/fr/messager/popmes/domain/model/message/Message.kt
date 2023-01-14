@@ -1,10 +1,13 @@
 package fr.messager.popmes.domain.model.message
 
 import fr.messager.popmes.domain.model.contact.Contact
+import fr.messager.popmes.domain.model.contact.User
+import java.time.Instant
 
 data class Message(
     val id: String,
     val messageType: MessageType,
-    val from: Contact,
+    val from: User,
     val to: Contact,
+    val date: Instant,
 )

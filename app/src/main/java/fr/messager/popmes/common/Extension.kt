@@ -7,6 +7,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import fr.messager.popmes.common.Constants.gson
+import fr.messager.popmes.domain.model.contact.User
+import fr.messager.popmes.domain.model.message.Message
+import fr.messager.popmes.domain.model.message.MessageType
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.navigation.arguments.NavData
@@ -91,6 +94,18 @@ object Extension {
             route = Screen.Conversation.route(),
             arguments = Screen.Conversation.navParams(),
         ) {
+            val currentUser = User(
+                id = "0",
+                firstName = "Ailton",
+                lastName = "Lopes Mendes",
+                phoneNumber = "+33781831024",
+            )
+            val manuel = User(
+                id = "1",
+                firstName = "Manuel",
+                lastName = "Lopes Mendes",
+                phoneNumber = "+33681831024",
+            )
             ConversationScreen(
                 activity = activity,
                 navItems = navItems,
@@ -99,6 +114,37 @@ object Extension {
                 scope = scope,
                 selectedItem = selectedItem,
                 onSelectedItemChange = onSelectedItemChange,
+                currentUser = currentUser,
+                messages = listOf(
+                    Message(
+                        id = "0",
+                        messageType = MessageType.Message,
+                        from = currentUser,
+                        to = manuel,
+                        date = Instant.now(),
+                    ),
+                    Message(
+                        id = "1",
+                        messageType = MessageType.Message,
+                        from = manuel,
+                        to = currentUser,
+                        date = Instant.now(),
+                    ),
+                    Message(
+                        id = "2",
+                        messageType = MessageType.Message,
+                        from = manuel,
+                        to = currentUser,
+                        date = Instant.now(),
+                    ),
+                    Message(
+                        id = "3",
+                        messageType = MessageType.Message,
+                        from = currentUser,
+                        to = manuel,
+                        date = Instant.now(),
+                    )
+                )
             )
         }
 
