@@ -2,7 +2,6 @@ package fr.messager.popmes.presentation.screen
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,7 +51,7 @@ fun HomeScreen(
             windowSizeDimension = WindowSizeDimension.Width,
             compact = {
                 CardList(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = it.padding(horizontal = 16.dp),
                     values = conversation,
                 ) { index, value ->
                     DetailedMessageCard(
@@ -60,7 +59,6 @@ fun HomeScreen(
                         fullName = "Ailton Lopes Mendes",
                         date = date,
                         supportingText = value,
-                        modifier = Modifier.padding(horizontal = 16.dp),
                         onClick = {
                             onNavigate(
                                 Screen.Conversation.navigate()
@@ -70,17 +68,18 @@ fun HomeScreen(
                 }
             },
             medium = {
-                Row(modifier = Modifier.fillMaxSize()) {
+                Row(modifier = it) {
                     CardList(
                         values = conversation,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .weight(1f)
                     ) { index, value ->
                         DetailedMessageCard(
                             icon = user,
                             fullName = "Ailton Lopes Mendes",
                             date = date,
                             supportingText = value,
-                            modifier = Modifier.padding(horizontal = 16.dp),
                             onClick = {
 
                             }

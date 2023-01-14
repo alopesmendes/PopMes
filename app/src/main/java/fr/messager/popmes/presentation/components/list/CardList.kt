@@ -16,7 +16,10 @@ fun <T> CardList(
     LazyColumn(modifier = modifier) {
         items(values.size) { index ->
             onItemContent(index, values[index])
-            Spacer(modifier = Modifier.height(8.dp))
+            if (index < values.lastIndex)
+                Spacer(modifier = Modifier.height(8.dp))
+            else
+                Spacer(modifier = Modifier.height(64.dp))
         }
     }
 }

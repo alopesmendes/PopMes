@@ -1,6 +1,7 @@
 package fr.messager.popmes.presentation.components.navigation
 
 import android.app.Activity
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,7 +42,7 @@ fun Navigation(
                     )
                 }
             ) {
-                content(Modifier.padding(it))
+                content(Modifier.fillMaxSize().padding(it))
             }
         },
         medium = {
@@ -53,7 +54,7 @@ fun Navigation(
                         navItems = navItems,
                         onNavigate = onNavigate,
                         content = {
-                            content(Modifier)
+                            content(Modifier.fillMaxSize())
                         },
                         onDrawerStateChange = {
                             scope.launch {
