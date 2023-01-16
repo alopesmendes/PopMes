@@ -19,6 +19,7 @@ buildscript {
         set("paging_version", "3.1.1")
         set("paging_compose_version", "1.0.0-alpha17")
         set("material3_version", "1.0.1")
+        set("accompanist_adaptive_version", "0.26.2-beta")
     }
 }
 
