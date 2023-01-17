@@ -19,8 +19,6 @@ import fr.messager.popmes.mapper.MessageToMessageProto.mapTo
 import fr.messager.popmes.mapper.MessageToMessageProto.reverseMapTo
 import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.mapTo
 import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.reverseMapTo
-import fr.messager.popmes.mapper.StringValueToString.mapTo
-import fr.messager.popmes.mapper.StringValueToString.reverseMapTo
 import fr.messager.popmes.mapper.UserToUserProto.mapTo
 import fr.messager.popmes.mapper.UserToUserProto.reverseMapTo
 import fr.messager.popmes.presentation.navigation.arguments.ConversationParams
@@ -162,11 +160,12 @@ object MessageToMessageProto: ReverseMapper<Message, MessageProto> {
 object ConversationParamsToConversationParamsProto: ReverseMapper<ConversationParams, ConversationParamsProto> {
     override fun ConversationParams.mapTo(): ConversationParamsProto = conversationParamsProto {
         messages.addAll(this@mapTo.messages.map { it.mapTo() })
-        contactId = this@mapTo.contactId.mapTo()
+        if (this@mapTo.contact != null)
+            contact = this@mapTo.contact.reverseMapTo()
     }
 
     override fun ConversationParamsProto.reverseMapTo(): ConversationParams = ConversationParams(
         messages = this@reverseMapTo.messagesList.map { it.reverseMapTo() },
-        contactId = this@reverseMapTo.contactId.reverseMapTo(),
+        contact = this@reverseMapTo.contact.mapTo(),
     )
 }
