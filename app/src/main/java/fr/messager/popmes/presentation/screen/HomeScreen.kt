@@ -1,25 +1,24 @@
 package fr.messager.popmes.presentation.screen
 
 import android.app.Activity
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import android.util.Log
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import fr.messager.popmes.R
-import fr.messager.popmes.presentation.components.card.DetailedMessageCard
+import androidx.window.layout.DisplayFeature
+import fr.messager.popmes.domain.model.contact.Contact
+import fr.messager.popmes.domain.model.contact.User
+import fr.messager.popmes.domain.model.message.Message
 import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
-import fr.messager.popmes.presentation.components.list.CardList
-import fr.messager.popmes.presentation.components.navigation.Navigation
+import fr.messager.popmes.presentation.components.views.ConversationComponent
+import fr.messager.popmes.presentation.components.views.HomeComponent
 import fr.messager.popmes.presentation.navigation.NavItem
-import fr.messager.popmes.presentation.navigation.Screen
 import kotlinx.coroutines.CoroutineScope
-import java.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,62 +31,65 @@ fun HomeScreen(
     onSelectedItemChange: (Int) -> Unit,
     navItems: List<NavItem>,
     onNavigate: (String) -> Unit,
-    conversation: List<String>,
+    onBack: () -> Unit,
+    messages: List<Message>,
+    currentUser: User,
+    selectedContact: Contact?,
+    onSelectedContactChange: (Contact?) -> Unit,
+    displayFeatures: List<DisplayFeature>,
 ) {
-    Navigation(
-        activity = activity,
-        navItems = navItems,
-        onNavigate = onNavigate,
-        onSelectedItemChange = onSelectedItemChange,
-        scope = scope,
-        selectedItem = selectedItem,
-        drawerState = drawerState,
-        modifier = modifier,
-    ) {
-        val date = Instant.now() //Instant.ofEpochMilli(1673531209291L)
-        val user = painterResource(id = R.drawable.avatar_0)
+    BoxWithConstraints(modifier = modifier) {
         PopMesWindowSize(
             activity = activity,
             windowSizeDimension = WindowSizeDimension.Width,
             compact = {
-                CardList(
-                    modifier = it.padding(horizontal = 16.dp),
-                    values = conversation,
-                ) { index, value ->
-                    DetailedMessageCard(
-                        icon = user,
-                        fullName = "Ailton Lopes Mendes",
-                        date = date,
-                        supportingText = value,
-                        onClick = {
-                            onNavigate(
-                                Screen.Conversation.navigate()
-                            )
-                        }
+                if (selectedContact != null) {
+                    BackHandler(onBack = onBack)
+                    ConversationComponent(
+                        modifier = modifier,
+                        messages = messages
+                            .filter { selectedContact.id == it.to.id }
+                            .sortedBy { it.date },
+                        currentUser = currentUser,
+                        onBack = onBack,
+                        contact = selectedContact,
+                    )
+                } else {
+                    HomeComponent(
+                        modifier = modifier,
+                        messages = messages,
+                        onNavigate = onNavigate,
+                        onSelectedItemChange = onSelectedItemChange,
+                        selectedItem = selectedItem,
+                        scope = scope,
+                        drawerState = drawerState,
+                        activity = activity,
+                        navItems = navItems,
                     )
                 }
             },
             medium = {
-                Row(modifier = it) {
-                    CardList(
-                        values = conversation,
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp)
-                            .weight(1f)
-                    ) { index, value ->
-                        DetailedMessageCard(
-                            icon = user,
-                            fullName = "Ailton Lopes Mendes",
-                            date = date,
-                            supportingText = value,
-                            onClick = {
-
-                            }
-                        )
-                    }
-                    Text(text = "Conversation", modifier = Modifier.weight(1f))
+                LaunchedEffect(selectedContact) {
+                    Log.d(TAG, "HomeScreen: $selectedContact")
                 }
+                HomeWithConversationScreen(
+                    displayFeatures = displayFeatures,
+                    messages = messages,
+                    currentUser = currentUser,
+                    selectedContact = selectedContact,
+                    onSelectedContactChange = onSelectedContactChange,
+                    navItems = navItems,
+                    activity = activity,
+                    drawerState = drawerState,
+                    scope = scope,
+                    selectedItem = selectedItem,
+                    onSelectedItemChange = onSelectedItemChange,
+                    modifier = modifier,
+                    onNavigate = onNavigate,
+                )
             },
         )
     }
 }
+
+private const val TAG = "HomeScreen"

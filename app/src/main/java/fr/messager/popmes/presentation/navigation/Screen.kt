@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import fr.messager.popmes.common.Constants
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -53,5 +54,6 @@ sealed class Screen(
 
     object Conversation: Screen(
         route = "Conversation",
+        params = listOf(Constants.PARAM_CONVERSATION)
     )
 }

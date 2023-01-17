@@ -4,6 +4,7 @@ import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import java.time.Instant
 
+
 data class Message(
     val id: String,
     val messageType: MessageType,

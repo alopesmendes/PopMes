@@ -46,9 +46,9 @@ fun GreetingPreview() {
         val navController = rememberNavController()
         val activity = LocalContext.current as Activity
         NavigationGraph(
+            activity = activity,
             navController = navController,
             modifier = Modifier.fillMaxSize(),
-            activity = activity,
         )
     }
 }

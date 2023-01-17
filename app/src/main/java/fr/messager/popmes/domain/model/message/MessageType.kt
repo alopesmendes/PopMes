@@ -1,6 +1,10 @@
 package fr.messager.popmes.domain.model.message
 
-sealed class MessageType {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+sealed class MessageType : Parcelable {
     object Camera: MessageType()
 
     object Photo: MessageType()
@@ -9,7 +13,7 @@ sealed class MessageType {
 
     object Vocal: MessageType()
 
-    object Message: MessageType()
+    object MessageData: MessageType()
 
     object Survey: MessageType()
 

@@ -83,6 +83,8 @@ val roomPagingVersion = rootProject.extra["room_paging_version"] as String
 val pagingVersion = rootProject.extra["paging_version"] as String
 val pagingComposeVersion = rootProject.extra["paging_compose_version"] as String
 val material3Version = rootProject.extra["material3_version"] as String
+val accompanistAdaptiveVersion = rootProject.extra["accompanist_adaptive_version"] as String
+val hiltCompilerVersion = rootProject.extra["hilt_compiler_version"] as String
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
@@ -95,6 +97,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3:$material3Version")
     implementation("androidx.compose.material3:material3-window-size-class:$material3Version")
+    implementation("com.google.accompanist:accompanist-adaptive:$accompanistAdaptiveVersion")
 
     // ---- navigation ----
     implementation("androidx.navigation:navigation-compose:$navVersion")
@@ -112,6 +115,17 @@ dependencies {
     // ---- dagger ----
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+    kapt("androidx.hilt:hilt-compiler:$hiltCompilerVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    // For Robolectric tests.
+    testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    // ...with Kotlin.
+    kaptTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    // For instrumented tests.
+    androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    // ...with Kotlin.
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+
     // For instrumentation tests
     androidTestImplementation ("com.google.dagger:hilt-android-testing:$hiltVersion")
     kaptAndroidTest("com.google.dagger:hilt-compiler:$hiltVersion")
