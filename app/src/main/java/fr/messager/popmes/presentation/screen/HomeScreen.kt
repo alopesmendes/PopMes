@@ -1,21 +1,20 @@
 package fr.messager.popmes.presentation.screen
 
 import android.app.Activity
+import android.util.Log
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.window.layout.DisplayFeature
+import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.model.message.Message
 import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
-import fr.messager.popmes.presentation.components.navigation.Navigation
 import fr.messager.popmes.presentation.components.views.ConversationComponent
 import fr.messager.popmes.presentation.components.views.HomeComponent
 import fr.messager.popmes.presentation.navigation.NavItem
@@ -35,53 +34,62 @@ fun HomeScreen(
     onBack: () -> Unit,
     messages: List<Message>,
     currentUser: User,
+    selectedContact: Contact?,
+    onSelectedContactChange: (Contact?) -> Unit,
     displayFeatures: List<DisplayFeature>,
 ) {
-    var selectedContactId: String? by rememberSaveable {
-        mutableStateOf(null)
-    }
-    Navigation(
-        activity = activity,
-        navItems = navItems,
-        onNavigate = onNavigate,
-        onSelectedItemChange = onSelectedItemChange,
-        scope = scope,
-        selectedItem = selectedItem,
-        drawerState = drawerState,
-        modifier = modifier,
-    ) {
+    BoxWithConstraints(modifier = modifier) {
         PopMesWindowSize(
             activity = activity,
             windowSizeDimension = WindowSizeDimension.Width,
             compact = {
-                if (selectedContactId != null) {
+                if (selectedContact != null) {
                     BackHandler(onBack = onBack)
-
                     ConversationComponent(
-                        modifier = it,
+                        modifier = modifier,
                         messages = messages
-                            .filter { selectedContactId == it.to.id }
+                            .filter { selectedContact.id == it.to.id }
                             .sortedBy { it.date },
                         currentUser = currentUser,
+                        onBack = onBack,
+                        contact = selectedContact,
                     )
                 } else {
                     HomeComponent(
-                        modifier = it,
+                        modifier = modifier,
                         messages = messages,
                         onNavigate = onNavigate,
+                        onSelectedItemChange = onSelectedItemChange,
+                        selectedItem = selectedItem,
+                        scope = scope,
+                        drawerState = drawerState,
+                        activity = activity,
+                        navItems = navItems,
                     )
                 }
-
             },
             medium = {
+                LaunchedEffect(selectedContact) {
+                    Log.d(TAG, "HomeScreen: $selectedContact")
+                }
                 HomeWithConversationScreen(
                     displayFeatures = displayFeatures,
                     messages = messages,
                     currentUser = currentUser,
-                    selectedContactId = selectedContactId,
-                    onSelectedContactIdChange = { selectedContactId = it },
+                    selectedContact = selectedContact,
+                    onSelectedContactChange = onSelectedContactChange,
+                    navItems = navItems,
+                    activity = activity,
+                    drawerState = drawerState,
+                    scope = scope,
+                    selectedItem = selectedItem,
+                    onSelectedItemChange = onSelectedItemChange,
+                    modifier = modifier,
+                    onNavigate = onNavigate,
                 )
             },
         )
     }
 }
+
+private const val TAG = "HomeScreen"

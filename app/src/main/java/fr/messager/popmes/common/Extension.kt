@@ -5,13 +5,14 @@ import android.text.format.DateUtils
 import android.util.Log
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.window.layout.DisplayFeature
 import com.google.protobuf.MessageLite
 import fr.messager.popmes.domain.model.contact.User
-import fr.messager.popmes.mapper.ConversationParamsToConversationParamsProto.reverseMapTo
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.navigation.arguments.NavData
@@ -22,17 +23,20 @@ import fr.messager.popmes.presentation.screen.ConversationScreen
 import fr.messager.popmes.presentation.screen.FileGeneratorScreen
 import fr.messager.popmes.presentation.screen.TasksElementScreen
 import fr.messager.popmes.presentation.screen.TasksScreen
-import fr.messager.popmes.proto.ConversationParamsProto
+import fr.messager.popmes.presentation.view_models.ConversationViewModel
 import kotlinx.coroutines.CoroutineScope
 import java.time.Instant
 
 object Extension {
 
-    private inline fun <reified V : NavData, reified T : MessageLite> String?.mapToNavData(
+    inline fun <reified V : NavData, reified T : MessageLite> String?.mapToNavData(
         parseFrom: (ByteArray?) -> T,
         mapTo: T.() -> V,
-    ): V {
-         return parseFrom(this?.hexStringToByteArray()).mapTo()
+    ): V? {
+        return if (this.isNullOrBlank())
+            null
+        else
+            parseFrom(this.hexStringToByteArray()).mapTo()
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -93,6 +97,7 @@ object Extension {
         scope: CoroutineScope,
         selectedItem: Int,
         currentUser: User,
+        displayFeatures: List<DisplayFeature>,
         onSelectedItemChange: (Int) -> Unit,
         onNavigate: (String) -> Unit,
         onBack: () -> Unit,
@@ -101,12 +106,8 @@ object Extension {
             route = Screen.Conversation.route(),
             arguments = Screen.Conversation.navParams(),
         ) {
-            val params = it.arguments?.getString(Constants.PARAM_CONVERSATION).mapToNavData(
-                parseFrom = ConversationParamsProto::parseFrom,
-                mapTo = { this.reverseMapTo() },
-            )
-            Log.d(TAG, "conversationNavigation: ${params.messages.size}")
-
+            val conversationViewModel: ConversationViewModel = hiltViewModel()
+            Log.d(TAG, "conversationNavigation: ${conversationViewModel.messages.size}")
             ConversationScreen(
                 activity = activity,
                 navItems = navItems,
@@ -116,8 +117,12 @@ object Extension {
                 selectedItem = selectedItem,
                 onSelectedItemChange = onSelectedItemChange,
                 currentUser = currentUser,
-                messages = params.messages,
+                messages = conversationViewModel.messages,
                 onBack = onBack,
+                selectedContact = conversationViewModel.selectedContact
+                    ?: throw IllegalArgumentException("contact param null"),
+                displayFeatures = displayFeatures,
+                onSelectedContactChange = conversationViewModel::onSelectedContactChange,
             )
         }
 
@@ -197,6 +202,9 @@ object Extension {
         }
     }
 
-    fun ByteArray.toHex() = this.joinToString(separator = "") { it.toInt().and(0xff).toString(16).padStart(2, '0') }
-    private fun String.hexStringToByteArray() = ByteArray(this.length / 2) { this.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
+    fun ByteArray.toHex() =
+        this.joinToString(separator = "") { it.toInt().and(0xff).toString(16).padStart(2, '0') }
+
+    fun String.hexStringToByteArray() =
+        ByteArray(this.length / 2) { this.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
 }

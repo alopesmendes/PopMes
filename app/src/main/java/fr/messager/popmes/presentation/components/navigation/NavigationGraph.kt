@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +31,7 @@ import fr.messager.popmes.domain.model.message.MessageType
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.screen.HomeScreen
+import fr.messager.popmes.presentation.view_models.ConversationViewModel
 import java.time.Instant
 
 
@@ -110,7 +112,7 @@ fun NavigationGraph(
         composable(
             route = Screen.Home.route(),
         ) {
-
+            val conversationViewModel: ConversationViewModel = hiltViewModel()
             HomeScreen(
                 activity = activity,
                 onNavigate = { navController.navigateTo(it) },
@@ -152,6 +154,8 @@ fun NavigationGraph(
                 displayFeatures = displayFeatures,
                 currentUser = ailton,
                 onBack = { navController.navigate(Screen.Home.navigate()) },
+                selectedContact = conversationViewModel.selectedContact,
+                onSelectedContactChange = conversationViewModel::onSelectedContactChange,
             )
         }
 
@@ -176,6 +180,7 @@ fun NavigationGraph(
             currentUser = ailton,
             onSelectedItemChange = { selectedItem = it },
             onBack = navController::popBackStack,
+            displayFeatures = displayFeatures,
         )
 
         tasksNavigation(
