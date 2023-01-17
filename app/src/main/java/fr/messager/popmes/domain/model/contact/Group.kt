@@ -4,4 +4,6 @@ data class Group(
     override val id: String,
     val name: String,
     val users: List<User>,
-): Contact
+): Contact {
+    override fun fullName(): String = name
+}
