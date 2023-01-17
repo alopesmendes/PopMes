@@ -1,6 +1,7 @@
 package fr.messager.popmes.presentation.screen
 
 import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -19,6 +20,7 @@ fun TasksScreen(
     selectedItem: Int,
     onSelectedItemChange: (Int) -> Unit,
     onNavigate: (String) -> Unit,
+    onBack: () -> Unit,
 ) {
     Navigation(
         activity = activity,
@@ -29,6 +31,7 @@ fun TasksScreen(
         selectedItem = selectedItem,
         onSelectedItemChange = onSelectedItemChange,
     ) {
+        BackHandler(onBack = onBack)
         // TODO create tasks screen
         Text(text = "Tasks screen")
     }
