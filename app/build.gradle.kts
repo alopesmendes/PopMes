@@ -65,26 +65,28 @@ android {
     }
 }
 
-val coreKtxVersion = rootProject.extra["core_ktx_version"] as String
-val lifecycleRuntimeKtxVersion = rootProject.extra["lifecycle_runtime_ktx_version"] as String
-val composeVersion = rootProject.extra["compose_version"] as String
-val composeBomVersion = rootProject.extra["compose_bom_version"] as String
-val junitVersion = rootProject.extra["junit_version"] as String
-val androidJunitVersion = rootProject.extra["android_junit_version"] as String
-val espressoCoreVersion = rootProject.extra["espresso_core_version"] as String
-val protobufVersion = rootProject.extra["protobuf_version"] as String
-val grpcVersion = rootProject.extra["grpc_version"] as String
-val grpcKtVersion = rootProject.extra["grpc_kt_version"] as String
-val gsonVersion = rootProject.extra["gson_version"] as String
-val navVersion = rootProject.extra["nav_version"] as String
-val hiltVersion = rootProject.extra["hilt_version"] as String
-val roomVersion = rootProject.extra["room_version"] as String
-val roomPagingVersion = rootProject.extra["room_paging_version"] as String
-val pagingVersion = rootProject.extra["paging_version"] as String
-val pagingComposeVersion = rootProject.extra["paging_compose_version"] as String
-val material3Version = rootProject.extra["material3_version"] as String
-val accompanistAdaptiveVersion = rootProject.extra["accompanist_adaptive_version"] as String
-val hiltCompilerVersion = rootProject.extra["hilt_compiler_version"] as String
+val coreKtxVersion: String by project
+val lifecycleRuntimeKtxVersion: String by project
+val composeVersion: String by project
+val composeBomVersion: String by project
+val junitVersion: String by project
+val androidJunitVersion: String by project
+val espressoCoreVersion: String by project
+val protobufVersion: String by project
+val grpcVersion: String by project
+val grpcKtVersion: String by project
+val gsonVersion: String by project
+val navVersion: String by project
+val hiltVersion: String by project
+val roomVersion: String by project
+val roomPagingVersion: String by project
+val pagingVersion: String by project
+val pagingComposeVersion: String by project
+val material3Version: String by project
+val accompanistAdaptiveVersion: String by project
+val hiltCompilerVersion: String by project
+val composeUIVersion: String by project
+val hiltNavigationCompose: String by project
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
@@ -92,9 +94,9 @@ dependencies {
     implementation("androidx.activity:activity-compose:$composeVersion")
     implementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
     implementation("com.google.code.gson:gson:$gsonVersion")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui:$composeUIVersion")
+    implementation("androidx.compose.ui:ui-graphics:$composeUIVersion")
+    implementation("androidx.compose.ui:ui-tooling-preview:$composeUIVersion")
     implementation("androidx.compose.material3:material3:$material3Version")
     implementation("androidx.compose.material3:material3-window-size-class:$material3Version")
     implementation("com.google.accompanist:accompanist-adaptive:$accompanistAdaptiveVersion")
@@ -116,7 +118,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
     kapt("androidx.hilt:hilt-compiler:$hiltCompilerVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.hilt:hilt-navigation-compose:$hiltNavigationCompose")
     // For Robolectric tests.
     testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
     // ...with Kotlin.
@@ -154,9 +156,9 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:$androidJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoCoreVersion")
     androidTestImplementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeUIVersion")
+    debugImplementation("androidx.compose.ui:ui-tooling:$composeUIVersion")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeUIVersion")
 }
 
 protobuf {
