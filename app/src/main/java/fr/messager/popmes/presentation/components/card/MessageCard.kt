@@ -45,7 +45,8 @@ fun MessageCard(
     text: String,
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier
+            .padding(horizontal = 16.dp),
         shape = shape,
         colors = colors,
         elevation = elevation,

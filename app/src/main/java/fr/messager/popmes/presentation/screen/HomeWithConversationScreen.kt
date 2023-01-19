@@ -2,6 +2,7 @@ package fr.messager.popmes.presentation.screen
 
 import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -47,7 +48,8 @@ fun HomeWithConversationScreen(
         scope = scope,
         onSelectedItemChange = onSelectedItemChange,
         onNavigate = onNavigate,
-    ) {
+        modifier = modifier.padding(vertical = 8.dp),
+    ) { m ->
         val user = painterResource(id = R.drawable.avatar_0)
         TwoPane(
             first = {
@@ -61,10 +63,11 @@ fun HomeWithConversationScreen(
                         icon = user,
                         fullName = value.to.fullName(),
                         date = value.date,
-                        supportingText = "${value.from.firstName}: One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                        supportingText = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
                         onClick = {
                             onSelectedContactChange(value.to)
-                        }
+                        },
+                        shortName = value.from.firstName,
                     )
                 }
             },
@@ -85,7 +88,7 @@ fun HomeWithConversationScreen(
                 gapWidth = 16.dp,
             ),
             displayFeatures = displayFeatures,
-            modifier = modifier,
+            modifier = m,
         )
     }
 }

@@ -40,6 +40,7 @@ fun DetailedMessageCard(
     elevation: CardElevation = CardDefaults.cardElevation(),
     border: BorderStroke? = null,
     icon: Painter,
+    shortName: String,
     fullName: String,
     date: Instant,
     supportingText: String,
@@ -47,6 +48,7 @@ fun DetailedMessageCard(
 ) {
     Card(
         modifier = modifier
+            .padding(horizontal = 16.dp)
             .clickable { onClick() },
         shape = shape,
         colors = colors,
@@ -91,7 +93,7 @@ fun DetailedMessageCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = supportingText,
+                text = "$shortName: $supportingText",
                 style = MaterialTheme.typography.bodyMedium,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,

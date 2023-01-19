@@ -2,11 +2,13 @@ package fr.messager.popmes.presentation.components.views
 
 import android.app.Activity
 import android.util.Log
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.message.Message
 import fr.messager.popmes.presentation.components.card.DetailedMessageCard
@@ -40,10 +42,11 @@ fun HomeComponent(
         scope = scope,
         onSelectedItemChange = onSelectedItemChange,
         onNavigate = onNavigate,
-    ) {
+        modifier = modifier.padding(vertical = 8.dp),
+    ) { m ->
         val user = painterResource(id = R.drawable.avatar_0)
         CardList(
-            modifier = modifier,
+            modifier = m,
             values = messages
                 .sortedByDescending { it.date }
                 .distinctBy { it.to.id },
@@ -51,8 +54,9 @@ fun HomeComponent(
             DetailedMessageCard(
                 icon = user,
                 fullName = value.to.fullName(),
+                shortName = value.from.firstName,
                 date = value.date,
-                supportingText = "${value.from.firstName}: One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                supportingText = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
                 onClick = {
                     val conversationParams = ConversationParams(
                         messages = messages

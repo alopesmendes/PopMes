@@ -3,8 +3,10 @@ package fr.messager.popmes.common
 import android.app.Activity
 import android.text.format.DateUtils
 import android.util.Log
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
@@ -109,6 +111,7 @@ object Extension {
             val conversationViewModel: ConversationViewModel = hiltViewModel()
             Log.d(TAG, "conversationNavigation: ${conversationViewModel.messages.size}")
             ConversationScreen(
+                modifier = Modifier.fillMaxSize(),
                 activity = activity,
                 navItems = navItems,
                 onNavigate = onNavigate,

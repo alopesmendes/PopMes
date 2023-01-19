@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -93,7 +94,9 @@ fun ConversationComponent(
         }
 
         BoxWithConstraints(
-            modifier = modifier.padding(padding),
+            modifier = modifier
+                .padding(padding)
+                .padding(vertical = 8.dp),
         ) {
             CardList(
                 values = messages.filter { it.to.id == contact.id },
@@ -118,7 +121,6 @@ fun ConversationComponent(
                             contactMessageShape
                     }
                 }
-
                 Column(modifier = Modifier.fillMaxWidth()) {
                     MessageCard(
                         icon = painterResource(id = R.drawable.avatar_0),
@@ -126,9 +128,15 @@ fun ConversationComponent(
                         date = value.date,
                         text = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
                         modifier = Modifier
-                            .fillMaxWidth(.8f)
+                            .fillMaxWidth(.9f)
                             .align(alignment),
                         shape = shape,
+                        colors = if (currentUser.id == value.from.id)
+                            CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            )
+                        else
+                            CardDefaults.cardColors()
                     )
                 }
             }
