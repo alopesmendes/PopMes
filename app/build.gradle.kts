@@ -87,6 +87,7 @@ val accompanistAdaptiveVersion: String by project
 val hiltCompilerVersion: String by project
 val composeUIVersion: String by project
 val hiltNavigationCompose: String by project
+val libPhoneNumberVersion: String by project
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
@@ -116,6 +117,7 @@ dependencies {
 
     // ---- dagger ----
     implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("com.googlecode.libphonenumber:libphonenumber:$libPhoneNumberVersion")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
     kapt("androidx.hilt:hilt-compiler:$hiltCompilerVersion")
     implementation("androidx.hilt:hilt-navigation-compose:$hiltNavigationCompose")
