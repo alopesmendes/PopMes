@@ -8,4 +8,5 @@ object Constants {
 //        .create()
 
     const val PARAM_CONVERSATION = "conversation"
+    const val PARAM_CONTACTS = "contacts"
 }
