@@ -29,7 +29,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import fr.messager.popmes.presentation.components.image.ProfileImage
-import fr.messager.popmes.presentation.components.text.FullNameAndDateText
+import fr.messager.popmes.presentation.components.state.rememberTimeAgo
+import fr.messager.popmes.presentation.components.text.TextAndLabel
 import java.time.Instant
 
 @Composable
@@ -46,9 +47,10 @@ fun DetailedMessageCard(
     supportingText: String,
     onClick: () -> Unit,
 ) {
+    val timeAgo = rememberTimeAgo(date = date)
+
     Card(
         modifier = modifier
-            .padding(horizontal = 16.dp)
             .clickable { onClick() },
         shape = shape,
         colors = colors,
@@ -69,12 +71,12 @@ fun DetailedMessageCard(
                     description = "profile image",
                 )
 
-                FullNameAndDateText(
+                TextAndLabel(
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 12.dp, vertical = 4.dp),
                     name = fullName,
-                    date = date,
+                    description = timeAgo.value,
                 )
                 IconButton(
                     onClick = { /*TODO*/ },

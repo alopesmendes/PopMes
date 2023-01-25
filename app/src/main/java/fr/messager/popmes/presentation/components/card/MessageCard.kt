@@ -28,7 +28,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import fr.messager.popmes.presentation.components.image.ProfileImage
-import fr.messager.popmes.presentation.components.text.FullNameAndDateText
+import fr.messager.popmes.presentation.components.state.rememberTimeAgo
+import fr.messager.popmes.presentation.components.text.TextAndLabel
 import java.time.Instant
 
 @Composable
@@ -45,13 +46,14 @@ fun MessageCard(
     text: String,
 ) {
     Card(
-        modifier = modifier
-            .padding(horizontal = 16.dp),
+        modifier = modifier,
         shape = shape,
         colors = colors,
         elevation = elevation,
         border = border,
     ) {
+        val timeAgo = rememberTimeAgo(date = date)
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -66,12 +68,12 @@ fun MessageCard(
                     description = "profile image",
                 )
 
-                FullNameAndDateText(
+                TextAndLabel(
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 12.dp, vertical = 4.dp),
                     name = fullName,
-                    date = date,
+                    description = timeAgo.value,
                     color = fullNameColor,
                 )
                 IconButton(
