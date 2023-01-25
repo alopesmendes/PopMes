@@ -15,7 +15,7 @@ sealed class Screen(
     fun route() = "$route${params.joinToString("/", "/") { "{$it}" }}"
 
     fun navigate(
-        params: List<String> = emptyList()
+        vararg params: String,
     ) = "$route${params.joinToString("/", "/")}"
 
     fun navParams(): List<NamedNavArgument> = params.map {
@@ -33,11 +33,13 @@ sealed class Screen(
     )
 
     object AddGroup: Screen(
-        route = "AddGroup"
+        route = "AddGroup",
+        params = listOf(Constants.PARAM_CONTACTS),
     )
 
     object AddUser: Screen(
-        route = "AddUser"
+        route = "AddUser",
+        params = listOf(Constants.PARAM_CONTACTS),
     )
 
     object FileGenerator: Screen(

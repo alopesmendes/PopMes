@@ -1,8 +1,6 @@
 package fr.messager.popmes.mapper
 
-import com.google.protobuf.StringValue
 import com.google.protobuf.Timestamp
-import com.google.protobuf.stringValue
 import com.google.protobuf.timestamp
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.Group
@@ -21,14 +19,17 @@ import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.mapTo
 import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.reverseMapTo
 import fr.messager.popmes.mapper.UserToUserProto.mapTo
 import fr.messager.popmes.mapper.UserToUserProto.reverseMapTo
+import fr.messager.popmes.presentation.navigation.arguments.ContactsParams
 import fr.messager.popmes.presentation.navigation.arguments.ConversationParams
 import fr.messager.popmes.proto.ContactProto
+import fr.messager.popmes.proto.ContactsParamsProto
 import fr.messager.popmes.proto.ConversationParamsProto
 import fr.messager.popmes.proto.GroupProto
 import fr.messager.popmes.proto.MessageProto
 import fr.messager.popmes.proto.MessageTypeProto
 import fr.messager.popmes.proto.UserProto
 import fr.messager.popmes.proto.contactProto
+import fr.messager.popmes.proto.contactsParamsProto
 import fr.messager.popmes.proto.conversationParamsProto
 import fr.messager.popmes.proto.groupProto
 import fr.messager.popmes.proto.messageDataProto
@@ -84,20 +85,6 @@ object ContactToContactProto: Mapper<ContactProto, Contact> {
             is User -> { user = this@reverseMapTo.mapTo() }
             is Group -> { group = this@reverseMapTo.mapTo() }
         }
-    }
-}
-
-object StringValueToString: ReverseMapper<String?, StringValue> {
-    override fun String?.mapTo(): StringValue = stringValue {
-        if (this@mapTo != null)
-            value = this@mapTo
-    }
-
-    override fun StringValue.reverseMapTo(): String? {
-        return if (this@reverseMapTo.isInitialized)
-            this@reverseMapTo.value
-        else
-            null
     }
 }
 
@@ -167,5 +154,19 @@ object ConversationParamsToConversationParamsProto: ReverseMapper<ConversationPa
     override fun ConversationParamsProto.reverseMapTo(): ConversationParams = ConversationParams(
         messages = this@reverseMapTo.messagesList.map { it.reverseMapTo() },
         contact = this@reverseMapTo.contact.mapTo(),
+    )
+}
+
+object ContactParamsToContactParamsProto: ReverseMapper<ContactsParams, ContactsParamsProto> {
+    override fun ContactsParams.mapTo(): ContactsParamsProto = contactsParamsProto {
+        users.addAll(this@mapTo.users.map { it.mapTo() })
+        toAddUserComponentVisibility = this@mapTo.toAddUserComponentVisibility
+        toAddGroupComponentVisibility = this@mapTo.toAddGroupComponentVisibility
+    }
+
+    override fun ContactsParamsProto.reverseMapTo(): ContactsParams = ContactsParams(
+        users = this@reverseMapTo.usersList.map { it.reverseMapTo() },
+        toAddUserComponentVisibility = this@reverseMapTo.toAddUserComponentVisibility,
+        toAddGroupComponentVisibility = this@reverseMapTo.toAddGroupComponentVisibility,
     )
 }

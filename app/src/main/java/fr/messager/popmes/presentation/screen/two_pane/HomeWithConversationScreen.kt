@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.screen
+package fr.messager.popmes.presentation.screen.two_pane
 
 import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,7 +17,7 @@ import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.model.message.Message
 import fr.messager.popmes.presentation.components.card.DetailedMessageCard
-import fr.messager.popmes.presentation.components.list.CardList
+import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.navigation.Navigation
 import fr.messager.popmes.presentation.components.views.ConversationComponent
 import fr.messager.popmes.presentation.navigation.NavItem
@@ -53,11 +53,11 @@ fun HomeWithConversationScreen(
         val user = painterResource(id = R.drawable.avatar_0)
         TwoPane(
             first = {
-                CardList(
+                PopMesListColumn(
                     values = messages
                         .sortedByDescending { it.date }
                         .distinctBy { it.to.id },
-                    modifier = Modifier,
+                    modifier = Modifier.fillMaxSize(),
                 ) { _, value ->
                     DetailedMessageCard(
                         icon = user,

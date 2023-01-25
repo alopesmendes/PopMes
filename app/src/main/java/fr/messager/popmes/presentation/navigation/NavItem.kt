@@ -37,21 +37,21 @@ sealed class NavItem(
     }
 
     object Home: NavItem(
-        titleId = R.string.nav_item_title_home,
+        titleId = R.string.title_home,
         imageVector = Icons.Filled.Home,
         screen = Screen.Home,
         contentDescription = "home nav item",
     )
 
     object Contacts: NavItem(
-        titleId = R.string.nav_item_title_contacts,
+        titleId = R.string.title_contacts,
         imageId = R.drawable.ic_contacts,
         screen = Screen.Contacts,
         contentDescription = "contacts nav item",
     )
 
     object Tasks: NavItem(
-        titleId = R.string.nav_item_title_tasks,
+        titleId = R.string.title_tasks,
         imageId = R.drawable.ic_task,
         screen = Screen.Tasks,
         contentDescription = "tasks nav item",

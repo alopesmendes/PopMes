@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="nav_item_title_home">Accueil</string>
-    <string name="nav_item_title_contacts">Contacts</string>
-    <string name="nav_item_title_tasks">Tâches</string>
+    <string name="title_home">Accueil</string>
+    <string name="title_contacts">Contacts</string>
+    <string name="title_tasks">Tâches</string>
+    <string name="title_new_contact">Nouveau contact</string>
+    <string name="title_new_group">Nouveau groupe</string>
+    <string name="validate">Valider</string>
+    <string name="contacts_on_pop_mes">Contacts sur PopMes</string>
+    <string name="number_users">Membres : %1d</string>
+    <string name="group_name">Nom du groupe</string>
 </resources>
