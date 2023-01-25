@@ -9,17 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import fr.messager.popmes.presentation.components.state.rememberTimeAgo
-import java.time.Instant
 
 @Composable
-fun FullNameAndDateText(
-    modifier: Modifier,
+fun TextAndLabel(
+    modifier: Modifier = Modifier,
     name: String,
-    date: Instant,
+    description: String,
     color: Color = Color.Unspecified,
 ) {
-    val timeAgo = rememberTimeAgo(date = date)
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center
@@ -34,7 +31,7 @@ fun FullNameAndDateText(
         )
 
         Text(
-            text = timeAgo.value,
+            text = description,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.outline,
         )
