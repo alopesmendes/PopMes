@@ -4,11 +4,12 @@ import android.app.Activity
 import android.text.format.DateUtils
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -25,6 +26,7 @@ import fr.messager.popmes.presentation.screen.ConversationScreen
 import fr.messager.popmes.presentation.screen.FileGeneratorScreen
 import fr.messager.popmes.presentation.screen.TasksElementScreen
 import fr.messager.popmes.presentation.screen.TasksScreen
+import fr.messager.popmes.presentation.view_models.ContactsViewModel
 import fr.messager.popmes.presentation.view_models.ConversationViewModel
 import kotlinx.coroutines.CoroutineScope
 import java.time.Instant
@@ -51,20 +53,66 @@ object Extension {
         onSelectedItemChange: (Int) -> Unit,
         onNavigate: (String) -> Unit,
         onBack: () -> Unit,
+        displayFeatures: List<DisplayFeature>,
     ) {
         composable(
             route = Screen.Contacts.route(),
             arguments = Screen.Contacts.navParams(),
         ) {
+            val contactsViewModel: ContactsViewModel = hiltViewModel()
             ContactsScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 activity = activity,
                 navItems = navItems,
-                onNavigate = onNavigate,
                 drawerState = drawerState,
                 scope = scope,
                 selectedItem = selectedItem,
                 onSelectedItemChange = onSelectedItemChange,
+                onNavigate = onNavigate,
                 onBack = onBack,
+                contacts = listOf(
+                    User(
+                        id = "0",
+                        firstName = "ailton",
+                        lastName = "lopes mendes",
+                        phoneNumber = "0781831024"
+                    ),
+                    User(
+                        id = "1",
+                        firstName = "Jailsa",
+                        lastName = "lopes mendes",
+                        phoneNumber = "0681831024"
+                    ),
+                    User(
+                        id = "2",
+                        firstName = "Manuel",
+                        lastName = "lopes mendes",
+                        phoneNumber = "0481831024"
+                    ),
+                    User(
+                        id = "3",
+                        firstName = "ailton",
+                        lastName = "lopes mendes",
+                        phoneNumber = "0781831024"
+                    ),
+                    User(
+                        id = "4",
+                        firstName = "Dominga",
+                        lastName = "lopes mendes",
+                        phoneNumber = "0581831024"
+                    ),
+                ),
+                displayFeatures = displayFeatures,
+                toAddContact = contactsViewModel::addContactToGroup,
+                toRemoveContact = contactsViewModel::removeContactOfGroup,
+                contactsAdded = contactsViewModel.contactsAddedToGroup,
+                toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
+                toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
+                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it },
+                onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
+                onAdd = contactsViewModel::addContact,
             )
         }
 
@@ -72,9 +120,23 @@ object Extension {
             route = Screen.AddGroup.route(),
             arguments = Screen.AddGroup.navParams(),
         ) {
+            val contactsViewModel: ContactsViewModel = hiltViewModel()
             AddGroupScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 activity = activity,
-                onNavigate = onNavigate,
+                displayFeatures = displayFeatures,
+                contacts = contactsViewModel.contactsGroup,
+                onAdd = contactsViewModel::addContact,
+                onBack = onBack,
+                toAddContact = contactsViewModel::addContactToGroup,
+                toRemoveContact = contactsViewModel::removeContactOfGroup,
+                contactsAdded = contactsViewModel.contactsAddedToGroup,
+                toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
+                toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
+                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it },
+                onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
             )
         }
 
@@ -82,9 +144,23 @@ object Extension {
             route = Screen.AddUser.route(),
             arguments = Screen.AddUser.navParams(),
         ) {
+            val contactsViewModel: ContactsViewModel = hiltViewModel()
             AddUserScreen(
                 activity = activity,
-                onNavigate = onNavigate,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                displayFeatures = displayFeatures,
+                contacts = contactsViewModel.contactsGroup,
+                onAdd = contactsViewModel::addContact,
+                onBack = onBack,
+                toAddContact = contactsViewModel::addContactToGroup,
+                toRemoveContact = contactsViewModel::removeContactOfGroup,
+                contactsAdded = contactsViewModel.contactsAddedToGroup,
+                toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
+                toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
+                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it },
+                onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
             )
         }
     }
@@ -194,9 +270,9 @@ object Extension {
             // Pop up to the start destination of the graph to
             // avoid building up a large stack of destinations
             // on the back stack as users select items
-            popUpTo(graph.findStartDestination().id) {
-                saveState = true
-            }
+            //popUpTo(graph.findStartDestination().id) {
+            //    saveState = true
+            //}
             // Avoid multiple copies of the same destination when
             // reselecting the same item
             launchSingleTop = true

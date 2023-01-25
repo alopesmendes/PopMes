@@ -3,7 +3,6 @@ package fr.messager.popmes.presentation.screen
 import android.app.Activity
 import android.util.Log
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -18,6 +17,7 @@ import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
 import fr.messager.popmes.presentation.components.views.ConversationComponent
 import fr.messager.popmes.presentation.components.views.HomeComponent
 import fr.messager.popmes.presentation.navigation.NavItem
+import fr.messager.popmes.presentation.screen.two_pane.HomeWithConversationScreen
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,58 +38,57 @@ fun HomeScreen(
     onSelectedContactChange: (Contact?) -> Unit,
     displayFeatures: List<DisplayFeature>,
 ) {
-    BoxWithConstraints(modifier = modifier) {
-        PopMesWindowSize(
-            activity = activity,
-            windowSizeDimension = WindowSizeDimension.Width,
-            compact = {
-                if (selectedContact != null) {
-                    BackHandler(onBack = onBack)
-                    ConversationComponent(
-                        modifier = modifier,
-                        messages = messages
-                            .filter { selectedContact.id == it.to.id }
-                            .sortedBy { it.date },
-                        currentUser = currentUser,
-                        onBack = onBack,
-                        contact = selectedContact,
-                    )
-                } else {
-                    HomeComponent(
-                        modifier = modifier,
-                        messages = messages,
-                        onNavigate = onNavigate,
-                        onSelectedItemChange = onSelectedItemChange,
-                        selectedItem = selectedItem,
-                        scope = scope,
-                        drawerState = drawerState,
-                        activity = activity,
-                        navItems = navItems,
-                    )
-                }
-            },
-            medium = {
-                LaunchedEffect(selectedContact) {
-                    Log.d(TAG, "HomeScreen: $selectedContact")
-                }
-                HomeWithConversationScreen(
-                    displayFeatures = displayFeatures,
-                    messages = messages,
-                    currentUser = currentUser,
-                    selectedContact = selectedContact,
-                    onSelectedContactChange = onSelectedContactChange,
-                    navItems = navItems,
-                    activity = activity,
-                    drawerState = drawerState,
-                    scope = scope,
-                    selectedItem = selectedItem,
-                    onSelectedItemChange = onSelectedItemChange,
+    BackHandler(onBack = onBack)
+
+    PopMesWindowSize(
+        activity = activity,
+        windowSizeDimension = WindowSizeDimension.Width,
+        compact = {
+            if (selectedContact != null) {
+                ConversationComponent(
                     modifier = modifier,
-                    onNavigate = onNavigate,
+                    messages = messages
+                        .filter { selectedContact.id == it.to.id }
+                        .sortedBy { it.date },
+                    currentUser = currentUser,
+                    onBack = onBack,
+                    contact = selectedContact,
                 )
-            },
-        )
-    }
+            } else {
+                HomeComponent(
+                    modifier = modifier,
+                    messages = messages,
+                    onNavigate = onNavigate,
+                    onSelectedItemChange = onSelectedItemChange,
+                    selectedItem = selectedItem,
+                    scope = scope,
+                    drawerState = drawerState,
+                    activity = activity,
+                    navItems = navItems,
+                )
+            }
+        },
+        medium = {
+            LaunchedEffect(selectedContact) {
+                Log.d(TAG, "HomeScreen: $selectedContact")
+            }
+            HomeWithConversationScreen(
+                displayFeatures = displayFeatures,
+                messages = messages,
+                currentUser = currentUser,
+                selectedContact = selectedContact,
+                onSelectedContactChange = onSelectedContactChange,
+                navItems = navItems,
+                activity = activity,
+                drawerState = drawerState,
+                scope = scope,
+                selectedItem = selectedItem,
+                onSelectedItemChange = onSelectedItemChange,
+                modifier = modifier,
+                onNavigate = onNavigate,
+            )
+        },
+    )
 }
 
 private const val TAG = "HomeScreen"
