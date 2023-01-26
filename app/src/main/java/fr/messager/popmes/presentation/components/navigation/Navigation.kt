@@ -1,7 +1,6 @@
 package fr.messager.popmes.presentation.components.navigation
 
 import android.app.Activity
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +31,6 @@ fun Navigation(
         windowSizeDimension = WindowSizeDimension.Width,
         compact = {
             Scaffold(
-                modifier = modifier,
                 bottomBar = {
                     BottomNavigationBar(
                         navItems = navItems,
@@ -42,7 +40,7 @@ fun Navigation(
                     )
                 }
             ) {
-                content(Modifier.fillMaxSize().padding(it))
+                content(modifier.padding(it))
             }
         },
         medium = {
@@ -54,7 +52,7 @@ fun Navigation(
                         navItems = navItems,
                         onNavigate = onNavigate,
                         content = {
-                            content(Modifier.fillMaxSize())
+                            content(modifier)
                         },
                         onDrawerStateChange = {
                             scope.launch {

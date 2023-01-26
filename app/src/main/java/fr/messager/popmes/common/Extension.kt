@@ -30,6 +30,8 @@ import fr.messager.popmes.presentation.view_models.ContactsViewModel
 import fr.messager.popmes.presentation.view_models.ConversationViewModel
 import kotlinx.coroutines.CoroutineScope
 import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 object Extension {
 
@@ -264,6 +266,11 @@ object Extension {
             DateUtils.FORMAT_ABBREV_RELATIVE,
         )?.toString() ?: ""
     }
+
+    fun Instant.displayDate(
+        dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE,
+    ): String = dateTimeFormatter.format(this.atZone(ZoneId.systemDefault()).toLocalDate())
+
 
     fun NavHostController.navigateTo(destination: String) {
         navigate(destination) {
