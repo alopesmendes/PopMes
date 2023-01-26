@@ -4,11 +4,16 @@ import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import fr.messager.popmes.presentation.components.navigation.Navigation
+import fr.messager.popmes.domain.model.task.Task
+import fr.messager.popmes.domain.model.task.TaskPriority
+import fr.messager.popmes.domain.model.task.TaskType
+import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
+import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
+import fr.messager.popmes.presentation.components.views.TaskComponent
 import fr.messager.popmes.presentation.navigation.NavItem
 import kotlinx.coroutines.CoroutineScope
+import java.time.Instant
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,17 +27,70 @@ fun TasksScreen(
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
 ) {
-    Navigation(
+    BackHandler(onBack = onBack)
+
+    PopMesWindowSize(
         activity = activity,
-        navItems = navItems,
-        onNavigate = onNavigate,
-        drawerState = drawerState,
-        scope = scope,
-        selectedItem = selectedItem,
-        onSelectedItemChange = onSelectedItemChange,
-    ) {
-        BackHandler(onBack = onBack)
-        // TODO create tasks screen
-        Text(text = "Tasks screen")
-    }
+        windowSizeDimension = WindowSizeDimension.Width,
+        compact = {
+            TaskComponent(
+                activity = activity,
+                navItems = navItems,
+                drawerState = drawerState,
+                scope = scope,
+                selectedItem = selectedItem,
+                onSelectedItemChange = onSelectedItemChange,
+                onNavigate = onNavigate,
+                onAddNewTask = { /*TODO*/ },
+                onAddNewSchedule = { /*TODO*/ },
+                tasks = listOf(
+                    Task(
+                        id = "0",
+                        title = "One Piece",
+                        beginDate = Instant.now(),
+                        endDate = null,
+                        priority = TaskPriority.LOW,
+                        type = TaskType.Alarm,
+                        description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    ),
+                    Task(
+                        id = "1",
+                        title = "One Piece",
+                        beginDate = Instant.now(),
+                        endDate = null,
+                        priority = TaskPriority.LOW,
+                        type = TaskType.Alarm,
+                        description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    ),
+                    Task(
+                        id = "2",
+                        title = "One Piece",
+                        beginDate = Instant.now(),
+                        endDate = null,
+                        priority = TaskPriority.LOW,
+                        type = TaskType.Alarm,
+                        description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    ),
+                    Task(
+                        id = "3",
+                        title = "One Piece",
+                        beginDate = Instant.now(),
+                        endDate = null,
+                        priority = TaskPriority.LOW,
+                        type = TaskType.Alarm,
+                        description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    ),
+                    Task(
+                        id = "4",
+                        title = "One Piece",
+                        beginDate = Instant.now(),
+                        endDate = null,
+                        priority = TaskPriority.LOW,
+                        type = TaskType.Alarm,
+                        description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    )
+                )
+            )
+        }
+    )
 }

@@ -9,4 +9,7 @@
     <string name="contacts_on_pop_mes">Contacts on PopMes</string>
     <string name="number_users">Users : %1d</string>
     <string name="group_name">Group name</string>
+    <string name="title_new_task">New task</string>
+    <string name="title_new_schedule">New schedule</string>
+    <string name="tasks_on_pop_mes">Tasks on PopMes</string>
 </resources>
