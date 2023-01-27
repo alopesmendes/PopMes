@@ -51,7 +51,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
     }
 
 //    java.sourceSets["main"].java {
@@ -65,117 +65,94 @@ android {
     }
 }
 
-val coreKtxVersion: String by project
-val lifecycleRuntimeKtxVersion: String by project
-val composeVersion: String by project
-val composeBomVersion: String by project
-val junitVersion: String by project
-val androidJunitVersion: String by project
-val espressoCoreVersion: String by project
-val protobufVersion: String by project
-val grpcVersion: String by project
-val grpcKtVersion: String by project
-val gsonVersion: String by project
-val navVersion: String by project
-val hiltVersion: String by project
-val roomVersion: String by project
-val roomPagingVersion: String by project
-val pagingVersion: String by project
-val pagingComposeVersion: String by project
-val material3Version: String by project
-val accompanistAdaptiveVersion: String by project
-val hiltCompilerVersion: String by project
-val composeUIVersion: String by project
-val hiltNavigationCompose: String by project
-val libPhoneNumberVersion: String by project
-
 dependencies {
-    implementation("androidx.core:core-ktx:$coreKtxVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleRuntimeKtxVersion")
-    implementation("androidx.activity:activity-compose:$composeVersion")
-    implementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
-    implementation("com.google.code.gson:gson:$gsonVersion")
-    implementation("androidx.compose.ui:ui:$composeUIVersion")
-    implementation("androidx.compose.ui:ui-graphics:$composeUIVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeUIVersion")
-    implementation("androidx.compose.material3:material3:$material3Version")
-    implementation("androidx.compose.material3:material3-window-size-class:$material3Version")
-    implementation("com.google.accompanist:accompanist-adaptive:$accompanistAdaptiveVersion")
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:${rootProject.extra["kotlinBomVersion"]}"))
+    implementation("androidx.core:core-ktx:${rootProject.extra["coreKtxVersion"]}")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${rootProject.extra["lifecycleRuntimeKtxVersion"]}")
+    implementation("androidx.activity:activity-compose:${rootProject.extra["composeVersion"]}")
+    implementation(platform("androidx.compose:compose-bom:${rootProject.extra["composeBomVersion"]}"))
+    implementation("com.google.code.gson:gson:${rootProject.extra["gsonVersion"]}")
+    implementation("androidx.compose.ui:ui:${rootProject.extra["composeUIVersion"]}")
+    implementation("androidx.compose.ui:ui-graphics:${rootProject.extra["composeUIVersion"]}")
+    implementation("androidx.compose.ui:ui-tooling-preview:${rootProject.extra["composeUIVersion"]}")
+    implementation("androidx.compose.material3:material3:${rootProject.extra["material3Version"]}")
+    implementation("androidx.compose.material3:material3-window-size-class:${rootProject.extra["material3Version"]}")
+    implementation("com.google.accompanist:accompanist-adaptive:${rootProject.extra["accompanistAdaptiveVersion"]}")
 
     // ---- navigation ----
-    implementation("androidx.navigation:navigation-compose:$navVersion")
+    implementation("androidx.navigation:navigation-compose:${rootProject.extra["navVersion"]}")
 
     // ---- protobuf ----
-    implementation("com.google.protobuf:protobuf-kotlin-lite:$protobufVersion")
+    implementation("com.google.protobuf:protobuf-kotlin-lite:${rootProject.extra["protobufVersion"]}")
     // ---- grpc ----
-    implementation("io.grpc:grpc-okhttp:$grpcVersion")
-    implementation("io.grpc:grpc-protobuf-lite:$grpcVersion")
-    implementation("io.grpc:grpc-stub:$grpcVersion")
-    implementation("io.grpc:grpc-android:$grpcVersion")
-    implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
-    implementation("io.grpc:grpc-netty-shaded:$grpcVersion")
+    implementation("io.grpc:grpc-okhttp:${rootProject.extra["grpcVersion"]}")
+    implementation("io.grpc:grpc-protobuf-lite:${rootProject.extra["grpcVersion"]}")
+    implementation("io.grpc:grpc-stub:${rootProject.extra["grpcVersion"]}")
+    implementation("io.grpc:grpc-android:${rootProject.extra["grpcVersion"]}")
+    implementation("io.grpc:grpc-kotlin-stub:${rootProject.extra["grpcKtVersion"]}")
+    implementation("io.grpc:grpc-netty-shaded:${rootProject.extra["grpcVersion"]}")
 
     // ---- dagger ----
-    implementation("com.google.dagger:hilt-android:$hiltVersion")
-    implementation("com.googlecode.libphonenumber:libphonenumber:$libPhoneNumberVersion")
-    kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-    kapt("androidx.hilt:hilt-compiler:$hiltCompilerVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:$hiltNavigationCompose")
+    implementation("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
+    implementation("com.googlecode.libphonenumber:libphonenumber:${rootProject.extra["libPhoneNumberVersion"]}")
+    kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
+    kapt("androidx.hilt:hilt-compiler:${rootProject.extra["hiltCompilerVersion"]}")
+    implementation("androidx.hilt:hilt-navigation-compose:${rootProject.extra["hiltNavigationCompose"]}")
     // For Robolectric tests.
-    testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    testImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["hiltVersion"]}")
     // ...with Kotlin.
-    kaptTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kaptTest("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
     // For instrumented tests.
-    androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["hiltVersion"]}")
     // ...with Kotlin.
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
 
     // For instrumentation tests
-    androidTestImplementation ("com.google.dagger:hilt-android-testing:$hiltVersion")
-    kaptAndroidTest("com.google.dagger:hilt-compiler:$hiltVersion")
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:${rootProject.extra["hiltVersion"]}")
+    kaptAndroidTest("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
     // For local unit tests
-    testImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
-    kaptTest("com.google.dagger:hilt-compiler:$hiltVersion")
+    testImplementation("com.google.dagger:hilt-android-testing:${rootProject.extra["hiltVersion"]}")
+    kaptTest("com.google.dagger:hilt-compiler:${rootProject.extra["hiltVersion"]}")
 
     //  ---- room ----
-    implementation("androidx.room:room-runtime:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-runtime:${rootProject.extra["roomVersion"]}")
+    annotationProcessor("androidx.room:room-compiler:${rootProject.extra["roomVersion"]}")
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:${rootProject.extra["roomVersion"]}")
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-ktx:${rootProject.extra["roomVersion"]}")
     // optional - Paging 3 Integration
 //    implementation("androidx.room:room-paging:$roomPagingVersion")
 
     // ---- paging ----
-    implementation("androidx.paging:paging-runtime:$pagingVersion")
+    implementation("androidx.paging:paging-runtime:${rootProject.extra["pagingVersion"]}")
     // alternatively - without Android dependencies for tests
-    testImplementation("androidx.paging:paging-common:$pagingVersion")
+    testImplementation("androidx.paging:paging-common:${rootProject.extra["pagingVersion"]}")
     // optional - Jetpack Compose integration
-    implementation("androidx.paging:paging-compose:$pagingComposeVersion")
+    implementation("androidx.paging:paging-compose:${rootProject.extra["pagingComposeVersion"]}")
     
-    testImplementation("junit:junit:$junitVersion")
-    androidTestImplementation("androidx.test.ext:junit:$androidJunitVersion")
-    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoCoreVersion")
-    androidTestImplementation(platform("androidx.compose:compose-bom:$composeBomVersion"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeUIVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeUIVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeUIVersion")
+    testImplementation("junit:junit:${rootProject.extra["junitVersion"]}")
+    androidTestImplementation("androidx.test.ext:junit:${rootProject.extra["androidJunitVersion"]}")
+    androidTestImplementation("androidx.test.espresso:espresso-core:${rootProject.extra["espressoCoreVersion"]}")
+    androidTestImplementation(platform("androidx.compose:compose-bom:${rootProject.extra["composeBomVersion"]}"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:${rootProject.extra["composeUIVersion"]}")
+    debugImplementation("androidx.compose.ui:ui-tooling:${rootProject.extra["composeUIVersion"]}")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:${rootProject.extra["composeUIVersion"]}")
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${protobufVersion}"
+        artifact = "com.google.protobuf:protoc:${rootProject.extra["protobufVersion"]}"
     }
     plugins {
         id("java") {
-            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.extra["grpcVersion"]}"
         }
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.extra["grpcVersion"]}"
         }
         id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:${grpcKtVersion}:jdk8@jar"
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:${rootProject.extra["grpcKtVersion"]}:jdk8@jar"
         }
     }
     generateProtoTasks {
