@@ -12,4 +12,8 @@
     <string name="title_new_task">Nouvelle tâche</string>
     <string name="title_new_schedule">Nouveau programme</string>
     <string name="tasks_on_pop_mes">Tâches sur PopMes</string>
+    <string name="begin_date">date de début</string>
+    <string name="end_date">date de fin</string>
+    <string name="optional">optionnel</string>
+    <string name="cancel">Annuler</string>
 </resources>
