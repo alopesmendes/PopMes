@@ -47,7 +47,7 @@ fun PopMesDatePickerDialog(
     properties: DialogProperties = DialogProperties(usePlatformDefaultWidth = false),
     dayAfter: Instant,
 ) {
-    LaunchedEffect(dayAfter, openDialog) {
+    LaunchedEffect(dayAfter) {
         Log.d(TAG, "PopMesDatePickerDialog: ${dayAfter.displayDate()}")
     }
 
@@ -103,7 +103,7 @@ fun PopMesDatePickerDialog(
                         true
                     }
 
-                    value && date.isAfter(dayAfter.minus(Period.ofDays(1)))
+                    value && date.isAfter(dayAfter.minus(Period.ofDays(2)))
                 },
             )
         }

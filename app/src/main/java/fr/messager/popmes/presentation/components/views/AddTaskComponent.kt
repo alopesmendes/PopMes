@@ -11,7 +11,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,14 +47,13 @@ fun AddTaskComponent(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(beginDate, endDate) {
-        Log.d(TAG, "AddTaskComponent: begin=${beginDate.displayDate()}, end=${endDate?.displayDate() ?: ""}")
-    }
-
     PopMesDatePickerDialog(
         openDialog = openDialogBeginDate,
         onOpenDialogChange = { openDialogBeginDate = it },
-        onDateSelect = onBeginDateChange,
+        onDateSelect = {
+            onBeginDateChange(it)
+            Log.d(TAG, "AddTaskComponent: begin->${it.displayDate()}")
+        },
         hasBlockWeekend = true,
         dayAfter = Instant.now(),
     )
@@ -63,7 +61,10 @@ fun AddTaskComponent(
     PopMesDatePickerDialog(
         openDialog = openDialogEndDate,
         onOpenDialogChange = { openDialogEndDate = it },
-        onDateSelect = onEndDateChange,
+        onDateSelect = {
+            onEndDateChange(it)
+            Log.d(TAG, "AddTaskComponent: end->${it.displayDate()}")
+        },
         hasBlockWeekend = true,
         dayAfter = beginDate,
     )
@@ -117,7 +118,7 @@ fun AddTaskComponent(
                 singleLine = true,
                 readOnly = true,
                 modifier = Modifier.weight(1f),
-                onClick = { openDialogBeginDate = true },
+                onClick = { openDialogEndDate = true },
             )
         }
     }
