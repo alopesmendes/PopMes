@@ -118,7 +118,7 @@ private fun TakCardPreview() {
         task = Task(
             id = "0",
             title = "One Piece",
-            type = TaskType.Alarm,
+            type = TaskType.Task,
             priority = TaskPriority.LOW,
             beginDate = Instant.now(),
             endDate = null,

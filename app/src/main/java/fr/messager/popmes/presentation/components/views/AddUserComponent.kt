@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -17,10 +16,8 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,11 +33,11 @@ import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.ValidationButton
 import fr.messager.popmes.presentation.components.image.ProfileImage
+import fr.messager.popmes.presentation.components.text.InputDescriptionTextField
 import fr.messager.popmes.presentation.components.text.InputPhoneNumber
 import fr.messager.popmes.presentation.components.text.InputUserName
 import java.util.UUID
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddUserComponent(
     modifier: Modifier = Modifier,
@@ -90,16 +87,12 @@ fun AddUserComponent(
                     modifier = Modifier.fillMaxWidth(),
                 )
 
-                OutlinedTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    label = {
-                        Text(text = "description (optional)")
-                    },
+                InputDescriptionTextField(
+                    description = description,
+                    onDescriptionChange = { description = it },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(TextFieldDefaults.MinHeight.times(3))
-                        .padding(start = 40.dp)
+                        .padding(start = 40.dp),
                 )
             }
 
