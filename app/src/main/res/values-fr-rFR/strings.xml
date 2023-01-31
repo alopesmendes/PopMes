@@ -16,4 +16,9 @@
     <string name="end_date">date de fin</string>
     <string name="optional">optionnel</string>
     <string name="cancel">Annuler</string>
+    <string name="title">Titre</string>
+    <string name="low">Bas</string>
+    <string name="high">Haut</string>
+    <string name="urgent">Urgent</string>
+    <string name="priorities">" priorités"</string>
 </resources>
