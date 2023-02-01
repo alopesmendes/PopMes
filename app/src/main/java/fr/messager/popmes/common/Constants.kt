@@ -13,7 +13,9 @@ object Constants {
     const val PARAM_TASKS = "tasks"
 
     // TABLES
-    const val TABLE_CONTACTS = "users"
+    const val TABLE_CONTACTS = "contacts"
+    const val TABLE_MESSAGES = "messages"
+    const val TABLE_TASKS = "tasks"
 
     // FIELDS
     const val FIELD_ID = "id"
