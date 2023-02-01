@@ -50,8 +50,9 @@ sealed class Screen(
         route = "Tasks"
     )
 
-    object TasksElement: Screen(
-        route = "TasksElement"
+    object AddTask: Screen(
+        route = "AddTask",
+        params = listOf(Constants.PARAM_TASKS),
     )
 
     object Conversation: Screen(

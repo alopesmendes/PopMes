@@ -9,4 +9,5 @@ object Constants {
 
     const val PARAM_CONVERSATION = "conversation"
     const val PARAM_CONTACTS = "contacts"
+    const val PARAM_TASKS = "tasks"
 }
