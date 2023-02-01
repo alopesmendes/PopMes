@@ -1,5 +1,6 @@
 package fr.messager.popmes.presentation.components.views
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -8,12 +9,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -69,8 +79,7 @@ fun AddTaskComponent(
     openDialogBeginDate: Boolean,
     onOpenDialogEndDateChange: (Boolean) -> Unit,
     openDialogEndDate: Boolean,
-
-    ) {
+) {
     val painter = painterResource(id = R.drawable.avatar_0)
 
     PopMesDatePickerDialog(
@@ -89,13 +98,13 @@ fun AddTaskComponent(
         dayAfter = beginDate,
     )
 
+    val scrollState = rememberScrollState()
     Column(
-        modifier = modifier,
+        modifier = modifier.verticalScroll(scrollState),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.weight(1f),
         ) {
             PopMesOutlinedTextField(
                 value = title,
@@ -164,7 +173,8 @@ fun AddTaskComponent(
                 leadingIcon = {
                     Icon(
                         painterResource(id = priorities[it].drawableId),
-                        contentDescription = null)
+                        contentDescription = null
+                    )
                 },
                 label = {
                     Text(text = stringResource(id = R.string.priorities))
@@ -180,7 +190,7 @@ fun AddTaskComponent(
             PopMesListRow(
                 values = contactsAdded,
                 modifier = Modifier.fillMaxWidth(),
-                key = {}
+                key = { contactsAdded[it].id }
             ) { index, value ->
                 SmallContactItem(
                     name = value.fullName(),
@@ -196,16 +206,26 @@ fun AddTaskComponent(
                 )
             }
 
+            val contactsAddedIds by remember(contactsAdded.size) {
+                derivedStateOf {
+                    contactsAdded.map { it.id }
+                }
+            }
+
             PopMesListColumn(
                 values = contacts,
                 key = { contacts[it].id },
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .height(180.dp)
+                    .fillMaxWidth(),
             ) { _, value ->
                 ContactItem(
                     name = value.fullName(),
                     description = "Here",
                     icon = painter,
                     onClick = { onAddContact(value) },
+                    enabled = value.id !in contactsAddedIds,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         }
@@ -229,7 +249,75 @@ fun AddTaskComponent(
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AddTaskComponent(
+    onBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    onValidate: (Task) -> Unit,
+    beginDate: Instant,
+    endDate: Instant?,
+    selectedPriorityIndex: Int,
+    onBeginDateChange: (Instant) -> Unit,
+    onEndDateChange: (Instant) -> Unit,
+    onSelectedPriorityIndexChange: (Int) -> Unit,
+    contacts: List<Contact>,
+    onAddContact: (Contact) -> Unit,
+    onRemoveContact: (Int) -> Unit,
+    contactsAdded: List<Contact>,
+    title: String,
+    onTitleChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
+    description: String,
+    onOpenDialogBeginDateChange: (Boolean) -> Unit,
+    openDialogBeginDate: Boolean,
+    onOpenDialogEndDateChange: (Boolean) -> Unit,
+    openDialogEndDate: Boolean,
+) {
+    BackHandler(onBack = onBack)
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.title_add_task))
+                },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = "Add task back"
+                        )
+                    }
+                },
+            )
+        },
+    ) {
+        AddTaskComponent(
+            onValidate = onValidate,
+            beginDate = beginDate,
+            endDate = endDate,
+            selectedPriorityIndex = selectedPriorityIndex,
+            onBeginDateChange = onBeginDateChange,
+            onEndDateChange = onEndDateChange,
+            onSelectedPriorityIndexChange = onSelectedPriorityIndexChange,
+            contacts = contacts,
+            onAddContact = onAddContact,
+            onRemoveContact = onRemoveContact,
+            contactsAdded = contactsAdded,
+            title = title,
+            onTitleChange = onTitleChange,
+            onDescriptionChange = onDescriptionChange,
+            description = description,
+            onOpenDialogBeginDateChange = onOpenDialogBeginDateChange,
+            openDialogBeginDate = openDialogBeginDate,
+            onOpenDialogEndDateChange = onOpenDialogEndDateChange,
+            openDialogEndDate = openDialogEndDate,
+            modifier = modifier.padding(it),
+        )
+    }
 }
 
 @Preview(showBackground = true)

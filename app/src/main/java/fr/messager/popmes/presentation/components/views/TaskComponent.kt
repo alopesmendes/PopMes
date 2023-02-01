@@ -57,10 +57,12 @@ fun TaskComponent(
             Text(text = stringResource(id = R.string.title_new_task))
         }
 
+        // TODO to implement component
         PopMesTextButton(
             onClick = onAddNewSchedule,
             modifier = Modifier.fillMaxWidth(),
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+            enabled = false
         ) {
             Icon(
                 painterResource(id = R.drawable.ic_schedule),
