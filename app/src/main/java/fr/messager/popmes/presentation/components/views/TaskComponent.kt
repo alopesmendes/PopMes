@@ -57,10 +57,12 @@ fun TaskComponent(
             Text(text = stringResource(id = R.string.title_new_task))
         }
 
+        // TODO to implement component
         PopMesTextButton(
             onClick = onAddNewSchedule,
             modifier = Modifier.fillMaxWidth(),
             contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+            enabled = false
         ) {
             Icon(
                 painterResource(id = R.drawable.ic_schedule),
@@ -145,7 +147,7 @@ private fun TaskComponentPreview() {
                 beginDate = Instant.now(),
                 endDate = null,
                 priority = TaskPriority.LOW,
-                type = TaskType.Alarm,
+                type = TaskType.Task,
                 description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
             ),
             Task(
@@ -154,7 +156,7 @@ private fun TaskComponentPreview() {
                 beginDate = Instant.now(),
                 endDate = null,
                 priority = TaskPriority.LOW,
-                type = TaskType.Alarm,
+                type = TaskType.Task,
                 description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
             ),
             Task(
@@ -163,7 +165,7 @@ private fun TaskComponentPreview() {
                 beginDate = Instant.now(),
                 endDate = null,
                 priority = TaskPriority.LOW,
-                type = TaskType.Alarm,
+                type = TaskType.Task,
                 description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
             ),
             Task(
@@ -172,7 +174,7 @@ private fun TaskComponentPreview() {
                 beginDate = Instant.now(),
                 endDate = null,
                 priority = TaskPriority.LOW,
-                type = TaskType.Alarm,
+                type = TaskType.Task,
                 description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
             ),
             Task(
@@ -181,7 +183,7 @@ private fun TaskComponentPreview() {
                 beginDate = Instant.now(),
                 endDate = null,
                 priority = TaskPriority.LOW,
-                type = TaskType.Alarm,
+                type = TaskType.Task,
                 description = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
             )
         )

@@ -20,14 +20,15 @@ import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.navigation.arguments.NavData
 import fr.messager.popmes.presentation.screen.AddGroupScreen
+import fr.messager.popmes.presentation.screen.AddTaskScreen
 import fr.messager.popmes.presentation.screen.AddUserScreen
 import fr.messager.popmes.presentation.screen.ContactsScreen
 import fr.messager.popmes.presentation.screen.ConversationScreen
 import fr.messager.popmes.presentation.screen.FileGeneratorScreen
-import fr.messager.popmes.presentation.screen.TasksElementScreen
 import fr.messager.popmes.presentation.screen.TasksScreen
 import fr.messager.popmes.presentation.view_models.ContactsViewModel
 import fr.messager.popmes.presentation.view_models.ConversationViewModel
+import fr.messager.popmes.presentation.view_models.TaskViewModel
 import kotlinx.coroutines.CoroutineScope
 import java.time.Instant
 import java.time.ZoneId
@@ -112,8 +113,12 @@ object Extension {
                 contactsAdded = contactsViewModel.contactsAddedToGroup,
                 toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
-                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it },
-                onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
+                onToAddGroupComponentVisibilityChange = {
+                    contactsViewModel.toAddGroupComponentVisibility = it
+                },
+                onToAddUserComponentVisibilityChange = {
+                    contactsViewModel.toAddUserComponentVisibility = it
+                },
                 onAdd = contactsViewModel::addContact,
             )
         }
@@ -137,8 +142,12 @@ object Extension {
                 contactsAdded = contactsViewModel.contactsAddedToGroup,
                 toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
-                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it },
-                onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
+                onToAddGroupComponentVisibilityChange = {
+                    contactsViewModel.toAddGroupComponentVisibility = it
+                },
+                onToAddUserComponentVisibilityChange = {
+                    contactsViewModel.toAddUserComponentVisibility = it
+                },
             )
         }
 
@@ -161,15 +170,18 @@ object Extension {
                 contactsAdded = contactsViewModel.contactsAddedToGroup,
                 toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
-                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it },
-                onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
+                onToAddGroupComponentVisibilityChange = {
+                    contactsViewModel.toAddGroupComponentVisibility = it
+                },
+                onToAddUserComponentVisibilityChange = {
+                    contactsViewModel.toAddUserComponentVisibility = it
+                },
             )
         }
     }
 
     private val TAG = Extension::class.simpleName
 
-    @OptIn(ExperimentalMaterial3Api::class)
     fun NavGraphBuilder.conversationNavigation(
         activity: Activity,
         navItems: List<NavItem>,
@@ -218,7 +230,6 @@ object Extension {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     fun NavGraphBuilder.tasksNavigation(
         activity: Activity,
         navItems: List<NavItem>,
@@ -228,30 +239,64 @@ object Extension {
         onSelectedItemChange: (Int) -> Unit,
         onNavigate: (String) -> Unit,
         onBack: () -> Unit,
+        displayFeatures: List<DisplayFeature>,
+        contacts: List<User>,
     ) {
         composable(
             route = Screen.Tasks.route(),
             arguments = Screen.Tasks.navParams(),
         ) {
+            val taskViewModel: TaskViewModel = hiltViewModel()
+
             TasksScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 activity = activity,
                 navItems = navItems,
-                onNavigate = onNavigate,
                 drawerState = drawerState,
                 scope = scope,
                 selectedItem = selectedItem,
                 onSelectedItemChange = onSelectedItemChange,
+                onNavigate = onNavigate,
                 onBack = onBack,
+                contacts = contacts,
+                tasks = taskViewModel.tasks,
+                displayFeatures = displayFeatures,
+                onValidate = taskViewModel::onAddTask,
+                onAddContact = taskViewModel::addContact,
+                onRemoveContact = taskViewModel::removeContact,
+                contactsAdded = taskViewModel.contactsAdded,
+                onToAddTaskVisibilityChange = { taskViewModel.toAddTaskVisibility = it },
+                toAddTaskVisibility = taskViewModel.toAddTaskVisibility,
+                onToAddScheduleVisibilityChange = { taskViewModel.toAddScheduleVisibility = it },
+                toAddScheduleVisibility = taskViewModel.toAddScheduleVisibility
             )
         }
 
         composable(
-            route = Screen.TasksElement.route(),
-            arguments = Screen.TasksElement.navParams(),
+            route = Screen.AddTask.route(),
+            arguments = Screen.AddTask.navParams(),
         ) {
-            TasksElementScreen(
+            val taskViewModel: TaskViewModel = hiltViewModel()
+
+            AddTaskScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 activity = activity,
-                onNavigate = onNavigate,
+                onBack = onBack,
+                contacts = contacts,
+                tasks = taskViewModel.tasks,
+                displayFeatures = displayFeatures,
+                onValidate = taskViewModel::onAddTask,
+                onAddContact = taskViewModel::addContact,
+                onRemoveContact = taskViewModel::removeContact,
+                contactsAdded = taskViewModel.contactsAdded,
+                onToAddTaskVisibilityChange = { taskViewModel.toAddTaskVisibility = it },
+                toAddTaskVisibility = taskViewModel.toAddTaskVisibility,
+                onToAddScheduleVisibilityChange = { taskViewModel.toAddScheduleVisibility = it },
+                toAddScheduleVisibility = taskViewModel.toAddScheduleVisibility
             )
         }
     }

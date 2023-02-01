@@ -210,7 +210,46 @@ fun NavigationGraph(
             selectedItem = selectedItem,
             scope = scope,
             onSelectedItemChange = { selectedItem = it },
-            onBack = navController::popBackStack,
+            onBack = {
+                navController.popBackStack()
+                val index =
+                    navItems.indexOfFirst { it.screen.route() == navController.currentDestination?.route }
+                if (index != -1)
+                    selectedItem = index
+            },
+            displayFeatures = displayFeatures,
+            contacts = listOf(
+                User(
+                    id = "0",
+                    firstName = "ailton",
+                    lastName = "lopes mendes",
+                    phoneNumber = "0781831024"
+                ),
+                User(
+                    id = "1",
+                    firstName = "Jailsa",
+                    lastName = "lopes mendes",
+                    phoneNumber = "0681831024"
+                ),
+                User(
+                    id = "2",
+                    firstName = "Manuel",
+                    lastName = "lopes mendes",
+                    phoneNumber = "0481831024"
+                ),
+                User(
+                    id = "3",
+                    firstName = "ailton",
+                    lastName = "lopes mendes",
+                    phoneNumber = "0781831024"
+                ),
+                User(
+                    id = "4",
+                    firstName = "Dominga",
+                    lastName = "lopes mendes",
+                    phoneNumber = "0581831024"
+                ),
+            )
         )
     }
 }

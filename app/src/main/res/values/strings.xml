@@ -12,4 +12,14 @@
     <string name="title_new_task">New task</string>
     <string name="title_new_schedule">New schedule</string>
     <string name="tasks_on_pop_mes">Tasks on PopMes</string>
+    <string name="begin_date">begin date</string>
+    <string name="end_date">end date</string>
+    <string name="optional">optional</string>
+    <string name="cancel">Cancel</string>
+    <string name="title">Title</string>
+    <string name="low">Low</string>
+    <string name="high">High</string>
+    <string name="urgent">Urgent</string>
+    <string name="priorities">Priorities</string>
+    <string name="title_add_task">Add task</string>
 </resources>

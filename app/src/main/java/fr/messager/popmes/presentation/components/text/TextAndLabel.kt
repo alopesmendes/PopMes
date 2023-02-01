@@ -5,7 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -16,9 +20,15 @@ fun TextAndLabel(
     name: String,
     description: String,
     color: Color = Color.Unspecified,
+    enabled: Boolean = true,
 ) {
+    val alpha by remember(enabled) {
+        derivedStateOf {
+            if (enabled) 1.0f else .5f
+        }
+    }
     Column(
-        modifier = modifier,
+        modifier = modifier.alpha(alpha),
         verticalArrangement = Arrangement.Center
     ) {
         Text(

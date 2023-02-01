@@ -1,7 +1,7 @@
 package fr.messager.popmes.domain.model.task
 
 sealed class TaskType {
-    object Meetup: TaskType()
+    object Schedule: TaskType()
 
-    object Alarm: TaskType()
+    object Task: TaskType()
 }

@@ -21,12 +21,14 @@ import fr.messager.popmes.mapper.UserToUserProto.mapTo
 import fr.messager.popmes.mapper.UserToUserProto.reverseMapTo
 import fr.messager.popmes.presentation.navigation.arguments.ContactsParams
 import fr.messager.popmes.presentation.navigation.arguments.ConversationParams
+import fr.messager.popmes.presentation.navigation.arguments.TaskParams
 import fr.messager.popmes.proto.ContactProto
 import fr.messager.popmes.proto.ContactsParamsProto
 import fr.messager.popmes.proto.ConversationParamsProto
 import fr.messager.popmes.proto.GroupProto
 import fr.messager.popmes.proto.MessageProto
 import fr.messager.popmes.proto.MessageTypeProto
+import fr.messager.popmes.proto.TaskParamsProto
 import fr.messager.popmes.proto.UserProto
 import fr.messager.popmes.proto.contactProto
 import fr.messager.popmes.proto.contactsParamsProto
@@ -35,6 +37,7 @@ import fr.messager.popmes.proto.groupProto
 import fr.messager.popmes.proto.messageDataProto
 import fr.messager.popmes.proto.messageProto
 import fr.messager.popmes.proto.messageTypeProto
+import fr.messager.popmes.proto.taskParamsProto
 import fr.messager.popmes.proto.userProto
 import java.time.Instant
 
@@ -168,5 +171,19 @@ object ContactParamsToContactParamsProto: ReverseMapper<ContactsParams, Contacts
         users = this@reverseMapTo.usersList.map { it.reverseMapTo() },
         toAddUserComponentVisibility = this@reverseMapTo.toAddUserComponentVisibility,
         toAddGroupComponentVisibility = this@reverseMapTo.toAddGroupComponentVisibility,
+    )
+}
+
+object TaskParamsToTaskParamsProto: ReverseMapper<TaskParams, TaskParamsProto> {
+    override fun TaskParams.mapTo(): TaskParamsProto = taskParamsProto {
+        toAddTaskVisibility = this@mapTo.toAddTaskVisibility
+        toAddScheduleVisibility = this@mapTo.toAddScheduleVisibility
+        users.addAll(this@mapTo.contacts.map { it.mapTo() })
+    }
+
+    override fun TaskParamsProto.reverseMapTo(): TaskParams = TaskParams(
+        contacts = this@reverseMapTo.usersList.map { it.reverseMapTo() },
+        toAddTaskVisibility = this@reverseMapTo.toAddTaskVisibility,
+        toAddScheduleVisibility = this@reverseMapTo.toAddScheduleVisibility,
     )
 }
