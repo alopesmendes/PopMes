@@ -9,7 +9,11 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import fr.messager.popmes.data.database.converters.DateConverter
 import fr.messager.popmes.data.database.converters.ProtoDataConverter
 import fr.messager.popmes.data.database.dao.ContactDao
+import fr.messager.popmes.data.database.dao.MessageDao
+import fr.messager.popmes.data.database.dao.TaskDao
 import fr.messager.popmes.data.database.entities.ContactsEntity
+import fr.messager.popmes.data.database.entities.MessageEntity
+import fr.messager.popmes.data.database.entities.TaskEntity
 import fr.messager.popmes.domain.model.contact.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +21,11 @@ import kotlinx.coroutines.launch
 import java.util.UUID
 
 @Database(
-    entities = [ContactsEntity::class],
+    entities = [
+        ContactsEntity::class,
+        MessageEntity::class,
+        TaskEntity::class,
+    ],
     version = 1,
     exportSchema = false,
 )
@@ -29,6 +37,10 @@ import java.util.UUID
 )
 abstract class PopMesDatabase : RoomDatabase() {
     abstract fun contactDao(): ContactDao
+
+    abstract fun messageDao(): MessageDao
+
+    abstract fun taskDao(): TaskDao
 
     companion object {
         private var INSTANCE: PopMesDatabase? = null
