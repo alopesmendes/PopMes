@@ -23,4 +23,12 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideUserDao(database: PopMesDatabase) = database.contactDao()
+
+    @Provides
+    @Singleton
+    fun provideMessageDao(database: PopMesDatabase) = database.messageDao()
+
+    @Provides
+    @Singleton
+    fun provideTaskDao(database: PopMesDatabase) = database.taskDao()
 }

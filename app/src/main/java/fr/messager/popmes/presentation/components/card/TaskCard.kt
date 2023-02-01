@@ -88,7 +88,7 @@ fun TaskCard(
 
                 TextAndLabel(
                     name = task.priority.name,
-                    description = task.type::class.simpleName ?: "",
+                    description = "",
                 )
             }
             Text(
