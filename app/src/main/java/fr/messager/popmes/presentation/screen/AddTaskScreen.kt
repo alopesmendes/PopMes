@@ -1,8 +1,6 @@
 package fr.messager.popmes.presentation.screen
 
 import android.app.Activity
-import androidx.activity.compose.BackHandler
-import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,24 +15,15 @@ import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
 import fr.messager.popmes.presentation.components.state.saver.InstantSaver
 import fr.messager.popmes.presentation.components.state.saver.InstantSaverNullable
-import fr.messager.popmes.presentation.components.views.TaskComponent
-import fr.messager.popmes.presentation.navigation.NavItem
-import fr.messager.popmes.presentation.navigation.Screen
-import fr.messager.popmes.presentation.navigation.arguments.TaskParams
+import fr.messager.popmes.presentation.components.views.AddScheduleComponent
+import fr.messager.popmes.presentation.components.views.AddTaskComponent
 import fr.messager.popmes.presentation.screen.two_pane.TaskWithAddTaskAndAddScheduleScreen
-import kotlinx.coroutines.CoroutineScope
 import java.time.Instant
 
 @Composable
-fun TasksScreen(
+fun AddTaskScreen(
     modifier: Modifier = Modifier,
     activity: Activity,
-    navItems: List<NavItem>,
-    drawerState: DrawerState,
-    scope: CoroutineScope,
-    selectedItem: Int,
-    onSelectedItemChange: (Int) -> Unit,
-    onNavigate: (String) -> Unit,
     onBack: () -> Unit,
     contacts: List<User>,
     tasks: List<Task>,
@@ -56,34 +45,40 @@ fun TasksScreen(
     var endDate: Instant? by rememberSaveable(stateSaver = InstantSaverNullable) { mutableStateOf(null) }
     var selectedPriorityIndex by rememberSaveable { mutableStateOf(-1) }
 
-    BackHandler(onBack = onBack)
-
     PopMesWindowSize(
         activity = activity,
         windowSizeDimension = WindowSizeDimension.Width,
         compact = {
-            TaskComponent(
-                activity = activity,
-                navItems = navItems,
-                drawerState = drawerState,
-                scope = scope,
-                selectedItem = selectedItem,
-                onSelectedItemChange = onSelectedItemChange,
-                onNavigate = onNavigate,
-                onAddNewTask = {
-                    val taskParams = TaskParams(
-                        contacts = contacts,
-                        toAddScheduleVisibility = false,
-                        toAddTaskVisibility = true,
-                    )
-                    onNavigate(
-                        Screen.AddTask.navigate(taskParams.toHex())
-                    )
-                },
-                onAddNewSchedule = { /*TODO*/ },
-                tasks = tasks,
-                modifier = modifier,
-            )
+            if (toAddTaskVisibility) {
+                AddTaskComponent(
+                    onBack = onBack,
+                    onValidate = onValidate,
+                    beginDate = beginDate,
+                    endDate = endDate,
+                    selectedPriorityIndex = selectedPriorityIndex,
+                    onBeginDateChange = { beginDate = it },
+                    onEndDateChange = { endDate = it },
+                    onSelectedPriorityIndexChange = { selectedPriorityIndex = it },
+                    contacts = contacts,
+                    onAddContact = onAddContact,
+                    onRemoveContact = onRemoveContact,
+                    contactsAdded = contactsAdded,
+                    title = title,
+                    onTitleChange = { title = it },
+                    onDescriptionChange = { description = it },
+                    description = description,
+                    onOpenDialogBeginDateChange = { openDialogBeginDate = it },
+                    openDialogBeginDate = openDialogBeginDate,
+                    onOpenDialogEndDateChange = { openDialogEndDate = it },
+                    openDialogEndDate = openDialogEndDate,
+                    modifier = modifier,
+                )
+            } else if (toAddScheduleVisibility) {
+                AddScheduleComponent(
+                    modifier = modifier,
+                )
+            }
+
         },
         medium = {
             TaskWithAddTaskAndAddScheduleScreen(
