@@ -3,6 +3,7 @@ package fr.messager.popmes.presentation.screen
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.window.layout.DisplayFeature
 import fr.messager.popmes.domain.model.contact.Contact
@@ -18,7 +19,7 @@ fun AddGroupScreen(
     modifier: Modifier = Modifier,
     activity: Activity,
     displayFeatures: List<DisplayFeature>,
-    contacts: List<User>,
+    contacts: SnapshotStateList<User>,
     onAdd: (Contact) -> Unit,
     onBack: () -> Unit,
     toAddContact: (User) -> Unit,
@@ -27,6 +28,7 @@ fun AddGroupScreen(
     toAddGroupComponentVisibility: Boolean,
     onToAddUserComponentVisibilityChange: (Boolean) -> Unit,
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
+    onDeleteContact: (String) -> Unit,
     contactsAdded: List<User>,
 ) {
     BackHandler(onBack = onBack)
@@ -66,6 +68,7 @@ fun AddGroupScreen(
                 toAddUserComponentVisibility = toAddUserComponentVisibility,
                 onToAddGroupComponentVisibilityChange = onToAddGroupComponentVisibilityChange,
                 onToAddUserComponentVisibilityChange = onToAddUserComponentVisibilityChange,
+                onDeleteContact = onDeleteContact,
             )
         },
     )

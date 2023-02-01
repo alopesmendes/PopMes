@@ -2,18 +2,24 @@ package fr.messager.popmes.presentation.components.views
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,17 +40,18 @@ import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.navigation.arguments.ContactsParams
 import kotlinx.coroutines.CoroutineScope
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ContactsComponent(
     modifier: Modifier = Modifier,
     onAddNewUser: () -> Unit,
     onAddNewGroup: () -> Unit,
+    onDeleteContact: (String) -> Unit,
     contacts: List<User>,
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.Start,
     ) {
         PopMesTextButton(
             onClick = onAddNewUser,
@@ -89,15 +96,36 @@ fun ContactsComponent(
                 .weight(1f),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) { _, value ->
-            ContactItem(
-                name = value.fullName(),
-                // TODO add description to user
-                description = "From here",
-                icon = painterResource(id = R.drawable.avatar_0),
-                modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateItemPlacement(
+                        animationSpec = tween(
+                            durationMillis = 500,
+                            easing = FastOutSlowInEasing,
+                        )
+                    ),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
+                ContactItem(
+                    name = value.fullName(),
+                    // TODO add description to user
+                    description = "From here",
+                    icon = painterResource(id = R.drawable.avatar_0),
+                ) {
 
+                }
+
+                IconButton(onClick = { onDeleteContact(value.id) }) {
+                    Icon(
+                        Icons.Filled.Delete,
+                        contentDescription = "delete contact",
+                        tint = MaterialTheme.colorScheme.error,
+                    )
+                }
             }
+
 
         }
     }
@@ -115,6 +143,7 @@ fun ContactsComponent(
     onSelectedItemChange: (Int) -> Unit,
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
+    onDeleteContact: (String) -> Unit,
     contacts: List<User>,
 ) {
     Scaffold(
@@ -125,7 +154,7 @@ fun ContactsComponent(
                 },
             )
         }
-    ) {
+    ) { paddingValues ->
         Navigation(
             activity = activity,
             navItems = navItems,
@@ -134,12 +163,12 @@ fun ContactsComponent(
             scope = scope,
             onSelectedItemChange = onSelectedItemChange,
             onNavigate = onNavigate,
-            modifier = modifier.padding(it),
+            modifier = modifier.padding(paddingValues)
         ) {
             BackHandler(onBack = onBack)
 
             ContactsComponent(
-                modifier = Modifier.fillMaxSize(),
+                modifier = it,
                 onAddNewUser = {
                     val contactsParams = ContactsParams(
                         users = contacts,
@@ -165,6 +194,7 @@ fun ContactsComponent(
                     )
                 },
                 contacts = contacts,
+                onDeleteContact = onDeleteContact,
             )
         }
     }

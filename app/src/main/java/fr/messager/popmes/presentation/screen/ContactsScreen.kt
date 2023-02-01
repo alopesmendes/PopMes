@@ -5,8 +5,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
@@ -21,7 +21,6 @@ import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.screen.two_pane.ContactsWithAddUserAndAddGroupScreen
 import kotlinx.coroutines.CoroutineScope
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContactsScreen(
     modifier: Modifier = Modifier,
@@ -33,7 +32,7 @@ fun ContactsScreen(
     onSelectedItemChange: (Int) -> Unit,
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
-    contacts: List<User>,
+    contacts: SnapshotStateList<User>,
     displayFeatures: List<DisplayFeature>,
     toAddContact: (User) -> Unit,
     toRemoveContact: (Int) -> Unit,
@@ -42,6 +41,7 @@ fun ContactsScreen(
     onToAddUserComponentVisibilityChange: (Boolean) -> Unit,
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
     onAdd: (Contact) -> Unit,
+    onDeleteContact: (String) -> Unit,
     contactsAdded: List<User>,
 ) {
     BackHandler(onBack = onBack)
@@ -78,6 +78,7 @@ fun ContactsScreen(
                    contacts = contacts,
                    onBack = onBack,
                    modifier = modifier,
+                   onDeleteContact = onDeleteContact,
                )
            }
        },
@@ -96,6 +97,7 @@ fun ContactsScreen(
                 toAddGroupComponentVisibility = toAddGroupComponentVisibility,
                 onToAddUserComponentVisibilityChange = onToAddUserComponentVisibilityChange,
                 onToAddGroupComponentVisibilityChange = onToAddGroupComponentVisibilityChange,
+                onDeleteContact = onDeleteContact,
             )
        },
    )
