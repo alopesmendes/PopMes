@@ -7,7 +7,19 @@ object Constants {
 //        .serializeNulls()
 //        .create()
 
+    // PARAMS
     const val PARAM_CONVERSATION = "conversation"
     const val PARAM_CONTACTS = "contacts"
     const val PARAM_TASKS = "tasks"
+
+    // TABLES
+    const val TABLE_CONTACTS = "contacts"
+    const val TABLE_MESSAGES = "messages"
+    const val TABLE_TASKS = "tasks"
+
+    // FIELDS
+    const val FIELD_ID = "id"
+    const val FIELD_GUID = "guid"
+    const val FIELD_DATE_TIME = "date_time"
+    const val FIELD_DATA = "data"
 }

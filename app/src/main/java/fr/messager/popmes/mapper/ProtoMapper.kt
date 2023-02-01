@@ -7,6 +7,9 @@ import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.model.message.Message
 import fr.messager.popmes.domain.model.message.MessageType
+import fr.messager.popmes.domain.model.task.Task
+import fr.messager.popmes.domain.model.task.TaskPriority
+import fr.messager.popmes.domain.model.task.TaskType
 import fr.messager.popmes.mapper.ContactToContactProto.mapTo
 import fr.messager.popmes.mapper.ContactToContactProto.reverseMapTo
 import fr.messager.popmes.mapper.GroupToGroupProto.mapTo
@@ -17,6 +20,10 @@ import fr.messager.popmes.mapper.MessageToMessageProto.mapTo
 import fr.messager.popmes.mapper.MessageToMessageProto.reverseMapTo
 import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.mapTo
 import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.reverseMapTo
+import fr.messager.popmes.mapper.TaskPriorityToTaskPriority.mapTo
+import fr.messager.popmes.mapper.TaskPriorityToTaskPriority.reverseMapTo
+import fr.messager.popmes.mapper.TaskTypeToTaskTypeProto.mapTo
+import fr.messager.popmes.mapper.TaskTypeToTaskTypeProto.reverseMapTo
 import fr.messager.popmes.mapper.UserToUserProto.mapTo
 import fr.messager.popmes.mapper.UserToUserProto.reverseMapTo
 import fr.messager.popmes.presentation.navigation.arguments.ContactsParams
@@ -29,6 +36,9 @@ import fr.messager.popmes.proto.GroupProto
 import fr.messager.popmes.proto.MessageProto
 import fr.messager.popmes.proto.MessageTypeProto
 import fr.messager.popmes.proto.TaskParamsProto
+import fr.messager.popmes.proto.TaskPriorityProto
+import fr.messager.popmes.proto.TaskProto
+import fr.messager.popmes.proto.TaskTypeProto
 import fr.messager.popmes.proto.UserProto
 import fr.messager.popmes.proto.contactProto
 import fr.messager.popmes.proto.contactsParamsProto
@@ -37,7 +47,11 @@ import fr.messager.popmes.proto.groupProto
 import fr.messager.popmes.proto.messageDataProto
 import fr.messager.popmes.proto.messageProto
 import fr.messager.popmes.proto.messageTypeProto
+import fr.messager.popmes.proto.scheduleProto
+import fr.messager.popmes.proto.taskEventProto
 import fr.messager.popmes.proto.taskParamsProto
+import fr.messager.popmes.proto.taskProto
+import fr.messager.popmes.proto.taskTypeProto
 import fr.messager.popmes.proto.userProto
 import java.time.Instant
 
@@ -112,20 +126,22 @@ object MessageTypeToMessageTypeProto: ReverseMapper<MessageType, MessageTypeProt
 }
 
 
-object InstantToTimestamp: ReverseMapper<Instant, Timestamp> {
-    override fun Instant.mapTo(): Timestamp = timestamp {
-        nanos = this@mapTo.nano
-        seconds = this@mapTo.epochSecond
+object InstantToTimestamp: ReverseMapper<Instant?, Timestamp> {
+    override fun Instant?.mapTo(): Timestamp = timestamp {
+        if (this@mapTo != null) {
+            nanos = this@mapTo.nano
+            seconds = this@mapTo.epochSecond
+        }
     }
 
-    override fun Timestamp.reverseMapTo(): Instant {
+    override fun Timestamp.reverseMapTo(): Instant? {
         return if (this@reverseMapTo.serializedSize != 0)
             Instant.ofEpochSecond(
                 this@reverseMapTo.seconds,
                 this@reverseMapTo.nanos.toLong()
             )
         else
-            Instant.now()
+            null
     }
 }
 
@@ -141,9 +157,74 @@ object MessageToMessageProto: ReverseMapper<Message, MessageProto> {
     override fun MessageProto.reverseMapTo(): Message = Message(
         id = this@reverseMapTo.id,
         messageType = this@reverseMapTo.type.reverseMapTo(),
-        date = this@reverseMapTo.date.reverseMapTo(),
+        date = this@reverseMapTo.date.reverseMapTo() ?: Instant.now(),
         to = this@reverseMapTo.to.mapTo(),
         from = this@reverseMapTo.from.reverseMapTo(),
+    )
+}
+
+object TaskTypeToTaskTypeProto: ReverseMapper<TaskType?, TaskTypeProto> {
+    override fun TaskType?.mapTo(): TaskTypeProto = taskTypeProto {
+        when (this@mapTo) {
+            is TaskType.Task -> {
+                task = taskEventProto {  }
+            }
+            is TaskType.Schedule -> {
+                schedule = scheduleProto { }
+            }
+            else -> {}
+        }
+    }
+
+    override fun TaskTypeProto.reverseMapTo(): TaskType? {
+        return when(this@reverseMapTo.innerMessageCase) {
+            TaskTypeProto.InnerMessageCase.TASK -> TaskType.Task
+
+            TaskTypeProto.InnerMessageCase.SCHEDULE -> TaskType.Schedule
+
+            TaskTypeProto.InnerMessageCase.INNERMESSAGE_NOT_SET -> null
+            else -> null
+        }
+    }
+}
+
+object TaskPriorityToTaskPriority: ReverseMapper<TaskPriority, TaskPriorityProto> {
+    override fun TaskPriority.mapTo(): TaskPriorityProto {
+        return when (this@mapTo) {
+            TaskPriority.LOW -> TaskPriorityProto.LOW
+            TaskPriority.HIGH -> TaskPriorityProto.HIGH
+            TaskPriority.URGENT -> TaskPriorityProto.URGENT
+        }
+    }
+
+    override fun TaskPriorityProto.reverseMapTo(): TaskPriority {
+        return when (this@reverseMapTo) {
+            TaskPriorityProto.LOW -> TaskPriority.LOW
+            TaskPriorityProto.HIGH -> TaskPriority.HIGH
+            TaskPriorityProto.URGENT -> TaskPriority.URGENT
+            TaskPriorityProto.UNRECOGNIZED -> TaskPriority.LOW
+        }
+    }
+}
+
+object TaskToTaskProto: ReverseMapper<Task, TaskProto> {
+    override fun Task.mapTo(): TaskProto = taskProto {
+        id = this@mapTo.id
+        title = this@mapTo.title
+        priority = this@mapTo.priority.mapTo()
+        type = this@mapTo.type.mapTo()
+        beginDate = this@mapTo.beginDate.mapTo()
+        endDate = this@mapTo.endDate.mapTo()
+        description = this@mapTo.description
+    }
+    override fun TaskProto.reverseMapTo(): Task = Task(
+        id = this@reverseMapTo.id,
+        title = this@reverseMapTo.title,
+        priority = this@reverseMapTo.priority.reverseMapTo(),
+        type = this@reverseMapTo.type.reverseMapTo(),
+        beginDate = this@reverseMapTo.beginDate.reverseMapTo() ?: Instant.now(),
+        endDate = this@reverseMapTo.endDate.reverseMapTo(),
+        description = this@reverseMapTo.description,
     )
 }
 

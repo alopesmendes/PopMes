@@ -75,38 +75,7 @@ object Extension {
                 onSelectedItemChange = onSelectedItemChange,
                 onNavigate = onNavigate,
                 onBack = onBack,
-                contacts = listOf(
-                    User(
-                        id = "0",
-                        firstName = "ailton",
-                        lastName = "lopes mendes",
-                        phoneNumber = "0781831024"
-                    ),
-                    User(
-                        id = "1",
-                        firstName = "Jailsa",
-                        lastName = "lopes mendes",
-                        phoneNumber = "0681831024"
-                    ),
-                    User(
-                        id = "2",
-                        firstName = "Manuel",
-                        lastName = "lopes mendes",
-                        phoneNumber = "0481831024"
-                    ),
-                    User(
-                        id = "3",
-                        firstName = "ailton",
-                        lastName = "lopes mendes",
-                        phoneNumber = "0781831024"
-                    ),
-                    User(
-                        id = "4",
-                        firstName = "Dominga",
-                        lastName = "lopes mendes",
-                        phoneNumber = "0581831024"
-                    ),
-                ),
+                contacts = contactsViewModel.contacts,
                 displayFeatures = displayFeatures,
                 toAddContact = contactsViewModel::addContactToGroup,
                 toRemoveContact = contactsViewModel::removeContactOfGroup,
@@ -120,6 +89,7 @@ object Extension {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
                 onAdd = contactsViewModel::addContact,
+                onDeleteContact = contactsViewModel::deleteContact,
             )
         }
 
@@ -134,7 +104,7 @@ object Extension {
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 activity = activity,
                 displayFeatures = displayFeatures,
-                contacts = contactsViewModel.contactsGroup,
+                contacts = contactsViewModel.contacts,
                 onAdd = contactsViewModel::addContact,
                 onBack = onBack,
                 toAddContact = contactsViewModel::addContactToGroup,
@@ -148,6 +118,7 @@ object Extension {
                 onToAddUserComponentVisibilityChange = {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
+                onDeleteContact = contactsViewModel::deleteContact,
             )
         }
 
@@ -162,7 +133,7 @@ object Extension {
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 displayFeatures = displayFeatures,
-                contacts = contactsViewModel.contactsGroup,
+                contacts = contactsViewModel.contacts,
                 onAdd = contactsViewModel::addContact,
                 onBack = onBack,
                 toAddContact = contactsViewModel::addContactToGroup,
@@ -176,6 +147,7 @@ object Extension {
                 onToAddUserComponentVisibilityChange = {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
+                onDeleteContact = contactsViewModel::deleteContact,
             )
         }
     }

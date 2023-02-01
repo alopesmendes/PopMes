@@ -1,7 +1,6 @@
 package fr.messager.popmes.di
 
 import android.content.Context
-import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,9 +16,19 @@ object DatabaseModule {
     @Singleton
     fun providePopMesDatabase(
         @ApplicationContext context: Context,
-    ) = Room.databaseBuilder(
-        context,
-        PopMesDatabase::class.java,
-        "pop_mes_database.db",
-    ).build()
+    ): PopMesDatabase {
+        return PopMesDatabase.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserDao(database: PopMesDatabase) = database.contactDao()
+
+    @Provides
+    @Singleton
+    fun provideMessageDao(database: PopMesDatabase) = database.messageDao()
+
+    @Provides
+    @Singleton
+    fun provideTaskDao(database: PopMesDatabase) = database.taskDao()
 }
