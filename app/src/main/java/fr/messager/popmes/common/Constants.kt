@@ -22,4 +22,5 @@ object Constants {
     const val FIELD_GUID = "guid"
     const val FIELD_DATE_TIME = "date_time"
     const val FIELD_DATA = "data"
+    const val FIELD_REFERENCE_ID = "reference_id"
 }
