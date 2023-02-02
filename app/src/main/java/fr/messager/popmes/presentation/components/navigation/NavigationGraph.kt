@@ -96,6 +96,7 @@ fun NavigationGraph(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 lastMessages = conversationViewModel.lastMessages,
+                onSend = conversationViewModel::send,
             )
         }
 

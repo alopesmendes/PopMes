@@ -88,4 +88,10 @@ class ConversationViewModel @Inject constructor(
             initCurrentMessages(contact)
         }
     }
+
+    fun send(message: Message) {
+        viewModelScope.launch {
+            insertMessageUseCase(message)
+        }
+    }
 }

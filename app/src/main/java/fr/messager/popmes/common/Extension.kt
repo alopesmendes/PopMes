@@ -17,6 +17,7 @@ import com.google.protobuf.MessageLite
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
+import fr.messager.popmes.presentation.navigation.arguments.ConversationParams
 import fr.messager.popmes.presentation.navigation.arguments.NavData
 import fr.messager.popmes.presentation.screen.AddGroupScreen
 import fr.messager.popmes.presentation.screen.AddTaskScreen
@@ -88,6 +89,13 @@ object Extension {
                 },
                 onAdd = contactsViewModel::addContact,
                 onDeleteContact = contactsViewModel::deleteContact,
+                onClickItem = {
+                    val conversationParams = ConversationParams(
+                        contact = it,
+                        messages = listOf()
+                    )
+                    onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
+                }
             )
         }
 
@@ -117,6 +125,13 @@ object Extension {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
                 onDeleteContact = contactsViewModel::deleteContact,
+                onClickItem = {
+                    val conversationParams = ConversationParams(
+                        contact = it,
+                        messages = listOf()
+                    )
+                    onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
+                }
             )
         }
 
@@ -146,6 +161,13 @@ object Extension {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
                 onDeleteContact = contactsViewModel::deleteContact,
+                onClickItem = {
+                    val conversationParams = ConversationParams(
+                        contact = it,
+                        messages = listOf()
+                    )
+                    onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
+                }
             )
         }
     }
@@ -187,6 +209,7 @@ object Extension {
                 displayFeatures = displayFeatures,
                 onSelectedContactChange = conversationViewModel::onSelectedContactChange,
                 lastMessages = conversationViewModel.lastMessages,
+                onSend = conversationViewModel::send,
             )
         }
 

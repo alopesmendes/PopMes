@@ -13,6 +13,7 @@ data class Message(
     val from: User,
     val to: Contact,
     val date: Instant,
+    val destination: Contact,
 ): ProtoData {
     override fun toProto() = this.mapTo()
 }

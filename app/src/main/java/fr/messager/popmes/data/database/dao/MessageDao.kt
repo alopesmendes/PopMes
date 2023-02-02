@@ -21,6 +21,6 @@ abstract class MessageDao: BaseDao<Message, MessageEntity>(
 
     @Query("select $FIELD_DATA from $TABLE_MESSAGES " +
             "where $FIELD_REFERENCE_ID = :referenceId " +
-            "order by $FIELD_DATE_TIME desc")
+            "order by $FIELD_DATE_TIME")
     abstract fun findMessagesByReferenceId(referenceId: String?): Flow<List<Message?>>
 }

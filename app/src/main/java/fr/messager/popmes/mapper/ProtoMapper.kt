@@ -236,6 +236,7 @@ object MessageToMessageProto: ReverseMapper<Message, MessageProto> {
         date = this@mapTo.date.mapTo()
         from = this@mapTo.from.mapTo()
         to = this@mapTo.to.reverseMapTo()
+        destination = this@mapTo.destination.reverseMapTo()
     }
 
     override fun MessageProto.reverseMapTo(): Message = Message(
@@ -244,6 +245,7 @@ object MessageToMessageProto: ReverseMapper<Message, MessageProto> {
         date = this@reverseMapTo.date.reverseMapTo() ?: Instant.now(),
         to = this@reverseMapTo.to.mapTo(),
         from = this@reverseMapTo.from.reverseMapTo(),
+        destination = this@reverseMapTo.destination.mapTo(),
     )
 }
 

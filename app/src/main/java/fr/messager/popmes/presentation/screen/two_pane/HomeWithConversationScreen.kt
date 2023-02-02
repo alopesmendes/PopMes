@@ -35,6 +35,7 @@ fun HomeWithConversationScreen(
     scope: CoroutineScope,
     selectedItem: Int,
     onSelectedItemChange: (Int) -> Unit,
+    onSend: (Message) -> Unit,
     navItems: List<NavItem>,
     onNavigate: (String) -> Unit,
 ) {
@@ -53,7 +54,7 @@ fun HomeWithConversationScreen(
                 HomeComponent(
                     messages = lastMessages,
                     onClickItem = {
-                        onSelectedContactChange(it.to)
+                        onSelectedContactChange(it.destination)
                     },
                     modifier = Modifier.fillMaxSize(),
                 )
@@ -68,6 +69,7 @@ fun HomeWithConversationScreen(
                         messages = messages,
                         currentUser = currentUser,
                         contact = contact,
+                        onSend = onSend,
                     )
                 }
             },

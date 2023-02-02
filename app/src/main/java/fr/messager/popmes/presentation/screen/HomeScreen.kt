@@ -35,6 +35,7 @@ fun HomeScreen(
     currentUser: User,
     selectedContact: Contact?,
     onSelectedContactChange: (Contact?) -> Unit,
+    onSend: (Message) -> Unit,
     displayFeatures: List<DisplayFeature>,
 ) {
     BackHandler(onBack = onBack)
@@ -50,6 +51,7 @@ fun HomeScreen(
                     currentUser = currentUser,
                     onBack = onBack,
                     contact = selectedContact,
+                    onSend = onSend,
                 )
             } else {
                 HomeComponent(
@@ -84,6 +86,7 @@ fun HomeScreen(
                 modifier = modifier,
                 onNavigate = onNavigate,
                 lastMessages = lastMessages,
+                onSend = onSend,
             )
         },
     )

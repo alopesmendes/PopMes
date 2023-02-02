@@ -30,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import fr.messager.popmes.R
+import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.PopMesTextButton
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
@@ -47,6 +48,7 @@ fun ContactsComponent(
     onAddNewUser: () -> Unit,
     onAddNewGroup: () -> Unit,
     onDeleteContact: (String) -> Unit,
+    onClickItem: (Contact) -> Unit,
     contacts: List<User>,
 ) {
     Column(
@@ -114,7 +116,7 @@ fun ContactsComponent(
                     description = "From here",
                     icon = painterResource(id = R.drawable.avatar_0),
                 ) {
-
+                    onClickItem(value)
                 }
 
                 IconButton(onClick = { onDeleteContact(value.id) }) {
@@ -144,6 +146,7 @@ fun ContactsComponent(
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
     onDeleteContact: (String) -> Unit,
+    onClickItem: (Contact) -> Unit,
     contacts: List<User>,
 ) {
     Scaffold(
@@ -195,6 +198,7 @@ fun ContactsComponent(
                 },
                 contacts = contacts,
                 onDeleteContact = onDeleteContact,
+                onClickItem = onClickItem,
             )
         }
     }

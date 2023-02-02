@@ -32,6 +32,7 @@ fun ConversationScreen(
     currentUser: User,
     selectedContact: Contact,
     onSelectedContactChange: (Contact?) -> Unit,
+    onSend: (Message) -> Unit,
     displayFeatures: List<DisplayFeature>,
 ) {
     BackHandler(onBack = onBack)
@@ -46,6 +47,7 @@ fun ConversationScreen(
                 currentUser = currentUser,
                 onBack = onBack,
                 contact = selectedContact,
+                onSend = onSend,
             )
         },
         medium = {
@@ -63,6 +65,7 @@ fun ConversationScreen(
                 navItems = navItems,
                 onNavigate = onNavigate,
                 lastMessages = lastMessages,
+                onSend = onSend,
             )
         },
     )

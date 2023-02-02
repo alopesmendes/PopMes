@@ -37,7 +37,7 @@ fun HomeComponent(
     ) { _, value ->
         DetailedMessageCard(
             icon = user,
-            fullName = value.to.fullName(),
+            fullName = value.destination.fullName(),
             shortName = value.from.firstName,
             date = value.date,
             messageType = value.messageType,
@@ -84,7 +84,7 @@ fun HomeComponent(
                 onClickItem = {
                     val conversationParams = ConversationParams(
                         messages = messages,
-                        contact = it.to,
+                        contact = it.destination,
                     )
                     Log.d(TAG, "HomeComponent: ${conversationParams.messages.size}")
                     onNavigate(
