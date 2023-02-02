@@ -3,7 +3,6 @@ package fr.messager.popmes.presentation.screen
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.window.layout.DisplayFeature
@@ -17,7 +16,6 @@ import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.screen.two_pane.HomeWithConversationScreen
 import kotlinx.coroutines.CoroutineScope
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConversationScreen(
     modifier: Modifier = Modifier,
@@ -29,6 +27,7 @@ fun ConversationScreen(
     onSelectedItemChange: (Int) -> Unit,
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
+    lastMessages: List<Message>,
     messages: List<Message>,
     currentUser: User,
     selectedContact: Contact,
@@ -63,6 +62,7 @@ fun ConversationScreen(
                 onSelectedItemChange = onSelectedItemChange,
                 navItems = navItems,
                 onNavigate = onNavigate,
+                lastMessages = lastMessages,
             )
         },
     )

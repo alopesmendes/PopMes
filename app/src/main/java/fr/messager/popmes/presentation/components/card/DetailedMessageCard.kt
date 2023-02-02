@@ -19,15 +19,14 @@ import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import fr.messager.popmes.domain.model.message.MessageType
 import fr.messager.popmes.presentation.components.image.ProfileImage
 import fr.messager.popmes.presentation.components.state.rememberTimeAgo
 import fr.messager.popmes.presentation.components.text.TextAndLabel
@@ -44,7 +43,7 @@ fun DetailedMessageCard(
     shortName: String,
     fullName: String,
     date: Instant,
-    supportingText: String,
+    messageType: MessageType?,
     onClick: () -> Unit,
 ) {
     val timeAgo = rememberTimeAgo(date = date)
@@ -94,11 +93,9 @@ fun DetailedMessageCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "$shortName: $supportingText",
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
+            messageType?.DrawContent(
+                shortVersion = true,
+                modifier = Modifier,
             )
         }
     }

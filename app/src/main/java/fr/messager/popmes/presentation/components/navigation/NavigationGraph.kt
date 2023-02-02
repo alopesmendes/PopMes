@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,20 +26,15 @@ import fr.messager.popmes.common.Extension.contactsNavigation
 import fr.messager.popmes.common.Extension.conversationNavigation
 import fr.messager.popmes.common.Extension.navigateTo
 import fr.messager.popmes.common.Extension.tasksNavigation
-import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
-import fr.messager.popmes.domain.model.message.Message
-import fr.messager.popmes.domain.model.message.MessageType
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.screen.HomeScreen
 import fr.messager.popmes.presentation.view_models.ConversationViewModel
-import java.time.Instant
 
 
 private const val TAG = "NavigationGraph"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationGraph(
     activity: Activity,
@@ -75,38 +69,6 @@ fun NavigationGraph(
         }
     }
 
-    val manuel by remember {
-        derivedStateOf {
-            User(
-                id = "1",
-                firstName = "Manuel",
-                lastName = "Lopes Mendes",
-                phoneNumber = "+33681831024",
-            )
-        }
-    }
-
-    val jailsa by remember {
-        derivedStateOf {
-            User(
-                id = "2",
-                firstName = "Jailsa",
-                lastName = "Lopes Mendes",
-                phoneNumber = "+33481831024",
-            )
-        }
-    }
-
-    val family by remember {
-        derivedStateOf {
-            Group(
-                id = "3",
-                name = "famille",
-                users = listOf(ailton, manuel, jailsa)
-            )
-        }
-    }
-
     NavHost(
         navController = navController,
         startDestination = startDestination.route(),
@@ -124,36 +86,7 @@ fun NavigationGraph(
                 selectedItem = selectedItem,
                 scope = scope,
                 onSelectedItemChange = { selectedItem = it },
-                messages = listOf(
-                    Message(
-                        id = "0",
-                        messageType = MessageType.MessageData,
-                        from = ailton,
-                        to = family,
-                        date = Instant.ofEpochMilli(1673531209291L),
-                    ),
-                    Message(
-                        id = "1",
-                        messageType = MessageType.MessageData,
-                        from = manuel,
-                        to = family,
-                        date = Instant.now(),
-                    ),
-                    Message(
-                        id = "2",
-                        messageType = MessageType.MessageData,
-                        from = jailsa,
-                        to = ailton,
-                        date = Instant.now(),
-                    ),
-                    Message(
-                        id = "3",
-                        messageType = MessageType.MessageData,
-                        from = jailsa,
-                        to = family,
-                        date = Instant.now(),
-                    )
-                ),
+                messages = conversationViewModel.messages,
                 displayFeatures = displayFeatures,
                 currentUser = ailton,
                 onBack = { navController.navigate(Screen.Home.navigate()) },
@@ -161,7 +94,8 @@ fun NavigationGraph(
                 onSelectedContactChange = conversationViewModel::onSelectedContactChange,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                lastMessages = conversationViewModel.lastMessages,
             )
         }
 

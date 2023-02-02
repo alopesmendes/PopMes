@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,7 +45,6 @@ object Extension {
             parseFrom(this.hexStringToByteArray()).mapTo()
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     fun NavGraphBuilder.contactsNavigation(
         activity: Activity,
         navItems: List<NavItem>,
@@ -188,6 +186,7 @@ object Extension {
                     ?: throw IllegalArgumentException("contact param null"),
                 displayFeatures = displayFeatures,
                 onSelectedContactChange = conversationViewModel::onSelectedContactChange,
+                lastMessages = conversationViewModel.lastMessages,
             )
         }
 

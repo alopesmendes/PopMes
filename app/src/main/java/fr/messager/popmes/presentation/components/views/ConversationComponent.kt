@@ -89,7 +89,7 @@ fun ConversationComponent(
                     icon = painterResource(id = R.drawable.avatar_0),
                     fullName = "${value.from.firstName} ${value.from.lastName}",
                     date = value.date,
-                    text = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    messageType = value.messageType,
                     modifier = Modifier
                         .fillMaxWidth(.9f)
                         .align(alignment),
