@@ -9,10 +9,11 @@ import java.time.Instant
 
 data class Message(
     val id: String,
-    val messageType: MessageType,
+    val messageType: MessageType?,
     val from: User,
     val to: Contact,
     val date: Instant,
+    val destination: Contact,
 ): ProtoData {
     override fun toProto() = this.mapTo()
 }

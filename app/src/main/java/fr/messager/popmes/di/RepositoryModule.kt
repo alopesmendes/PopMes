@@ -1,8 +1,10 @@
 package fr.messager.popmes.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import fr.messager.popmes.data.database.dao.ContactDao
 import fr.messager.popmes.data.database.dao.MessageDao
@@ -26,9 +28,11 @@ object RepositoryModule {
 
     @Provides
     fun provideMessageRepository(
-        messageDao: MessageDao
+        messageDao: MessageDao,
+        @ApplicationContext context: Context,
     ): MessageRepository = MessageRepositoryImpl(
-        messageDao = messageDao
+        messageDao = messageDao,
+        context = context,
     )
 
     @Provides

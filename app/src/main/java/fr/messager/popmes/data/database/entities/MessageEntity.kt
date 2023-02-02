@@ -2,6 +2,7 @@ package fr.messager.popmes.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import fr.messager.popmes.common.Constants
@@ -17,6 +18,16 @@ import java.time.Instant
         ),
         Index(
             value = [Constants.FIELD_DATE_TIME],
+        ),
+        Index(
+            value = [Constants.FIELD_REFERENCE_ID],
+        )
+    ],
+    foreignKeys = [
+        ForeignKey(
+            entity = ContactsEntity::class,
+            parentColumns = [Constants.FIELD_GUID],
+            childColumns = [Constants.FIELD_REFERENCE_ID],
         )
     ]
 )
@@ -29,5 +40,7 @@ data class MessageEntity(
     @ColumnInfo(name = Constants.FIELD_DATE_TIME, typeAffinity = ColumnInfo.INTEGER)
     override val dateTime: Instant = Instant.now(),
     @ColumnInfo(name = Constants.FIELD_DATA, typeAffinity = ColumnInfo.BLOB)
-    override val data: Message?
+    override val data: Message?,
+    @ColumnInfo(name = Constants.FIELD_REFERENCE_ID, typeAffinity = ColumnInfo.TEXT)
+    val referenceId: String,
 ): BaseEntity<Message>

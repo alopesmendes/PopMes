@@ -6,7 +6,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,6 +17,7 @@ import com.google.protobuf.MessageLite
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
+import fr.messager.popmes.presentation.navigation.arguments.ConversationParams
 import fr.messager.popmes.presentation.navigation.arguments.NavData
 import fr.messager.popmes.presentation.screen.AddGroupScreen
 import fr.messager.popmes.presentation.screen.AddTaskScreen
@@ -46,7 +46,6 @@ object Extension {
             parseFrom(this.hexStringToByteArray()).mapTo()
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     fun NavGraphBuilder.contactsNavigation(
         activity: Activity,
         navItems: List<NavItem>,
@@ -90,6 +89,13 @@ object Extension {
                 },
                 onAdd = contactsViewModel::addContact,
                 onDeleteContact = contactsViewModel::deleteContact,
+                onClickItem = {
+                    val conversationParams = ConversationParams(
+                        contact = it,
+                        messages = listOf()
+                    )
+                    onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
+                }
             )
         }
 
@@ -119,6 +125,13 @@ object Extension {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
                 onDeleteContact = contactsViewModel::deleteContact,
+                onClickItem = {
+                    val conversationParams = ConversationParams(
+                        contact = it,
+                        messages = listOf()
+                    )
+                    onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
+                }
             )
         }
 
@@ -148,6 +161,13 @@ object Extension {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
                 onDeleteContact = contactsViewModel::deleteContact,
+                onClickItem = {
+                    val conversationParams = ConversationParams(
+                        contact = it,
+                        messages = listOf()
+                    )
+                    onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
+                }
             )
         }
     }
@@ -188,6 +208,8 @@ object Extension {
                     ?: throw IllegalArgumentException("contact param null"),
                 displayFeatures = displayFeatures,
                 onSelectedContactChange = conversationViewModel::onSelectedContactChange,
+                lastMessages = conversationViewModel.lastMessages,
+                onSend = conversationViewModel::send,
             )
         }
 

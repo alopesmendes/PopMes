@@ -13,6 +13,9 @@ import fr.messager.popmes.common.Constants
 import fr.messager.popmes.common.Extension.mapToNavData
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.message.Message
+import fr.messager.popmes.domain.use_case.conversation.GetLastMessagesUseCase
+import fr.messager.popmes.domain.use_case.conversation.GetMessagesUseCase
+import fr.messager.popmes.domain.use_case.conversation.InsertMessageUseCase
 import fr.messager.popmes.mapper.ConversationParamsToConversationParamsProto.reverseMapTo
 import fr.messager.popmes.proto.ConversationParamsProto
 import kotlinx.coroutines.launch
@@ -20,10 +23,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConversationViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val getMessagesUseCase: GetMessagesUseCase,
+    private val getLastMessagesUseCase: GetLastMessagesUseCase,
+    private val insertMessageUseCase: InsertMessageUseCase,
 ) : ViewModel() {
 
     var selectedContact: Contact? by mutableStateOf(null)
+    private val _lastMessages = mutableStateListOf<Message>()
+    val lastMessages: List<Message> = _lastMessages
 
     private val _messages = mutableStateListOf<Message>()
     val messages: List<Message> = _messages
@@ -39,10 +47,33 @@ class ConversationViewModel @Inject constructor(
         initMessages()
     }
 
+    private fun initLastMessages() {
+        viewModelScope.launch {
+            getLastMessagesUseCase(
+                onLastMessagesChange = {
+                    _lastMessages.clear()
+                    _lastMessages.addAll(it)
+                }
+            )
+        }
+    }
+
+    private fun initCurrentMessages(contact: Contact?) {
+        viewModelScope.launch {
+            getMessagesUseCase(
+                selectedContact = contact,
+                onMessagesChange = {
+                    _messages.clear()
+                    _messages.addAll(it)
+                    Log.d(TAG, "initCurrentMessages: ${_messages.size}")
+                }
+            )
+        }
+    }
+
     private fun initMessages() {
         viewModelScope.launch {
-            _messages.clear()
-            _messages.addAll(conversationParams?.messages ?: emptyList())
+            initLastMessages()
         }
     }
 
@@ -54,6 +85,13 @@ class ConversationViewModel @Inject constructor(
         viewModelScope.launch {
             Log.d(TAG, "onSelectedContactChange: $contact")
             selectedContact = contact
+            initCurrentMessages(contact)
+        }
+    }
+
+    fun send(message: Message) {
+        viewModelScope.launch {
+            insertMessageUseCase(message)
         }
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -16,10 +17,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,13 +34,16 @@ import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.model.message.Message
+import fr.messager.popmes.domain.model.message.MessageType
 import fr.messager.popmes.presentation.components.card.MessageCard
 import fr.messager.popmes.presentation.components.image.ProfileImage
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.state.rememberTimeAgo
 import fr.messager.popmes.presentation.components.text.InputFieldText
 import fr.messager.popmes.presentation.components.text.TextAndLabel
+import kotlinx.coroutines.launch
 import java.time.Instant
+import java.util.UUID
 
 
 @Composable
@@ -46,6 +52,7 @@ fun ConversationComponent(
     messages: List<Message>,
     contact: Contact,
     currentUser: User,
+    onSend: (Message) -> Unit,
 ) {
     var value by rememberSaveable {
         mutableStateOf("")
@@ -59,13 +66,26 @@ fun ConversationComponent(
     }
 
     BoxWithConstraints(
-        modifier = modifier
-            .padding(vertical = 8.dp),
+        modifier = modifier.padding(vertical = 8.dp),
     ) {
+        val lastIndex by remember(messages.lastIndex) {
+            derivedStateOf {
+                if (messages.lastIndex == -1) 0 else messages.lastIndex
+            }
+        }
+        val state = rememberLazyListState(initialFirstVisibleItemIndex = lastIndex)
+        val coroutineScope = rememberCoroutineScope()
+
+        LaunchedEffect(lastIndex) {
+            coroutineScope.launch {
+                state.animateScrollToItem(index = lastIndex)
+            }
+        }
+
         PopMesListColumn(
-            values = messages.filter { it.to.id == contact.id },
-            modifier = Modifier
-                .fillMaxWidth(),
+            values = messages,
+            modifier = Modifier.fillMaxWidth(),
+            state = state,
         ) { _, value ->
             val alignment by remember(currentUser.id, value.from.id) {
                 derivedStateOf {
@@ -87,9 +107,9 @@ fun ConversationComponent(
             Column(modifier = Modifier.fillMaxWidth()) {
                 MessageCard(
                     icon = painterResource(id = R.drawable.avatar_0),
-                    fullName = "${value.from.firstName} ${value.from.lastName}",
+                    fullName = value.from.fullName(),
                     date = value.date,
-                    text = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
+                    messageType = value.messageType,
                     modifier = Modifier
                         .fillMaxWidth(.9f)
                         .align(alignment),
@@ -112,7 +132,19 @@ fun ConversationComponent(
                 .align(Alignment.BottomCenter)
                 .zIndex(2f),
             fieldModifier = Modifier.background(MaterialTheme.colorScheme.background),
-            onSend = {},
+            onSend = {
+                onSend(
+                    Message(
+                        id = "${UUID.randomUUID()}",
+                        date = Instant.now(),
+                        from = currentUser,
+                        to = contact,
+                        messageType = MessageType.MessageData(value),
+                        destination = contact,
+                    )
+                )
+                value = ""
+            },
         )
     }
 }
@@ -123,6 +155,7 @@ fun ConversationComponent(
     modifier: Modifier = Modifier,
     messages: List<Message>,
     contact: Contact,
+    onSend: (Message) -> Unit,
     currentUser: User,
     onBack: () -> Unit,
 ) {
@@ -160,8 +193,8 @@ fun ConversationComponent(
             modifier = modifier.padding(padding),
             messages = messages,
             contact = contact,
-            currentUser = currentUser
+            currentUser = currentUser,
+            onSend = onSend,
         )
-
     }
 }

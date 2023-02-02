@@ -29,6 +29,7 @@ fun AddGroupScreen(
     onToAddUserComponentVisibilityChange: (Boolean) -> Unit,
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
     onDeleteContact: (String) -> Unit,
+    onClickItem: (Contact) -> Unit,
     contactsAdded: List<User>,
 ) {
     BackHandler(onBack = onBack)
@@ -69,6 +70,7 @@ fun AddGroupScreen(
                 onToAddGroupComponentVisibilityChange = onToAddGroupComponentVisibilityChange,
                 onToAddUserComponentVisibilityChange = onToAddUserComponentVisibilityChange,
                 onDeleteContact = onDeleteContact,
+                onClickItem = onClickItem,
             )
         },
     )

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -20,7 +19,6 @@ import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.screen.two_pane.HomeWithConversationScreen
 import kotlinx.coroutines.CoroutineScope
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     activity: Activity,
@@ -33,9 +31,11 @@ fun HomeScreen(
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
     messages: List<Message>,
+    lastMessages: List<Message>,
     currentUser: User,
     selectedContact: Contact?,
     onSelectedContactChange: (Contact?) -> Unit,
+    onSend: (Message) -> Unit,
     displayFeatures: List<DisplayFeature>,
 ) {
     BackHandler(onBack = onBack)
@@ -47,17 +47,16 @@ fun HomeScreen(
             if (selectedContact != null) {
                 ConversationComponent(
                     modifier = modifier,
-                    messages = messages
-                        .filter { selectedContact.id == it.to.id }
-                        .sortedBy { it.date },
+                    messages = messages,
                     currentUser = currentUser,
                     onBack = onBack,
                     contact = selectedContact,
+                    onSend = onSend,
                 )
             } else {
                 HomeComponent(
                     modifier = modifier,
-                    messages = messages,
+                    messages = lastMessages,
                     onNavigate = onNavigate,
                     onSelectedItemChange = onSelectedItemChange,
                     selectedItem = selectedItem,
@@ -86,6 +85,8 @@ fun HomeScreen(
                 onSelectedItemChange = onSelectedItemChange,
                 modifier = modifier,
                 onNavigate = onNavigate,
+                lastMessages = lastMessages,
+                onSend = onSend,
             )
         },
     )

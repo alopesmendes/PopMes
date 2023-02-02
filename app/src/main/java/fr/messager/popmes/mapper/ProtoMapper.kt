@@ -10,49 +10,76 @@ import fr.messager.popmes.domain.model.message.MessageType
 import fr.messager.popmes.domain.model.task.Task
 import fr.messager.popmes.domain.model.task.TaskPriority
 import fr.messager.popmes.domain.model.task.TaskType
+import fr.messager.popmes.mapper.CameraToCameraProto.mapTo
+import fr.messager.popmes.mapper.CameraToCameraProto.reverseMapTo
 import fr.messager.popmes.mapper.ContactToContactProto.mapTo
 import fr.messager.popmes.mapper.ContactToContactProto.reverseMapTo
+import fr.messager.popmes.mapper.FileToFileProto.mapTo
+import fr.messager.popmes.mapper.FileToFileProto.reverseMapTo
+import fr.messager.popmes.mapper.GifToGifProto.mapTo
+import fr.messager.popmes.mapper.GifToGifProto.reverseMapTo
 import fr.messager.popmes.mapper.GroupToGroupProto.mapTo
 import fr.messager.popmes.mapper.GroupToGroupProto.reverseMapTo
 import fr.messager.popmes.mapper.InstantToTimestamp.mapTo
 import fr.messager.popmes.mapper.InstantToTimestamp.reverseMapTo
+import fr.messager.popmes.mapper.MessageDataToMessageDataProto.mapTo
+import fr.messager.popmes.mapper.MessageDataToMessageDataProto.reverseMapTo
 import fr.messager.popmes.mapper.MessageToMessageProto.mapTo
 import fr.messager.popmes.mapper.MessageToMessageProto.reverseMapTo
 import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.mapTo
 import fr.messager.popmes.mapper.MessageTypeToMessageTypeProto.reverseMapTo
+import fr.messager.popmes.mapper.PhotoToPhotoProto.mapTo
+import fr.messager.popmes.mapper.PhotoToPhotoProto.reverseMapTo
+import fr.messager.popmes.mapper.SurveyToSurveyProto.mapTo
+import fr.messager.popmes.mapper.SurveyToSurveyProto.reverseMapTo
 import fr.messager.popmes.mapper.TaskPriorityToTaskPriority.mapTo
 import fr.messager.popmes.mapper.TaskPriorityToTaskPriority.reverseMapTo
 import fr.messager.popmes.mapper.TaskTypeToTaskTypeProto.mapTo
 import fr.messager.popmes.mapper.TaskTypeToTaskTypeProto.reverseMapTo
 import fr.messager.popmes.mapper.UserToUserProto.mapTo
 import fr.messager.popmes.mapper.UserToUserProto.reverseMapTo
+import fr.messager.popmes.mapper.VocalToVocalProto.mapTo
+import fr.messager.popmes.mapper.VocalToVocalProto.reverseMapTo
 import fr.messager.popmes.presentation.navigation.arguments.ContactsParams
 import fr.messager.popmes.presentation.navigation.arguments.ConversationParams
 import fr.messager.popmes.presentation.navigation.arguments.TaskParams
+import fr.messager.popmes.proto.CameraProto
 import fr.messager.popmes.proto.ContactProto
 import fr.messager.popmes.proto.ContactsParamsProto
 import fr.messager.popmes.proto.ConversationParamsProto
+import fr.messager.popmes.proto.FileProto
+import fr.messager.popmes.proto.GifProto
 import fr.messager.popmes.proto.GroupProto
+import fr.messager.popmes.proto.MessageDataProto
 import fr.messager.popmes.proto.MessageProto
 import fr.messager.popmes.proto.MessageTypeProto
+import fr.messager.popmes.proto.PhotoProto
+import fr.messager.popmes.proto.SurveyProto
 import fr.messager.popmes.proto.TaskParamsProto
 import fr.messager.popmes.proto.TaskPriorityProto
 import fr.messager.popmes.proto.TaskProto
 import fr.messager.popmes.proto.TaskTypeProto
 import fr.messager.popmes.proto.UserProto
+import fr.messager.popmes.proto.VocalProto
+import fr.messager.popmes.proto.cameraProto
 import fr.messager.popmes.proto.contactProto
 import fr.messager.popmes.proto.contactsParamsProto
 import fr.messager.popmes.proto.conversationParamsProto
+import fr.messager.popmes.proto.fileProto
+import fr.messager.popmes.proto.gifProto
 import fr.messager.popmes.proto.groupProto
 import fr.messager.popmes.proto.messageDataProto
 import fr.messager.popmes.proto.messageProto
 import fr.messager.popmes.proto.messageTypeProto
+import fr.messager.popmes.proto.photoProto
 import fr.messager.popmes.proto.scheduleProto
+import fr.messager.popmes.proto.surveyProto
 import fr.messager.popmes.proto.taskEventProto
 import fr.messager.popmes.proto.taskParamsProto
 import fr.messager.popmes.proto.taskProto
 import fr.messager.popmes.proto.taskTypeProto
 import fr.messager.popmes.proto.userProto
+import fr.messager.popmes.proto.vocalProto
 import java.time.Instant
 
 object UserToUserProto: ReverseMapper<User, UserProto> {
@@ -105,22 +132,79 @@ object ContactToContactProto: Mapper<ContactProto, Contact> {
     }
 }
 
-object MessageTypeToMessageTypeProto: ReverseMapper<MessageType, MessageTypeProto> {
-    override fun MessageType.mapTo(): MessageTypeProto = messageTypeProto {
-        when (this@mapTo) {
-            is MessageType.MessageData -> { messageData = messageDataProto {  } }
+object MessageDataToMessageDataProto: ReverseMapper<MessageType.MessageData, MessageDataProto> {
+    override fun MessageType.MessageData.mapTo(): MessageDataProto = messageDataProto {
+        text = this@mapTo.text
+    }
+    override fun MessageDataProto.reverseMapTo(): MessageType.MessageData = MessageType.MessageData(
+        text = this@reverseMapTo.text
+    )
+}
 
-            // TODO to add rest
-            else -> {}
+object FileToFileProto: ReverseMapper<MessageType.File, FileProto> {
+    override fun MessageType.File.mapTo(): FileProto = fileProto {
+
+    }
+
+    override fun FileProto.reverseMapTo(): MessageType.File = MessageType.File
+}
+
+object CameraToCameraProto: ReverseMapper<MessageType.Camera, CameraProto> {
+    override fun MessageType.Camera.mapTo(): CameraProto = cameraProto {  }
+
+    override fun CameraProto.reverseMapTo(): MessageType.Camera = MessageType.Camera
+}
+
+object GifToGifProto: ReverseMapper<MessageType.GIF, GifProto> {
+    override fun MessageType.GIF.mapTo(): GifProto = gifProto {  }
+
+    override fun GifProto.reverseMapTo(): MessageType.GIF = MessageType.GIF
+}
+
+object PhotoToPhotoProto: ReverseMapper<MessageType.Photo, PhotoProto> {
+    override fun MessageType.Photo.mapTo(): PhotoProto = photoProto {  }
+
+    override fun PhotoProto.reverseMapTo(): MessageType.Photo = MessageType.Photo
+}
+
+object SurveyToSurveyProto: ReverseMapper<MessageType.Survey, SurveyProto> {
+    override fun MessageType.Survey.mapTo(): SurveyProto = surveyProto {  }
+
+    override fun SurveyProto.reverseMapTo(): MessageType.Survey = MessageType.Survey
+}
+
+object VocalToVocalProto: ReverseMapper<MessageType.Vocal, VocalProto> {
+    override fun MessageType.Vocal.mapTo(): VocalProto = vocalProto {  }
+
+    override fun VocalProto.reverseMapTo(): MessageType.Vocal = MessageType.Vocal
+}
+
+object MessageTypeToMessageTypeProto: ReverseMapper<MessageTypeProto, MessageType?> {
+    override fun MessageTypeProto.mapTo(): MessageType? {
+        return when (this@mapTo.innerMessageCase) {
+            MessageTypeProto.InnerMessageCase.MESSAGE_DATA -> this@mapTo.messageData.reverseMapTo()
+            MessageTypeProto.InnerMessageCase.FILE -> this@mapTo.file.reverseMapTo()
+            MessageTypeProto.InnerMessageCase.CAMERA -> this@mapTo.camera.reverseMapTo()
+            MessageTypeProto.InnerMessageCase.GIF -> this@mapTo.gif.reverseMapTo()
+            MessageTypeProto.InnerMessageCase.PHOTO -> this@mapTo.photo.reverseMapTo()
+            MessageTypeProto.InnerMessageCase.SURVEY -> this@mapTo.survey.reverseMapTo()
+            MessageTypeProto.InnerMessageCase.VOCAL -> this@mapTo.vocal.reverseMapTo()
+
+            MessageTypeProto.InnerMessageCase.INNERMESSAGE_NOT_SET -> null
+            else -> null
         }
     }
 
-    override fun MessageTypeProto.reverseMapTo(): MessageType {
-        return when(this@reverseMapTo.innerMessageCase) {
-            MessageTypeProto.InnerMessageCase.MESSAGE_DATA -> MessageType.MessageData
-
-            // TODO to add rest
-            else -> throw IllegalArgumentException("contact proto not set")
+    override fun MessageType?.reverseMapTo(): MessageTypeProto = messageTypeProto {
+        when (this@reverseMapTo) {
+            is MessageType.MessageData -> { messageData = this@reverseMapTo.mapTo() }
+            is MessageType.Vocal -> { vocal = this@reverseMapTo.mapTo() }
+            is MessageType.GIF -> { gif = this@reverseMapTo.mapTo() }
+            is MessageType.Survey -> { survey = this@reverseMapTo.mapTo() }
+            is MessageType.Photo -> { photo = this@reverseMapTo.mapTo() }
+            is MessageType.Camera -> { camera = this@reverseMapTo.mapTo() }
+            is MessageType.File -> { file = this@reverseMapTo.mapTo() }
+            else -> { }
         }
     }
 }
@@ -148,18 +232,20 @@ object InstantToTimestamp: ReverseMapper<Instant?, Timestamp> {
 object MessageToMessageProto: ReverseMapper<Message, MessageProto> {
     override fun Message.mapTo(): MessageProto = messageProto {
         id = this@mapTo.id
-        type = this@mapTo.messageType.mapTo()
+        type = this@mapTo.messageType.reverseMapTo()
         date = this@mapTo.date.mapTo()
         from = this@mapTo.from.mapTo()
         to = this@mapTo.to.reverseMapTo()
+        destination = this@mapTo.destination.reverseMapTo()
     }
 
     override fun MessageProto.reverseMapTo(): Message = Message(
         id = this@reverseMapTo.id,
-        messageType = this@reverseMapTo.type.reverseMapTo(),
+        messageType = this@reverseMapTo.type.mapTo(),
         date = this@reverseMapTo.date.reverseMapTo() ?: Instant.now(),
         to = this@reverseMapTo.to.mapTo(),
         from = this@reverseMapTo.from.reverseMapTo(),
+        destination = this@reverseMapTo.destination.mapTo(),
     )
 }
 

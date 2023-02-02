@@ -24,6 +24,28 @@ import kotlinx.coroutines.CoroutineScope
 
 private const val TAG = "HomeComponent"
 
+@Composable
+fun HomeComponent(
+    modifier: Modifier = Modifier,
+    messages: List<Message>,
+    onClickItem: (Message) -> Unit,
+) {
+    val user = painterResource(id = R.drawable.avatar_0)
+    PopMesListColumn(
+        modifier = modifier,
+        values = messages,
+    ) { _, value ->
+        DetailedMessageCard(
+            icon = user,
+            fullName = value.destination.fullName(),
+            shortName = value.from.firstName,
+            date = value.date,
+            messageType = value.messageType,
+            onClick = { onClickItem(value) }
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeComponent(
@@ -57,32 +79,20 @@ fun HomeComponent(
             modifier = modifier
                 .padding(paddingValues),
         ) { m ->
-            val user = painterResource(id = R.drawable.avatar_0)
-            PopMesListColumn(
+            HomeComponent(
+                messages = messages,
+                onClickItem = {
+                    val conversationParams = ConversationParams(
+                        messages = messages,
+                        contact = it.destination,
+                    )
+                    Log.d(TAG, "HomeComponent: ${conversationParams.messages.size}")
+                    onNavigate(
+                        Screen.Conversation.navigate(conversationParams.toHex())
+                    )
+                },
                 modifier = m,
-                values = messages
-                    .sortedByDescending { it.date }
-                    .distinctBy { it.to.id },
-            ) { _, value ->
-                DetailedMessageCard(
-                    icon = user,
-                    fullName = value.to.fullName(),
-                    shortName = value.from.firstName,
-                    date = value.date,
-                    supportingText = "One Piece est une série de mangas shōnen créée par Eiichirō Oda. Elle est prépubliée depuis le 22 juillet 1997 dans le magazine hebdomadaire Weekly Shōnen Jump, puis regroupée en Tankōbon aux éditions Shūeisha depuis le 24 décembre 1997. 104 tomes sont commercialisés au Japon en novembre 2022",
-                    onClick = {
-                        val conversationParams = ConversationParams(
-                            messages = messages
-                                .sortedBy { it.date },
-                            contact = value.to,
-                        )
-                        Log.d(TAG, "HomeComponent: ${conversationParams.messages.size}")
-                        onNavigate(
-                            Screen.Conversation.navigate(conversationParams.toHex())
-                        )
-                    }
-                )
-            }
+            )
         }
     }
 
