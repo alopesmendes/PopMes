@@ -22,4 +22,5 @@
     <string name="urgent">Urgent</string>
     <string name="priorities">" priorités"</string>
     <string name="title_add_task">Ajouter une tâche</string>
+    <string name="error_insert_message">Pas capable de stocker le message</string>
 </resources>
