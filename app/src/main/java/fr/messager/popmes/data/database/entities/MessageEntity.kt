@@ -28,6 +28,8 @@ import java.time.Instant
             entity = ContactsEntity::class,
             parentColumns = [Constants.FIELD_GUID],
             childColumns = [Constants.FIELD_REFERENCE_ID],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE,
         )
     ]
 )
