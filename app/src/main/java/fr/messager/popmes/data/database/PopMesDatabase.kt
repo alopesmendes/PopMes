@@ -67,6 +67,7 @@ abstract class PopMesDatabase : RoomDatabase() {
                                         firstName = "Ailton",
                                         lastName = "Lopes Mendes",
                                         phoneNumber = "+33781831024",
+                                        description = "Blue lock \uD83D\uDD25 \uD83D\uDD25",
                                     )
                                 )
                                 val contacts = (0..9).map {
@@ -78,6 +79,7 @@ abstract class PopMesDatabase : RoomDatabase() {
                                             firstName = "Eren $it",
                                             lastName = "Yeager $it",
                                             phoneNumber = "078183102$it",
+                                            description = "user $it here for problems and make it double"
                                         )
                                     )
                                 }

@@ -193,8 +193,8 @@ fun AddTaskComponent(
                 key = { contactsAdded[it].id }
             ) { index, value ->
                 SmallContactItem(
-                    name = value.fullName(),
-                    description = "Here",
+                    name = value.shortName(),
+                    description = value.description,
                     icon = painter,
                     onClick = { onRemoveContact(index) },
                     modifier = Modifier.animateItemPlacement(
@@ -221,7 +221,7 @@ fun AddTaskComponent(
             ) { _, value ->
                 ContactItem(
                     name = value.fullName(),
-                    description = "Here",
+                    description = value.description,
                     icon = painter,
                     onClick = { onAddContact(value) },
                     enabled = value.id !in contactsAddedIds,
@@ -338,6 +338,7 @@ private fun AddTaskComponentPreview() {
             firstName = "user $it",
             lastName = "last name $it",
             phoneNumber = "+3378183102$it",
+            description = "",
         )
     }
 

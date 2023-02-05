@@ -104,6 +104,7 @@ fun AddUserComponent(
                             firstName = firstName,
                             lastName = lastName,
                             phoneNumber = phoneNumber,
+                            description = description,
                         )
                     )
                 },

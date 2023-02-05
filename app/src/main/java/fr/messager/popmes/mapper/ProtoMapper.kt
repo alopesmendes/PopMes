@@ -88,6 +88,7 @@ object UserToUserProto: ReverseMapper<User, UserProto> {
         firstName = this@mapTo.firstName
         lastName = this@mapTo.lastName
         phoneNumber = this@mapTo.phoneNumber
+        description = this@mapTo.description
     }
 
     override fun UserProto.reverseMapTo(): User = User(
@@ -95,6 +96,7 @@ object UserToUserProto: ReverseMapper<User, UserProto> {
         firstName = this@reverseMapTo.firstName,
         lastName = this@reverseMapTo.lastName,
         phoneNumber = this@reverseMapTo.phoneNumber,
+        description = this@reverseMapTo.description,
     )
 }
 
@@ -103,12 +105,14 @@ object GroupToGroupProto: ReverseMapper<Group, GroupProto> {
         id = this@mapTo.id
         users.addAll(this@mapTo.users.map { it.mapTo() })
         name = this@mapTo.name
+        description = this@mapTo.description
     }
 
     override fun GroupProto.reverseMapTo(): Group = Group(
         id = this@reverseMapTo.id,
         name = this@reverseMapTo.name,
         users = this@reverseMapTo.usersList.map { it.reverseMapTo() },
+        description = this@reverseMapTo.description,
     )
 }
 

@@ -100,7 +100,7 @@ fun AddGroupComponent(
                 key = { contactsAdded[it].id },
             ) { index, value ->
                 SmallContactItem(
-                    name = value.firstName,
+                    name = value.shortName(),
                     description = "",
                     icon = painterResource(id = R.drawable.avatar_0),
                     modifier = Modifier.animateItemPlacement(
@@ -123,7 +123,7 @@ fun AddGroupComponent(
         ) { _, value ->
             ContactItem(
                 name = value.fullName(),
-                description = "Here",
+                description = value.description,
                 icon = painterResource(id = R.drawable.avatar_0),
                 modifier = Modifier
                     .animateItemPlacement()
@@ -137,6 +137,7 @@ fun AddGroupComponent(
                         id = "${UUID.randomUUID()}",
                         name = name,
                         users = contactsAdded,
+                        description = contactsAdded.joinToString(",") { it.shortName() },
                     )
                 )
             },
@@ -206,24 +207,28 @@ private fun AddGroupComponentPreview() {
                 firstName = "Ailton",
                 lastName = "Lopes Mendes",
                 phoneNumber = "0781831024",
+                description = "",
             ),
             User(
                 id = "1",
                 firstName = "Manuel",
                 lastName = "Lopes Mendes",
                 phoneNumber = "0681831024",
+                description = "",
             ),
             User(
                 id = "2",
                 firstName = "Jailsa",
                 lastName = "Lopes Mendes",
                 phoneNumber = "0581831024",
+                description = "",
             ),
             User(
                 id = "3",
                 firstName = "Domingas Varela",
                 lastName = "Lopes Mendes",
                 phoneNumber = "0581831024",
+                description = "",
             )
         ),
         contactsAdded = contactsAdded,

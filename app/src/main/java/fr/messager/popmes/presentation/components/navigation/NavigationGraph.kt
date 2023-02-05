@@ -65,6 +65,7 @@ fun NavigationGraph(
                 firstName = "Ailton",
                 lastName = "Lopes Mendes",
                 phoneNumber = "+33781831024",
+                description = "Blue lock \uD83D\uDD25 \uD83D\uDD25",
             )
         }
     }
@@ -158,31 +159,36 @@ fun NavigationGraph(
                     id = "0",
                     firstName = "ailton",
                     lastName = "lopes mendes",
-                    phoneNumber = "0781831024"
+                    phoneNumber = "0781831024",
+                    description = ""
                 ),
                 User(
                     id = "1",
                     firstName = "Jailsa",
                     lastName = "lopes mendes",
-                    phoneNumber = "0681831024"
+                    phoneNumber = "0681831024",
+                    description = "",
                 ),
                 User(
                     id = "2",
                     firstName = "Manuel",
                     lastName = "lopes mendes",
-                    phoneNumber = "0481831024"
+                    phoneNumber = "0481831024",
+                    description = ""
                 ),
                 User(
                     id = "3",
                     firstName = "ailton",
                     lastName = "lopes mendes",
-                    phoneNumber = "0781831024"
+                    phoneNumber = "0781831024",
+                    description = ""
                 ),
                 User(
                     id = "4",
                     firstName = "Dominga",
                     lastName = "lopes mendes",
-                    phoneNumber = "0581831024"
+                    phoneNumber = "0581831024",
+                    description = "",
                 ),
             )
         )

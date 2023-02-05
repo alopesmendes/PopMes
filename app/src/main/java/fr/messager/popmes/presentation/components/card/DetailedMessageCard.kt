@@ -40,7 +40,6 @@ fun DetailedMessageCard(
     elevation: CardElevation = CardDefaults.cardElevation(),
     border: BorderStroke? = null,
     icon: Painter,
-    shortName: String,
     fullName: String,
     date: Instant,
     messageType: MessageType?,

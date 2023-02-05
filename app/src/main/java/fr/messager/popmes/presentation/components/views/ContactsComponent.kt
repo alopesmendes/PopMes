@@ -112,8 +112,7 @@ fun ContactsComponent(
             ) {
                 ContactItem(
                     name = value.fullName(),
-                    // TODO add description to user
-                    description = "From here",
+                    description = value.description,
                     icon = painterResource(id = R.drawable.avatar_0),
                 ) {
                     onClickItem(value)

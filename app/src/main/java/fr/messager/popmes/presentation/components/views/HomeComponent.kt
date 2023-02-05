@@ -38,11 +38,9 @@ fun HomeComponent(
         DetailedMessageCard(
             icon = user,
             fullName = value.destination.fullName(),
-            shortName = value.from.firstName,
             date = value.date,
-            messageType = value.messageType,
-            onClick = { onClickItem(value) }
-        )
+            messageType = value.messageType
+        ) { onClickItem(value) }
     }
 }
 
