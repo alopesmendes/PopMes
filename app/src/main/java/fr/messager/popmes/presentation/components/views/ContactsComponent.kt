@@ -33,6 +33,7 @@ import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.PopMesTextButton
+import fr.messager.popmes.presentation.components.dialog.PopMesAlertDialog
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.list.items.ContactItem
 import fr.messager.popmes.presentation.components.navigation.Navigation
@@ -49,8 +50,34 @@ fun ContactsComponent(
     onAddNewGroup: () -> Unit,
     onDeleteContact: (String) -> Unit,
     onClickItem: (Contact) -> Unit,
+    openDeleteContactDialog: Boolean,
+    onOpenDeleteContactDialogChange: (Boolean) -> Unit,
+    selectContact: Contact?,
+    onSelectContactChange: (Contact) -> Unit,
     contacts: List<User>,
 ) {
+    PopMesAlertDialog(
+        openDialog = openDeleteContactDialog,
+        onOpenDialogChange = onOpenDeleteContactDialogChange,
+        onConfirm = { selectContact?.let { onDeleteContact(it.id) } },
+        title = {
+            Text(text = stringResource(id = R.string.dialog_title_delete_contact))
+        },
+        text = {
+            Text(
+                text = stringResource(
+                    id = R.string.dialog_text_delete_contact,
+                    selectContact?.fullName() ?: ""
+                )
+            )
+        },
+        icon = {
+            Icon(
+                Icons.Filled.Delete,
+                contentDescription = "delete contact"
+            )
+        }
+    )
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -114,20 +141,23 @@ fun ContactsComponent(
                     name = value.fullName(),
                     description = value.description,
                     icon = painterResource(id = R.drawable.avatar_0),
-                ) {
-                    onClickItem(value)
-                }
+                    modifier = Modifier.weight(1f)
+                ) { onClickItem(value) }
 
-                IconButton(onClick = { onDeleteContact(value.id) }) {
+                IconButton(
+                    onClick = {
+                        onOpenDeleteContactDialogChange(true)
+                        onSelectContactChange(value)
+                    }
+                ) {
                     Icon(
                         Icons.Filled.Delete,
                         contentDescription = "delete contact",
                         tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.weight(1f)
                     )
                 }
             }
-
-
         }
     }
 }
@@ -146,6 +176,10 @@ fun ContactsComponent(
     onBack: () -> Unit,
     onDeleteContact: (String) -> Unit,
     onClickItem: (Contact) -> Unit,
+    openDeleteContactDialog: Boolean,
+    onOpenDeleteContactDialogChange: (Boolean) -> Unit,
+    selectContact: Contact?,
+    onSelectContactChange: (Contact) -> Unit,
     contacts: List<User>,
 ) {
     Scaffold(
@@ -198,6 +232,10 @@ fun ContactsComponent(
                 contacts = contacts,
                 onDeleteContact = onDeleteContact,
                 onClickItem = onClickItem,
+                openDeleteContactDialog = openDeleteContactDialog,
+                onOpenDeleteContactDialogChange = onOpenDeleteContactDialogChange,
+                selectContact = selectContact,
+                onSelectContactChange = onSelectContactChange,
             )
         }
     }

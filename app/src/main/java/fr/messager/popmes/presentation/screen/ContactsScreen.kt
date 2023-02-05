@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -43,8 +47,14 @@ fun ContactsScreen(
     onAdd: (Contact) -> Unit,
     onDeleteContact: (String) -> Unit,
     onClickItem: (Contact) -> Unit,
+    selectContact: Contact?,
+    onSelectContactChange: (Contact) -> Unit,
     contactsAdded: List<User>,
 ) {
+    var openDeleteContactDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     BackHandler(onBack = onBack)
 
     PopMesWindowSize(
@@ -81,6 +91,10 @@ fun ContactsScreen(
                    modifier = modifier,
                    onDeleteContact = onDeleteContact,
                    onClickItem = onClickItem,
+                   openDeleteContactDialog = openDeleteContactDialog,
+                   onOpenDeleteContactDialogChange = { openDeleteContactDialog = it },
+                   selectContact = selectContact,
+                   onSelectContactChange = onSelectContactChange,
                )
            }
        },
@@ -101,6 +115,10 @@ fun ContactsScreen(
                 onToAddGroupComponentVisibilityChange = onToAddGroupComponentVisibilityChange,
                 onDeleteContact = onDeleteContact,
                 onClickItem = onClickItem,
+                openDeleteContactDialog = openDeleteContactDialog,
+                onOpenDeleteContactDialogChange = { openDeleteContactDialog = it },
+                selectContact = selectContact,
+                onSelectContactChange = onSelectContactChange,
             )
        },
    )

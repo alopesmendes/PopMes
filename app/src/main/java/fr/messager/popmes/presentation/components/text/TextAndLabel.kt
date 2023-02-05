@@ -44,6 +44,8 @@ fun TextAndLabel(
             text = description,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.outline,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1,
         )
 
     }

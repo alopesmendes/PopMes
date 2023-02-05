@@ -95,7 +95,9 @@ object Extension {
                         messages = listOf()
                     )
                     onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
-                }
+                },
+                selectContact = contactsViewModel.selectContact,
+                onSelectContactChange = { contactsViewModel.selectContact = it },
             )
         }
 
@@ -131,7 +133,9 @@ object Extension {
                         messages = listOf()
                     )
                     onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
-                }
+                },
+                selectContact = contactsViewModel.selectContact,
+                onSelectContactChange = { contactsViewModel.selectContact = it },
             )
         }
 
@@ -167,7 +171,9 @@ object Extension {
                         messages = listOf()
                     )
                     onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
-                }
+                },
+                selectContact = contactsViewModel.selectContact,
+                onSelectContactChange = { contactsViewModel.selectContact = it },
             )
         }
     }

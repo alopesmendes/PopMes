@@ -33,21 +33,19 @@ class ContactsViewModel @Inject constructor(
             mapTo = { this.reverseMapTo() }
         )
 
+    var selectContact: Contact? by mutableStateOf(null)
+
     private val _contacts = mutableStateListOf<User>()
     val contacts = _contacts
 
     private val _contactsAddedToGroup = mutableStateListOf<User>()
     val contactsAddedToGroup: List<User> = _contactsAddedToGroup
 
-    private val _contactsGroup = mutableStateListOf<User>()
-    val contactsGroup: List<User> = _contactsGroup
-
     var toAddUserComponentVisibility by mutableStateOf(false)
     var toAddGroupComponentVisibility by mutableStateOf(false)
 
     init {
         initializeContacts()
-        initializeContactGroup()
         initComponentsVisibility()
     }
 
@@ -59,13 +57,6 @@ class ContactsViewModel @Inject constructor(
                     _contacts.addAll(it.filterIsInstance<User>())
                 }
             )
-        }
-    }
-
-    private fun initializeContactGroup() {
-        viewModelScope.launch {
-            _contactsGroup.clear()
-            _contactsGroup.addAll(contactsParams?.users ?: listOf())
         }
     }
 

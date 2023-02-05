@@ -29,6 +29,10 @@ fun ContactsWithAddUserAndAddGroupScreen(
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
     onDeleteContact: (String) -> Unit,
     onClickItem: (Contact) -> Unit,
+    openDeleteContactDialog: Boolean,
+    onOpenDeleteContactDialogChange: (Boolean) -> Unit,
+    selectContact: Contact?,
+    onSelectContactChange: (Contact) -> Unit,
     contactsAdded: List<User>,
 ) {
     TwoPane(
@@ -48,6 +52,10 @@ fun ContactsWithAddUserAndAddGroupScreen(
                 contacts = contacts,
                 onDeleteContact = onDeleteContact,
                 onClickItem = onClickItem,
+                onOpenDeleteContactDialogChange = onOpenDeleteContactDialogChange,
+                openDeleteContactDialog = openDeleteContactDialog,
+                selectContact = selectContact,
+                onSelectContactChange = onSelectContactChange,
             )
         },
         second = {

@@ -3,6 +3,10 @@ package fr.messager.popmes.presentation.screen
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.window.layout.DisplayFeature
@@ -30,8 +34,13 @@ fun AddGroupScreen(
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
     onDeleteContact: (String) -> Unit,
     onClickItem: (Contact) -> Unit,
+    selectContact: Contact?,
+    onSelectContactChange: (Contact) -> Unit,
     contactsAdded: List<User>,
 ) {
+    var openDeleteContactDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
     BackHandler(onBack = onBack)
 
     PopMesWindowSize(
@@ -71,6 +80,10 @@ fun AddGroupScreen(
                 onToAddUserComponentVisibilityChange = onToAddUserComponentVisibilityChange,
                 onDeleteContact = onDeleteContact,
                 onClickItem = onClickItem,
+                openDeleteContactDialog = openDeleteContactDialog,
+                onOpenDeleteContactDialogChange = { openDeleteContactDialog = it },
+                selectContact = selectContact,
+                onSelectContactChange = onSelectContactChange,
             )
         },
     )
