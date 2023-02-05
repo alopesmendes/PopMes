@@ -137,10 +137,13 @@ fun AddUserComponent(
                 },
             )
         }
-    ) {
+    ) { paddingValues ->
         AddUserComponent(
-            onAdd = onAdd,
-            modifier = modifier.padding(it),
+            onAdd = {
+                onAdd(it)
+                onBack()
+            },
+            modifier = modifier.padding(paddingValues),
         )
     }
 }

@@ -175,15 +175,18 @@ fun AddGroupComponent(
                 },
             )
         }
-    ) {
+    ) { paddingValues ->
         BackHandler(onBack = onBack)
 
         AddGroupComponent(
             contacts = contacts,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it),
-            onAdd = onAdd,
+                .padding(paddingValues),
+            onAdd = {
+                onAdd(it)
+                onBack()
+            },
             toAddContact = toAddContact,
             toRemoveContact = toRemoveContact,
             contactsAdded = contactsAdded,

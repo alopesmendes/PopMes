@@ -62,7 +62,10 @@ fun ContactsWithAddUserAndAddGroupScreen(
             if (toAddUserComponentVisibility) {
                 AddUserComponent(
                     modifier = Modifier.fillMaxSize(),
-                    onAdd = onAdd,
+                    onAdd = {
+                        onAdd(it)
+                        onToAddUserComponentVisibilityChange(false)
+                    },
                 )
             }
             if (toAddGroupComponentVisibility) {
@@ -71,7 +74,10 @@ fun ContactsWithAddUserAndAddGroupScreen(
                     contactsAdded = contactsAdded,
                     toAddContact = toAddContact,
                     toRemoveContact = toRemoveContact,
-                    onAdd = onAdd,
+                    onAdd = {
+                        onAdd(it)
+                        onToAddGroupComponentVisibilityChange(false)
+                    },
                     modifier = Modifier.fillMaxSize(),
                 )
             }
