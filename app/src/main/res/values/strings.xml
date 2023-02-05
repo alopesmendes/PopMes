@@ -23,4 +23,8 @@
     <string name="priorities">Priorities</string>
     <string name="title_add_task">Add task</string>
     <string name="error_insert_message">Not able to stock message</string>
+    <string name="confirm">Confirm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="dialog_title_delete_contact">Delete contact</string>
+    <string name="dialog_text_delete_contact">Are you sure you want to delete %1s from your list of contacts ?</string>
 </resources>
