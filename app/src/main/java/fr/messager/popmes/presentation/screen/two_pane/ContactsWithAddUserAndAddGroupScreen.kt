@@ -12,11 +12,11 @@ import com.google.accompanist.adaptive.TwoPane
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.views.AddGroupComponent
-import fr.messager.popmes.presentation.components.views.AddUserComponent
+import fr.messager.popmes.presentation.components.views.AddOrEditUserComponent
 import fr.messager.popmes.presentation.components.views.ContactsComponent
 
 @Composable
-fun ContactsWithAddUserAndAddGroupScreen(
+fun ContactsWithAddOrEditUserAndAddGroupScreen(
     modifier: Modifier = Modifier,
     displayFeatures: List<DisplayFeature>,
     contacts: List<User>,
@@ -28,11 +28,14 @@ fun ContactsWithAddUserAndAddGroupScreen(
     onToAddUserComponentVisibilityChange: (Boolean) -> Unit,
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
     onDeleteContact: (String) -> Unit,
-    onClickItem: (Contact) -> Unit,
     openDeleteContactDialog: Boolean,
     onOpenDeleteContactDialogChange: (Boolean) -> Unit,
     selectContact: Contact?,
     onSelectContactChange: (Contact) -> Unit,
+    openInfoContactDialog: Boolean,
+    onOpenInfoContactDialogChange: (Boolean) -> Unit,
+    onMessageContact: (Contact) -> Unit,
+    onEditContact: (Contact) -> Unit,
     contactsAdded: List<User>,
 ) {
     TwoPane(
@@ -51,21 +54,25 @@ fun ContactsWithAddUserAndAddGroupScreen(
                 },
                 contacts = contacts,
                 onDeleteContact = onDeleteContact,
-                onClickItem = onClickItem,
                 onOpenDeleteContactDialogChange = onOpenDeleteContactDialogChange,
                 openDeleteContactDialog = openDeleteContactDialog,
                 selectContact = selectContact,
                 onSelectContactChange = onSelectContactChange,
+                openInfoContactDialog = openInfoContactDialog,
+                onOpenInfoContactDialogChange = onOpenInfoContactDialogChange,
+                onEditContact = onEditContact,
+                onMessageContact = onMessageContact,
             )
         },
         second = {
             if (toAddUserComponentVisibility) {
-                AddUserComponent(
+                AddOrEditUserComponent(
                     modifier = Modifier.fillMaxSize(),
                     onAdd = {
                         onAdd(it)
                         onToAddUserComponentVisibilityChange(false)
                     },
+                    user = selectContact as User,
                 )
             }
             if (toAddGroupComponentVisibility) {

@@ -34,6 +34,7 @@ import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.PopMesTextButton
 import fr.messager.popmes.presentation.components.dialog.PopMesAlertDialog
+import fr.messager.popmes.presentation.components.dialog.PopMesContactDialog
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.list.items.ContactItem
 import fr.messager.popmes.presentation.components.navigation.Navigation
@@ -49,35 +50,50 @@ fun ContactsComponent(
     onAddNewUser: () -> Unit,
     onAddNewGroup: () -> Unit,
     onDeleteContact: (String) -> Unit,
-    onClickItem: (Contact) -> Unit,
+    onMessageContact: (Contact) -> Unit,
+    onEditContact: (Contact) -> Unit,
     openDeleteContactDialog: Boolean,
     onOpenDeleteContactDialogChange: (Boolean) -> Unit,
+    openInfoContactDialog: Boolean,
+    onOpenInfoContactDialogChange: (Boolean) -> Unit,
     selectContact: Contact?,
     onSelectContactChange: (Contact) -> Unit,
     contacts: List<User>,
 ) {
-    PopMesAlertDialog(
-        openDialog = openDeleteContactDialog,
-        onOpenDialogChange = onOpenDeleteContactDialogChange,
-        onConfirm = { selectContact?.let { onDeleteContact(it.id) } },
-        title = {
-            Text(text = stringResource(id = R.string.dialog_title_delete_contact))
-        },
-        text = {
-            Text(
-                text = stringResource(
-                    id = R.string.dialog_text_delete_contact,
-                    selectContact?.fullName() ?: ""
+    selectContact?.let { contact ->
+        PopMesAlertDialog(
+            openDialog = openDeleteContactDialog,
+            onOpenDialogChange = onOpenDeleteContactDialogChange,
+            onConfirm = {  onDeleteContact(contact.id)  },
+            title = {
+                Text(text = stringResource(id = R.string.dialog_title_delete_contact))
+            },
+            text = {
+                Text(
+                    text = stringResource(
+                        id = R.string.dialog_text_delete_contact,
+                        contact.fullName()
+                    )
                 )
-            )
-        },
-        icon = {
-            Icon(
-                Icons.Filled.Delete,
-                contentDescription = "delete contact"
-            )
-        }
-    )
+            },
+            icon = {
+                Icon(
+                    Icons.Filled.Delete,
+                    contentDescription = "delete contact"
+                )
+            }
+        )
+
+        PopMesContactDialog(
+            openDialog = openInfoContactDialog,
+            onOpenDialogChange = onOpenInfoContactDialogChange,
+            onEdit = { onEditContact(contact) },
+            onMessage = { onMessageContact(contact) },
+            contact = contact
+        )
+    }
+
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -142,7 +158,10 @@ fun ContactsComponent(
                     description = value.description,
                     icon = painterResource(id = R.drawable.avatar_0),
                     modifier = Modifier.weight(1f)
-                ) { onClickItem(value) }
+                ) {
+                    onOpenInfoContactDialogChange(true)
+                    onSelectContactChange(value)
+                }
 
                 IconButton(
                     onClick = {
@@ -175,9 +194,12 @@ fun ContactsComponent(
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
     onDeleteContact: (String) -> Unit,
-    onClickItem: (Contact) -> Unit,
     openDeleteContactDialog: Boolean,
     onOpenDeleteContactDialogChange: (Boolean) -> Unit,
+    openInfoContactDialog: Boolean,
+    onOpenInfoContactDialogChange: (Boolean) -> Unit,
+    onMessageContact: (Contact) -> Unit,
+    onEditContact: (Contact) -> Unit,
     selectContact: Contact?,
     onSelectContactChange: (Contact) -> Unit,
     contacts: List<User>,
@@ -220,8 +242,8 @@ fun ContactsComponent(
                 onAddNewGroup = {
                     val contactsParams = ContactsParams(
                         users = contacts,
-                        toAddGroupComponentVisibility = true,
                         toAddUserComponentVisibility = false,
+                        toAddGroupComponentVisibility = true,
                     )
                     onNavigate(
                         Screen.AddGroup.navigate(
@@ -231,11 +253,14 @@ fun ContactsComponent(
                 },
                 contacts = contacts,
                 onDeleteContact = onDeleteContact,
-                onClickItem = onClickItem,
                 openDeleteContactDialog = openDeleteContactDialog,
                 onOpenDeleteContactDialogChange = onOpenDeleteContactDialogChange,
                 selectContact = selectContact,
                 onSelectContactChange = onSelectContactChange,
+                openInfoContactDialog = openInfoContactDialog,
+                onOpenInfoContactDialogChange = onOpenInfoContactDialogChange,
+                onMessageContact = onMessageContact,
+                onEditContact = onEditContact,
             )
         }
     }

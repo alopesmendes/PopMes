@@ -39,14 +39,15 @@ import fr.messager.popmes.presentation.components.text.InputUserName
 import java.util.UUID
 
 @Composable
-fun AddUserComponent(
+fun AddOrEditUserComponent(
     modifier: Modifier = Modifier,
+    user: User?,
     onAdd: (User) -> Unit,
 ) {
-    var firstName by rememberSaveable { mutableStateOf("") }
-    var lastName by rememberSaveable { mutableStateOf("") }
-    var phoneNumber by rememberSaveable { mutableStateOf("") }
-    var description by rememberSaveable { mutableStateOf("") }
+    var firstName by rememberSaveable(user?.firstName) { mutableStateOf(user?.firstName ?: "") }
+    var lastName by rememberSaveable(user?.lastName) { mutableStateOf(user?.lastName ?: "") }
+    var phoneNumber by rememberSaveable(user?.phoneNumber) { mutableStateOf(user?.phoneNumber ?: "") }
+    var description by rememberSaveable(user?.description) { mutableStateOf(user?.description ?: "") }
 
     val painter = rememberVectorPainter(Icons.Filled.AccountBox)
     val scrollState = rememberScrollState()
@@ -100,7 +101,7 @@ fun AddUserComponent(
                 onClick = {
                     onAdd(
                         User(
-                            id = "${UUID.randomUUID()}",
+                            id = user?.id ?: "${UUID.randomUUID()}",
                             firstName = firstName,
                             lastName = lastName,
                             phoneNumber = phoneNumber,
@@ -116,8 +117,9 @@ fun AddUserComponent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddUserComponent(
+fun AddOrEditUserComponent(
     modifier: Modifier = Modifier,
+    user: User?,
     onAdd: (User) -> Unit,
     onBack: () -> Unit,
 ) {
@@ -138,12 +140,13 @@ fun AddUserComponent(
             )
         }
     ) { paddingValues ->
-        AddUserComponent(
+        AddOrEditUserComponent(
             onAdd = {
                 onAdd(it)
                 onBack()
             },
             modifier = modifier.padding(paddingValues),
+            user = user,
         )
     }
 }
@@ -152,10 +155,11 @@ fun AddUserComponent(
 @Composable
 @Preview(showBackground = true)
 private fun AddUserComponentPreview() {
-    AddUserComponent(
+    AddOrEditUserComponent(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         onAdd = {},
+        user = null,
     )
 }

@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.messager.popmes.common.Constants
 import fr.messager.popmes.common.Extension.mapToNavData
 import fr.messager.popmes.domain.model.contact.Contact
+import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.use_case.contact.DeleteContactUseCase
 import fr.messager.popmes.domain.use_case.contact.GetContactsUseCase
@@ -96,4 +97,12 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
+    fun toEditContact(contact: Contact) {
+        viewModelScope.launch {
+            when (contact) {
+                is User -> { toAddUserComponentVisibility = true }
+                is Group -> { toAddGroupComponentVisibility = true }
+            }
+        }
+    }
 }

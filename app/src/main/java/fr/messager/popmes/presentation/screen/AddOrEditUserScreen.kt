@@ -14,11 +14,11 @@ import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
 import fr.messager.popmes.presentation.components.views.AddGroupComponent
-import fr.messager.popmes.presentation.components.views.AddUserComponent
-import fr.messager.popmes.presentation.screen.two_pane.ContactsWithAddUserAndAddGroupScreen
+import fr.messager.popmes.presentation.components.views.AddOrEditUserComponent
+import fr.messager.popmes.presentation.screen.two_pane.ContactsWithAddOrEditUserAndAddGroupScreen
 
 @Composable
-fun AddUserScreen(
+fun AddOrEditUserScreen(
     activity: Activity,
     modifier: Modifier,
     displayFeatures: List<DisplayFeature>,
@@ -32,14 +32,14 @@ fun AddUserScreen(
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
     onBack: () -> Unit,
     onDeleteContact: (String) -> Unit,
-    onClickItem: (Contact) -> Unit,
     selectContact: Contact?,
     onSelectContactChange: (Contact) -> Unit,
+    onMessageContact: (Contact) -> Unit,
+    onEditContact: (Contact) -> Unit,
     contactsAdded: List<User>,
 ) {
-    var openDeleteContactDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var openDeleteContactDialog by rememberSaveable { mutableStateOf(false) }
+    var openInfoContactDialog by rememberSaveable { mutableStateOf(false) }
     BackHandler(onBack = onBack)
 
     PopMesWindowSize(
@@ -57,15 +57,16 @@ fun AddUserScreen(
                     modifier = modifier,
                 )
             } else {
-                AddUserComponent(
+                AddOrEditUserComponent(
                     onAdd = onAdd,
                     modifier = modifier,
                     onBack = onBack,
+                    user = selectContact as User,
                 )
             }
         },
         medium = {
-            ContactsWithAddUserAndAddGroupScreen(
+            ContactsWithAddOrEditUserAndAddGroupScreen(
                 displayFeatures = displayFeatures,
                 contacts = contacts,
                 onAdd = onAdd,
@@ -78,11 +79,14 @@ fun AddUserScreen(
                 contactsAdded = contactsAdded,
                 modifier = modifier,
                 onDeleteContact = onDeleteContact,
-                onClickItem = onClickItem,
                 openDeleteContactDialog = openDeleteContactDialog,
                 onOpenDeleteContactDialogChange = { openDeleteContactDialog = it },
                 selectContact = selectContact,
                 onSelectContactChange = onSelectContactChange,
+                openInfoContactDialog = openInfoContactDialog,
+                onOpenInfoContactDialogChange = { openInfoContactDialog = it },
+                onMessageContact = onMessageContact,
+                onEditContact = onEditContact,
             )
         }
     )

@@ -11,11 +11,11 @@ interface ContactRepository {
     suspend fun deleteFromGuid(guid: String)
 
     /**
-     * Insert contact
+     * Insert or update contact
      *
      * @param contact
      */
-    suspend fun insertContact(contact: Contact)
+    suspend fun insertOrUpdateContact(contact: Contact)
 
     /**
      * Collect contacts

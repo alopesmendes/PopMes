@@ -22,8 +22,10 @@ object RepositoryModule {
     @Provides
     fun provideContactRepository(
         contactDao: ContactDao,
+        messageDao: MessageDao,
     ): ContactRepository = ContactRepositoryImpl(
         contactDao = contactDao,
+        messageDao = messageDao,
     )
 
     @Provides

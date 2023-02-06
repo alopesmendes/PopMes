@@ -10,6 +10,6 @@ class InsertContactUseCase @Inject constructor(
     suspend operator fun invoke(
         contact: Contact
     ) {
-        contactRepository.insertContact(contact)
+        contactRepository.insertOrUpdateContact(contact)
     }
 }

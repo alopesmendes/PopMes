@@ -26,7 +26,11 @@ class MessageRepositoryImpl @Inject constructor(
         Log.d(TAG, "getMessagesByReferenceId: $referenceId")
         messageDao
             .findMessagesByReferenceId(referenceId)
-            .map { value -> value.filterNotNull() }
+            .map { value ->
+                value
+                    .filterNotNull()
+                    .mapNotNull { it.data }
+            }
             .collect {
                 Log.d(TAG, "getMessagesByReferenceId: ${it.size}")
                 onMessagesChange(it)
@@ -37,7 +41,10 @@ class MessageRepositoryImpl @Inject constructor(
         Log.d(TAG, "getLastMessagesByDistinctReferenceId: ")
         messageDao
             .findLastMessagesGroupByReferenceId()
-            .map { value -> value.filterNotNull() }
+            .map { value -> value
+                .filterNotNull()
+                .mapNotNull { it.data }
+            }
             .collect(onMessagesChange)
     }
 

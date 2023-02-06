@@ -16,5 +16,8 @@ abstract class ContactDao: BaseDao<Contact, ContactsEntity>(
     abstract fun findContacts(): Flow<List<ContactsEntity>>
 
     @Query("delete from $TABLE_CONTACTS where $FIELD_GUID = :guid")
-    abstract suspend fun deleteFromId(guid: String)
+    abstract suspend fun deleteFromGuid(guid: String)
+
+    @Query("select * from $TABLE_CONTACTS where $FIELD_GUID = :guid")
+    abstract suspend fun findContactEntityFromGuid(guid: String): ContactsEntity?
 }

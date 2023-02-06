@@ -93,7 +93,10 @@ fun PopMesContactDialog(
                         .background(MaterialTheme.colorScheme.primaryContainer)
                 ) {
                     PopMesTextButton(
-                        onClick = onEdit,
+                        onClick = {
+                            onEdit()
+                            onOpenDialogChange(false)
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .padding(8.dp),
@@ -109,7 +112,10 @@ fun PopMesContactDialog(
                     }
 
                     PopMesTextButton(
-                        onClick = onMessage,
+                        onClick = {
+                            onMessage()
+                            onOpenDialogChange(false)
+                        },
                         modifier = Modifier
                             .weight(1f)
                             .padding(8.dp),
@@ -143,8 +149,8 @@ fun PopMesContactDialogPreview() {
     PopMesContactDialog(
         openDialog = openDialog,
         onOpenDialogChange = { openDialog = it },
-        onEdit = {  },
-        onMessage = {  },
+        onEdit = { },
+        onMessage = { },
         contact = User(
             id = "0",
             firstName = "Ailton",

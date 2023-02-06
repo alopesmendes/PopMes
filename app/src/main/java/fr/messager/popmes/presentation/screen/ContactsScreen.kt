@@ -19,10 +19,10 @@ import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
 import fr.messager.popmes.presentation.components.views.AddGroupComponent
-import fr.messager.popmes.presentation.components.views.AddUserComponent
+import fr.messager.popmes.presentation.components.views.AddOrEditUserComponent
 import fr.messager.popmes.presentation.components.views.ContactsComponent
 import fr.messager.popmes.presentation.navigation.NavItem
-import fr.messager.popmes.presentation.screen.two_pane.ContactsWithAddUserAndAddGroupScreen
+import fr.messager.popmes.presentation.screen.two_pane.ContactsWithAddOrEditUserAndAddGroupScreen
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -46,14 +46,14 @@ fun ContactsScreen(
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
     onAdd: (Contact) -> Unit,
     onDeleteContact: (String) -> Unit,
-    onClickItem: (Contact) -> Unit,
     selectContact: Contact?,
     onSelectContactChange: (Contact) -> Unit,
+    onMessageContact: (Contact) -> Unit,
+    onEditContact: (Contact) -> Unit,
     contactsAdded: List<User>,
 ) {
-    var openDeleteContactDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
+    var openDeleteContactDialog by rememberSaveable { mutableStateOf(false) }
+    var openInfoContactDialog by rememberSaveable { mutableStateOf(false) }
 
     BackHandler(onBack = onBack)
 
@@ -62,10 +62,11 @@ fun ContactsScreen(
        windowSizeDimension = WindowSizeDimension.Width,
        compact = {
            if (toAddUserComponentVisibility) {
-                AddUserComponent(
+                AddOrEditUserComponent(
                     onAdd = onAdd,
                     modifier = modifier,
                     onBack = onBack,
+                    user = selectContact as User,
                 )
            } else if (toAddGroupComponentVisibility) {
                 AddGroupComponent(
@@ -90,16 +91,19 @@ fun ContactsScreen(
                    onBack = onBack,
                    modifier = modifier,
                    onDeleteContact = onDeleteContact,
-                   onClickItem = onClickItem,
                    openDeleteContactDialog = openDeleteContactDialog,
                    onOpenDeleteContactDialogChange = { openDeleteContactDialog = it },
                    selectContact = selectContact,
                    onSelectContactChange = onSelectContactChange,
+                   openInfoContactDialog = openInfoContactDialog,
+                   onOpenInfoContactDialogChange = { openInfoContactDialog = it },
+                   onMessageContact = onMessageContact,
+                   onEditContact = onEditContact,
                )
            }
        },
        medium = {
-            ContactsWithAddUserAndAddGroupScreen(
+            ContactsWithAddOrEditUserAndAddGroupScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(vertical = 8.dp),
@@ -114,11 +118,14 @@ fun ContactsScreen(
                 onToAddUserComponentVisibilityChange = onToAddUserComponentVisibilityChange,
                 onToAddGroupComponentVisibilityChange = onToAddGroupComponentVisibilityChange,
                 onDeleteContact = onDeleteContact,
-                onClickItem = onClickItem,
                 openDeleteContactDialog = openDeleteContactDialog,
                 onOpenDeleteContactDialogChange = { openDeleteContactDialog = it },
                 selectContact = selectContact,
                 onSelectContactChange = onSelectContactChange,
+                openInfoContactDialog = openInfoContactDialog,
+                onOpenInfoContactDialogChange = { openInfoContactDialog = it },
+                onMessageContact = onMessageContact,
+                onEditContact = onEditContact,
             )
        },
    )
