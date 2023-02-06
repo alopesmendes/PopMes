@@ -27,4 +27,6 @@
     <string name="dismiss">Annuler</string>
     <string name="dialog_title_delete_contact">Effacer le contact</string>
     <string name="dialog_text_delete_contact">Est-ce que vous êtes sur de vouloir effacer %1s de votre liste de contacts?</string>
+    <string name="edit">Modifier</string>
+    <string name="message">Message</string>
 </resources>
