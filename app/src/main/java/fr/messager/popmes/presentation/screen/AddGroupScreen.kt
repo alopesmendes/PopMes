@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.window.layout.DisplayFeature
 import fr.messager.popmes.domain.model.contact.Contact
@@ -23,7 +22,7 @@ fun AddGroupScreen(
     modifier: Modifier = Modifier,
     activity: Activity,
     displayFeatures: List<DisplayFeature>,
-    contacts: SnapshotStateList<User>,
+    contacts: List<User>,
     onAdd: (Contact) -> Unit,
     onBack: () -> Unit,
     toAddContact: (User) -> Unit,
@@ -54,6 +53,7 @@ fun AddGroupScreen(
                     modifier = modifier,
                     onBack = onBack,
                     user = selectContact as User,
+                    onUserChange = onSelectContactChange,
                 )
             } else {
                 AddGroupComponent(

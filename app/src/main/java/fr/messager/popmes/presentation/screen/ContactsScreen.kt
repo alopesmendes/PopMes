@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
@@ -36,7 +35,7 @@ fun ContactsScreen(
     onSelectedItemChange: (Int) -> Unit,
     onNavigate: (String) -> Unit,
     onBack: () -> Unit,
-    contacts: SnapshotStateList<User>,
+    contacts: List<User>,
     displayFeatures: List<DisplayFeature>,
     toAddContact: (User) -> Unit,
     toRemoveContact: (Int) -> Unit,
@@ -67,6 +66,7 @@ fun ContactsScreen(
                     modifier = modifier,
                     onBack = onBack,
                     user = selectContact as User,
+                    onUserChange = onSelectContactChange,
                 )
            } else if (toAddGroupComponentVisibility) {
                 AddGroupComponent(

@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.contact.Contact
+import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.PopMesTextButton
 import fr.messager.popmes.presentation.components.dialog.PopMesAlertDialog
@@ -229,7 +230,7 @@ fun ContactsComponent(
                 modifier = it,
                 onAddNewUser = {
                     val contactsParams = ContactsParams(
-                        users = contacts,
+                        selectOrCreateContact = selectContact ?: User.unspecified,
                         toAddGroupComponentVisibility = false,
                         toAddUserComponentVisibility = true,
                     )
@@ -241,7 +242,7 @@ fun ContactsComponent(
                 },
                 onAddNewGroup = {
                     val contactsParams = ContactsParams(
-                        users = contacts,
+                        selectOrCreateContact = selectContact ?: Group.unspecified,
                         toAddUserComponentVisibility = false,
                         toAddGroupComponentVisibility = true,
                     )

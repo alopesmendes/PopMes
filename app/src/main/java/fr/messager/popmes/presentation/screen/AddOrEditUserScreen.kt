@@ -56,12 +56,13 @@ fun AddOrEditUserScreen(
                     contactsAdded = contactsAdded,
                     modifier = modifier,
                 )
-            } else {
+            } else if (toAddUserComponentVisibility) {
                 AddOrEditUserComponent(
                     onAdd = onAdd,
                     modifier = modifier,
                     onBack = onBack,
                     user = selectContact as User,
+                    onUserChange = onSelectContactChange,
                 )
             }
         },

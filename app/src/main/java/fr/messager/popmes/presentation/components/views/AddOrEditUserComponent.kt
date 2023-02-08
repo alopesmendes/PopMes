@@ -21,7 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,19 +36,14 @@ import fr.messager.popmes.presentation.components.image.ProfileImage
 import fr.messager.popmes.presentation.components.text.InputDescriptionTextField
 import fr.messager.popmes.presentation.components.text.InputPhoneNumber
 import fr.messager.popmes.presentation.components.text.InputUserName
-import java.util.UUID
 
 @Composable
 fun AddOrEditUserComponent(
     modifier: Modifier = Modifier,
-    user: User?,
+    user: User,
+    onUserChange: (User) -> Unit,
     onAdd: (User) -> Unit,
 ) {
-    var firstName by rememberSaveable(user?.firstName) { mutableStateOf(user?.firstName ?: "") }
-    var lastName by rememberSaveable(user?.lastName) { mutableStateOf(user?.lastName ?: "") }
-    var phoneNumber by rememberSaveable(user?.phoneNumber) { mutableStateOf(user?.phoneNumber ?: "") }
-    var description by rememberSaveable(user?.description) { mutableStateOf(user?.description ?: "") }
-
     val painter = rememberVectorPainter(Icons.Filled.AccountBox)
     val scrollState = rememberScrollState()
 
@@ -75,22 +70,38 @@ fun AddOrEditUserComponent(
                 )
 
                 InputUserName(
-                    firstName = firstName,
-                    onFirstNameChange = { firstName = it },
-                    lastName = lastName,
-                    onLastNameChange = { lastName = it },
+                    firstName = user.firstName,
+                    onFirstNameChange = {
+                        onUserChange(
+                            user.copy(firstName = it)
+                        )
+                    },
+                    lastName = user.lastName,
+                    onLastNameChange = {
+                        onUserChange(
+                            user.copy(lastName = it)
+                        )
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 InputPhoneNumber(
-                    phoneNumber = phoneNumber,
-                    onPhoneNumberChange = { phoneNumber = it },
+                    phoneNumber = user.phoneNumber,
+                    onPhoneNumberChange = {
+                        onUserChange(
+                            user.copy(phoneNumber = it)
+                        )
+                    },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 InputDescriptionTextField(
-                    description = description,
-                    onDescriptionChange = { description = it },
+                    description = user.description,
+                    onDescriptionChange = {
+                        onUserChange(
+                            user.copy(description = it)
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 40.dp),
@@ -98,17 +109,7 @@ fun AddOrEditUserComponent(
             }
 
             ValidationButton(
-                onClick = {
-                    onAdd(
-                        User(
-                            id = user?.id ?: "${UUID.randomUUID()}",
-                            firstName = firstName,
-                            lastName = lastName,
-                            phoneNumber = phoneNumber,
-                            description = description,
-                        )
-                    )
-                },
+                onClick = { onAdd(user) },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -119,7 +120,8 @@ fun AddOrEditUserComponent(
 @Composable
 fun AddOrEditUserComponent(
     modifier: Modifier = Modifier,
-    user: User?,
+    user: User,
+    onUserChange: (User) -> Unit,
     onAdd: (User) -> Unit,
     onBack: () -> Unit,
 ) {
@@ -147,6 +149,7 @@ fun AddOrEditUserComponent(
             },
             modifier = modifier.padding(paddingValues),
             user = user,
+            onUserChange = onUserChange,
         )
     }
 }
@@ -155,11 +158,15 @@ fun AddOrEditUserComponent(
 @Composable
 @Preview(showBackground = true)
 private fun AddUserComponentPreview() {
+    var user by remember {
+        mutableStateOf(User.unspecified)
+    }
     AddOrEditUserComponent(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         onAdd = {},
-        user = null,
+        user = user,
+        onUserChange = { user = it }
     )
 }

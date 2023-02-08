@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -62,6 +64,7 @@ object Extension {
             arguments = Screen.Contacts.navParams(),
         ) {
             val contactsViewModel: ContactsViewModel = hiltViewModel()
+            val selectOrCreateContact by contactsViewModel.selectOrCreateContact.collectAsState()
             ContactsScreen(
                 modifier = Modifier
                     .fillMaxSize()
@@ -81,16 +84,15 @@ object Extension {
                 contactsAdded = contactsViewModel.contactsAddedToGroup,
                 toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
-                onToAddGroupComponentVisibilityChange = {
-                    contactsViewModel.toAddGroupComponentVisibility = it
+                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it
                 },
                 onToAddUserComponentVisibilityChange = {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
                 onAdd = contactsViewModel::addContact,
                 onDeleteContact = contactsViewModel::deleteContact,
-                selectContact = contactsViewModel.selectContact,
-                onSelectContactChange = { contactsViewModel.selectContact = it },
+                selectContact = selectOrCreateContact,
+                onSelectContactChange = contactsViewModel::onContactChange,
                 onMessageContact = {
                     val conversationParams = ConversationParams(
                         contact = it,
@@ -107,6 +109,7 @@ object Extension {
             arguments = Screen.AddGroup.navParams(),
         ) {
             val contactsViewModel: ContactsViewModel = hiltViewModel()
+            val selectOrCreateContact by contactsViewModel.selectOrCreateContact.collectAsState()
             AddGroupScreen(
                 modifier = Modifier
                     .fillMaxSize()
@@ -127,8 +130,8 @@ object Extension {
                     contactsViewModel.toAddGroupComponentVisibility = it
                 },
                 onDeleteContact = contactsViewModel::deleteContact,
-                selectContact = contactsViewModel.selectContact,
-                onSelectContactChange = { contactsViewModel.selectContact = it },
+                selectContact = selectOrCreateContact,
+                onSelectContactChange = contactsViewModel::onContactChange,
                 contactsAdded = contactsViewModel.contactsAddedToGroup,
                 onMessageContact = {
                     val conversationParams = ConversationParams(
@@ -146,6 +149,7 @@ object Extension {
             arguments = Screen.AddUser.navParams(),
         ) {
             val contactsViewModel: ContactsViewModel = hiltViewModel()
+            val selectOrCreateContact by contactsViewModel.selectOrCreateContact.collectAsState()
             AddOrEditUserScreen(
                 activity = activity,
                 modifier = Modifier
@@ -166,8 +170,8 @@ object Extension {
                 },
                 onBack = onBack,
                 onDeleteContact = contactsViewModel::deleteContact,
-                selectContact = contactsViewModel.selectContact,
-                onSelectContactChange = { contactsViewModel.selectContact = it },
+                selectContact = selectOrCreateContact,
+                onSelectContactChange = contactsViewModel::onContactChange,
                 contactsAdded = contactsViewModel.contactsAddedToGroup,
                 onMessageContact = {
                     val conversationParams = ConversationParams(

@@ -73,6 +73,7 @@ fun ContactsWithAddOrEditUserAndAddGroupScreen(
                         onToAddUserComponentVisibilityChange(false)
                     },
                     user = selectContact as User,
+                    onUserChange = onSelectContactChange,
                 )
             }
             if (toAddGroupComponentVisibility) {

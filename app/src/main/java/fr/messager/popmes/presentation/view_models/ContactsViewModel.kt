@@ -18,6 +18,10 @@ import fr.messager.popmes.domain.use_case.contact.GetContactsUseCase
 import fr.messager.popmes.domain.use_case.contact.InsertContactUseCase
 import fr.messager.popmes.mapper.ContactParamsToContactParamsProto.reverseMapTo
 import fr.messager.popmes.proto.ContactsParamsProto
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,10 +38,11 @@ class ContactsViewModel @Inject constructor(
             mapTo = { this.reverseMapTo() }
         )
 
-    var selectContact: Contact? by mutableStateOf(null)
+    private val _selectOrCreateContact: MutableStateFlow<Contact> = MutableStateFlow(User.unspecified)
+    val selectOrCreateContact: StateFlow<Contact> = _selectOrCreateContact.asStateFlow()
 
     private val _contacts = mutableStateListOf<User>()
-    val contacts = _contacts
+    val contacts: List<User> = _contacts
 
     private val _contactsAddedToGroup = mutableStateListOf<User>()
     val contactsAddedToGroup: List<User> = _contactsAddedToGroup
@@ -48,6 +53,7 @@ class ContactsViewModel @Inject constructor(
     init {
         initializeContacts()
         initComponentsVisibility()
+        initSelectOrCreateContact()
     }
 
     private fun initializeContacts() {
@@ -65,6 +71,14 @@ class ContactsViewModel @Inject constructor(
         viewModelScope.launch {
             toAddUserComponentVisibility = contactsParams?.toAddUserComponentVisibility == true
             toAddGroupComponentVisibility = contactsParams?.toAddGroupComponentVisibility == true
+        }
+    }
+
+    private fun initSelectOrCreateContact() {
+        viewModelScope.launch {
+            contactsParams?.selectOrCreateContact?.let {
+                _selectOrCreateContact.update { it }
+            }
         }
     }
 
@@ -100,9 +114,20 @@ class ContactsViewModel @Inject constructor(
     fun toEditContact(contact: Contact) {
         viewModelScope.launch {
             when (contact) {
-                is User -> { toAddUserComponentVisibility = true }
-                is Group -> { toAddGroupComponentVisibility = true }
+                is User -> {
+                    toAddUserComponentVisibility = true
+                }
+
+                is Group -> {
+                    toAddGroupComponentVisibility = true
+                }
             }
+        }
+    }
+
+    fun onContactChange(contact: Contact) {
+        viewModelScope.launch {
+            _selectOrCreateContact.update { contact }
         }
     }
 }
