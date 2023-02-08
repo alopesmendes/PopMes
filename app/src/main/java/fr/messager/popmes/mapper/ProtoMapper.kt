@@ -333,13 +333,13 @@ object ConversationParamsToConversationParamsProto: ReverseMapper<ConversationPa
 
 object ContactParamsToContactParamsProto: ReverseMapper<ContactsParams, ContactsParamsProto> {
     override fun ContactsParams.mapTo(): ContactsParamsProto = contactsParamsProto {
-        users.addAll(this@mapTo.users.map { it.mapTo() })
+        selectOrCreateContact = this@mapTo.selectOrCreateContact.reverseMapTo()
         toAddUserComponentVisibility = this@mapTo.toAddUserComponentVisibility
         toAddGroupComponentVisibility = this@mapTo.toAddGroupComponentVisibility
     }
 
     override fun ContactsParamsProto.reverseMapTo(): ContactsParams = ContactsParams(
-        users = this@reverseMapTo.usersList.map { it.reverseMapTo() },
+        selectOrCreateContact = this@reverseMapTo.selectOrCreateContact.mapTo(),
         toAddUserComponentVisibility = this@reverseMapTo.toAddUserComponentVisibility,
         toAddGroupComponentVisibility = this@reverseMapTo.toAddGroupComponentVisibility,
     )
