@@ -235,7 +235,7 @@ fun ContactsComponent(
                         toAddUserComponentVisibility = true,
                     )
                     onNavigate(
-                        Screen.AddUser.navigate(
+                        Screen.AddOrEditContact.navigate(
                             contactsParams.toHex()
                         )
                     )
@@ -247,7 +247,7 @@ fun ContactsComponent(
                         toAddGroupComponentVisibility = true,
                     )
                     onNavigate(
-                        Screen.AddGroup.navigate(
+                        Screen.AddOrEditContact.navigate(
                             contactsParams.toHex(),
                         )
                     )

@@ -32,13 +32,8 @@ sealed class Screen(
         route = "Contacts",
     )
 
-    object AddGroup: Screen(
-        route = "AddGroup",
-        params = listOf(Constants.PARAM_CONTACTS),
-    )
-
-    object AddUser: Screen(
-        route = "AddUser",
+    object AddOrEditContact: Screen(
+        route = "AddOrEditContact",
         params = listOf(Constants.PARAM_CONTACTS),
     )
 

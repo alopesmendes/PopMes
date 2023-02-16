@@ -21,8 +21,7 @@ import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.navigation.arguments.ConversationParams
 import fr.messager.popmes.presentation.navigation.arguments.NavData
-import fr.messager.popmes.presentation.screen.AddGroupScreen
-import fr.messager.popmes.presentation.screen.AddOrEditUserScreen
+import fr.messager.popmes.presentation.screen.AddOrEditContactScreen
 import fr.messager.popmes.presentation.screen.AddTaskScreen
 import fr.messager.popmes.presentation.screen.ContactsScreen
 import fr.messager.popmes.presentation.screen.ConversationScreen
@@ -105,52 +104,12 @@ object Extension {
         }
 
         composable(
-            route = Screen.AddGroup.route(),
-            arguments = Screen.AddGroup.navParams(),
+            route = Screen.AddOrEditContact.route(),
+            arguments = Screen.AddOrEditContact.navParams(),
         ) {
             val contactsViewModel: ContactsViewModel = hiltViewModel()
             val selectOrCreateContact by contactsViewModel.selectOrCreateContact.collectAsState()
-            AddGroupScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                activity = activity,
-                displayFeatures = displayFeatures,
-                contacts = contactsViewModel.contacts,
-                onAdd = contactsViewModel::addContact,
-                onBack = onBack,
-                toAddContact = contactsViewModel::addContactToGroup,
-                toRemoveContact = contactsViewModel::removeContactOfGroup,
-                toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
-                toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
-                onToAddUserComponentVisibilityChange = {
-                    contactsViewModel.toAddUserComponentVisibility = it
-                },
-                onToAddGroupComponentVisibilityChange = {
-                    contactsViewModel.toAddGroupComponentVisibility = it
-                },
-                onDeleteContact = contactsViewModel::deleteContact,
-                selectContact = selectOrCreateContact,
-                onSelectContactChange = contactsViewModel::onContactChange,
-                contactsAdded = contactsViewModel.contactsAddedToGroup,
-                onMessageContact = {
-                    val conversationParams = ConversationParams(
-                        contact = it,
-                        messages = listOf()
-                    )
-                    onNavigate(Screen.Conversation.navigate(conversationParams.toHex()))
-                },
-                onEditContact = contactsViewModel::toEditContact,
-            )
-        }
-
-        composable(
-            route = Screen.AddUser.route(),
-            arguments = Screen.AddUser.navParams(),
-        ) {
-            val contactsViewModel: ContactsViewModel = hiltViewModel()
-            val selectOrCreateContact by contactsViewModel.selectOrCreateContact.collectAsState()
-            AddOrEditUserScreen(
+            AddOrEditContactScreen(
                 activity = activity,
                 modifier = Modifier
                     .fillMaxSize()
@@ -162,12 +121,8 @@ object Extension {
                 toRemoveContact = contactsViewModel::removeContactOfGroup,
                 toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
-                onToAddUserComponentVisibilityChange = {
-                    contactsViewModel.toAddUserComponentVisibility = it
-                },
-                onToAddGroupComponentVisibilityChange = {
-                    contactsViewModel.toAddGroupComponentVisibility = it
-                },
+                onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
+                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it },
                 onBack = onBack,
                 onDeleteContact = contactsViewModel::deleteContact,
                 selectContact = selectOrCreateContact,

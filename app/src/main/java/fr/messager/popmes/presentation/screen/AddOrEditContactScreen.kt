@@ -18,19 +18,19 @@ import fr.messager.popmes.presentation.components.views.AddOrEditUserComponent
 import fr.messager.popmes.presentation.screen.two_pane.ContactsWithAddOrEditUserAndAddGroupScreen
 
 @Composable
-fun AddGroupScreen(
-    modifier: Modifier = Modifier,
+fun AddOrEditContactScreen(
     activity: Activity,
+    modifier: Modifier,
     displayFeatures: List<DisplayFeature>,
     contacts: List<User>,
     onAdd: (Contact) -> Unit,
-    onBack: () -> Unit,
     toAddContact: (User) -> Unit,
     toRemoveContact: (Int) -> Unit,
     toAddUserComponentVisibility: Boolean,
     toAddGroupComponentVisibility: Boolean,
     onToAddUserComponentVisibilityChange: (Boolean) -> Unit,
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
+    onBack: () -> Unit,
     onDeleteContact: (String) -> Unit,
     selectContact: Contact?,
     onSelectContactChange: (Contact) -> Unit,
@@ -40,22 +40,13 @@ fun AddGroupScreen(
 ) {
     var openDeleteContactDialog by rememberSaveable { mutableStateOf(false) }
     var openInfoContactDialog by rememberSaveable { mutableStateOf(false) }
-
     BackHandler(onBack = onBack)
 
     PopMesWindowSize(
         activity = activity,
         windowSizeDimension = WindowSizeDimension.Width,
         compact = {
-            if (toAddUserComponentVisibility) {
-                AddOrEditUserComponent(
-                    onAdd = onAdd,
-                    modifier = modifier,
-                    onBack = onBack,
-                    user = selectContact as User,
-                    onUserChange = onSelectContactChange,
-                )
-            } else {
+            if (toAddGroupComponentVisibility) {
                 AddGroupComponent(
                     onBack = onBack,
                     contacts = contacts,
@@ -65,21 +56,29 @@ fun AddGroupScreen(
                     contactsAdded = contactsAdded,
                     modifier = modifier,
                 )
+            } else if (toAddUserComponentVisibility) {
+                AddOrEditUserComponent(
+                    onAdd = onAdd,
+                    modifier = modifier,
+                    onBack = onBack,
+                    user = selectContact as User,
+                    onUserChange = onSelectContactChange,
+                )
             }
         },
         medium = {
             ContactsWithAddOrEditUserAndAddGroupScreen(
-                modifier = modifier,
                 displayFeatures = displayFeatures,
                 contacts = contacts,
                 onAdd = onAdd,
                 toAddContact = toAddContact,
                 toRemoveContact = toRemoveContact,
-                contactsAdded = contactsAdded,
-                toAddGroupComponentVisibility = toAddGroupComponentVisibility,
                 toAddUserComponentVisibility = toAddUserComponentVisibility,
-                onToAddGroupComponentVisibilityChange = onToAddGroupComponentVisibilityChange,
+                toAddGroupComponentVisibility = toAddGroupComponentVisibility,
                 onToAddUserComponentVisibilityChange = onToAddUserComponentVisibilityChange,
+                onToAddGroupComponentVisibilityChange = onToAddGroupComponentVisibilityChange,
+                contactsAdded = contactsAdded,
+                modifier = modifier,
                 onDeleteContact = onDeleteContact,
                 openDeleteContactDialog = openDeleteContactDialog,
                 onOpenDeleteContactDialogChange = { openDeleteContactDialog = it },
@@ -90,6 +89,6 @@ fun AddGroupScreen(
                 onMessageContact = onMessageContact,
                 onEditContact = onEditContact,
             )
-        },
+        }
     )
 }
