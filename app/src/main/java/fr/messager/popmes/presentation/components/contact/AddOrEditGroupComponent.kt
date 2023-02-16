@@ -22,10 +22,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,22 +37,16 @@ import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.ValidationButton
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.list.PopMesListRow
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun AddGroupComponent(
+fun AddOrEditGroupComponent(
     modifier: Modifier = Modifier,
     contacts: List<User>,
-    contactsAdded: List<User>,
-    toAddContact: (User) -> Unit,
-    toRemoveContact: (Int) -> Unit,
-    onAdd: (Group) -> Unit,
+    onAddOrEdit: (Group) -> Unit,
+    onGroupChange: (Group) -> Unit,
+    group: Group,
 ) {
-    var name by rememberSaveable {
-        mutableStateOf("")
-    }
-
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -70,8 +62,12 @@ fun AddGroupComponent(
             )
 
             OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
+                value = group.name,
+                onValueChange = {
+                    onGroupChange(
+                        group.copy(name = it)
+                    )
+                },
                 modifier = Modifier.weight(1f),
                 singleLine = true,
                 label = {
@@ -85,16 +81,16 @@ fun AddGroupComponent(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.number_users, contactsAdded.size),
+                text = stringResource(id = R.string.number_users, group.users.size),
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.outline,
             )
 
             PopMesListRow(
-                values = contactsAdded,
+                values = group.users,
                 modifier = Modifier.fillMaxWidth(),
-                key = { contactsAdded[it].id },
+                key = { group.users[it].id },
             ) { index, value ->
                 SmallContactItem(
                     name = value.shortName(),
@@ -106,7 +102,13 @@ fun AddGroupComponent(
                             easing = FastOutSlowInEasing,
                         )
                     )
-                ) { toRemoveContact(index) }
+                ) {
+                    onGroupChange(
+                        group.copy(
+                            users = group.users.filterIndexed { i, _ -> i != index }
+                        )
+                    )
+                }
             }
         }
 
@@ -124,20 +126,17 @@ fun AddGroupComponent(
                 icon = painterResource(id = R.drawable.avatar_0),
                 modifier = Modifier
                     .animateItemPlacement()
-            ) { toAddContact(value) }
+            ) {
+                onGroupChange(
+                    group.copy(
+                        users = listOf(*group.users.toTypedArray(), value)
+                    )
+                )
+            }
         }
 
         ValidationButton(
-            onClick = {
-                onAdd(
-                    Group(
-                        id = "${UUID.randomUUID()}",
-                        name = name,
-                        users = contactsAdded,
-                        description = contactsAdded.joinToString(",") { it.shortName() },
-                    )
-                )
-            },
+            onClick = { onAddOrEdit(group) },
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -146,14 +145,13 @@ fun AddGroupComponent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddGroupComponent(
+fun AddOrEditGroupComponent(
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
     contacts: List<User>,
-    toAddContact: (User) -> Unit,
-    toRemoveContact: (Int) -> Unit,
-    onAdd: (Group) -> Unit,
-    contactsAdded: List<User>,
+    onAddOrEdit: (Group) -> Unit,
+    onGroupChange: (Group) -> Unit,
+    group: Group,
 ) {
     Scaffold(
         modifier = modifier,
@@ -175,29 +173,29 @@ fun AddGroupComponent(
     ) { paddingValues ->
         BackHandler(onBack = onBack)
 
-        AddGroupComponent(
-            contacts = contacts,
+        AddOrEditGroupComponent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            onAdd = {
-                onAdd(it)
+            contacts = contacts,
+            onAddOrEdit = {
+                onAddOrEdit(it)
                 onBack()
             },
-            toAddContact = toAddContact,
-            toRemoveContact = toRemoveContact,
-            contactsAdded = contactsAdded,
+            onGroupChange = onGroupChange,
+            group = group,
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun AddGroupComponentPreview() {
-    val contactsAdded = remember {
-        mutableStateListOf<User>()
+private fun AddOrEditGroupComponentPreview() {
+    var group by remember {
+        mutableStateOf(Group.unspecified)
     }
-    AddGroupComponent(
+
+    AddOrEditGroupComponent(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
@@ -231,9 +229,8 @@ private fun AddGroupComponentPreview() {
                 description = "",
             )
         ),
-        contactsAdded = contactsAdded,
-        toRemoveContact = { contactsAdded.removeAt(it) },
-        toAddContact = { contactsAdded.add(it) },
-        onAdd = {},
+        onAddOrEdit = {},
+        onGroupChange = { group = it },
+        group = group,
     )
 }

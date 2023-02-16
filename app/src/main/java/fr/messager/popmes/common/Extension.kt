@@ -78,17 +78,14 @@ object Extension {
                 onBack = onBack,
                 contacts = contactsViewModel.contacts,
                 displayFeatures = displayFeatures,
-                toAddContact = contactsViewModel::addContactToGroup,
-                toRemoveContact = contactsViewModel::removeContactOfGroup,
-                contactsAdded = contactsViewModel.contactsAddedToGroup,
                 toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
-                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it
-                },
                 onToAddUserComponentVisibilityChange = {
                     contactsViewModel.toAddUserComponentVisibility = it
                 },
-                onAdd = contactsViewModel::addContact,
+                onToAddGroupComponentVisibilityChange = { contactsViewModel.toAddGroupComponentVisibility = it
+                },
+                onAddOrEdit = contactsViewModel::addContact,
                 onDeleteContact = contactsViewModel::deleteContact,
                 selectContact = selectOrCreateContact,
                 onSelectContactChange = contactsViewModel::onContactChange,
@@ -116,9 +113,7 @@ object Extension {
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 displayFeatures = displayFeatures,
                 contacts = contactsViewModel.contacts,
-                onAdd = contactsViewModel::addContact,
-                toAddContact = contactsViewModel::addContactToGroup,
-                toRemoveContact = contactsViewModel::removeContactOfGroup,
+                onAddOrEdit = contactsViewModel::addContact,
                 toAddUserComponentVisibility = contactsViewModel.toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = contactsViewModel.toAddGroupComponentVisibility,
                 onToAddUserComponentVisibilityChange = { contactsViewModel.toAddUserComponentVisibility = it },
@@ -127,7 +122,6 @@ object Extension {
                 onDeleteContact = contactsViewModel::deleteContact,
                 selectContact = selectOrCreateContact,
                 onSelectContactChange = contactsViewModel::onContactChange,
-                contactsAdded = contactsViewModel.contactsAddedToGroup,
                 onMessageContact = {
                     val conversationParams = ConversationParams(
                         contact = it,

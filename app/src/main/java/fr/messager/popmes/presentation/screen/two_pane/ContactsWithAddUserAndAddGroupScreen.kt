@@ -10,8 +10,9 @@ import com.google.accompanist.adaptive.FoldAwareConfiguration
 import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import fr.messager.popmes.domain.model.contact.Contact
+import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
-import fr.messager.popmes.presentation.components.contact.AddGroupComponent
+import fr.messager.popmes.presentation.components.contact.AddOrEditGroupComponent
 import fr.messager.popmes.presentation.components.contact.AddOrEditUserComponent
 import fr.messager.popmes.presentation.components.contact.ContactsComponent
 
@@ -21,8 +22,6 @@ fun ContactsWithAddOrEditUserAndAddGroupScreen(
     displayFeatures: List<DisplayFeature>,
     contacts: List<User>,
     onAdd: (Contact) -> Unit,
-    toAddContact: (User) -> Unit,
-    toRemoveContact: (Int) -> Unit,
     toAddUserComponentVisibility: Boolean,
     toAddGroupComponentVisibility: Boolean,
     onToAddUserComponentVisibilityChange: (Boolean) -> Unit,
@@ -36,7 +35,6 @@ fun ContactsWithAddOrEditUserAndAddGroupScreen(
     onOpenInfoContactDialogChange: (Boolean) -> Unit,
     onMessageContact: (Contact) -> Unit,
     onEditContact: (Contact) -> Unit,
-    contactsAdded: List<User>,
 ) {
     TwoPane(
         first = {
@@ -77,19 +75,16 @@ fun ContactsWithAddOrEditUserAndAddGroupScreen(
                 )
             }
             if (toAddGroupComponentVisibility) {
-                AddGroupComponent(
+                AddOrEditGroupComponent(
                     contacts = contacts,
-                    contactsAdded = contactsAdded,
-                    toAddContact = toAddContact,
-                    toRemoveContact = toRemoveContact,
-                    onAdd = {
+                    onAddOrEdit = {
                         onAdd(it)
                         onToAddGroupComponentVisibilityChange(false)
                     },
-                    modifier = Modifier.fillMaxSize(),
+                    onGroupChange = onSelectContactChange,
+                    group = selectContact as Group
                 )
             }
-
         },
         strategy = HorizontalTwoPaneStrategy(
             splitFraction = .5f,

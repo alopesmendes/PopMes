@@ -14,8 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import fr.messager.popmes.domain.model.contact.Contact
+import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
-import fr.messager.popmes.presentation.components.contact.AddGroupComponent
+import fr.messager.popmes.presentation.components.contact.AddOrEditGroupComponent
 import fr.messager.popmes.presentation.components.contact.AddOrEditUserComponent
 import fr.messager.popmes.presentation.components.contact.ContactsComponent
 import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
@@ -37,19 +38,16 @@ fun ContactsScreen(
     onBack: () -> Unit,
     contacts: List<User>,
     displayFeatures: List<DisplayFeature>,
-    toAddContact: (User) -> Unit,
-    toRemoveContact: (Int) -> Unit,
     toAddUserComponentVisibility: Boolean,
     toAddGroupComponentVisibility: Boolean,
     onToAddUserComponentVisibilityChange: (Boolean) -> Unit,
     onToAddGroupComponentVisibilityChange: (Boolean) -> Unit,
-    onAdd: (Contact) -> Unit,
+    onAddOrEdit: (Contact) -> Unit,
     onDeleteContact: (String) -> Unit,
     selectContact: Contact?,
     onSelectContactChange: (Contact) -> Unit,
     onMessageContact: (Contact) -> Unit,
     onEditContact: (Contact) -> Unit,
-    contactsAdded: List<User>,
 ) {
     var openDeleteContactDialog by rememberSaveable { mutableStateOf(false) }
     var openInfoContactDialog by rememberSaveable { mutableStateOf(false) }
@@ -62,22 +60,20 @@ fun ContactsScreen(
        compact = {
            if (toAddUserComponentVisibility) {
                 AddOrEditUserComponent(
-                    onAdd = onAdd,
+                    onAdd = onAddOrEdit,
                     modifier = modifier,
                     onBack = onBack,
-                    user = selectContact as User,
+                    user = if (selectContact is User) selectContact else User.unspecified,
                     onUserChange = onSelectContactChange,
                 )
            } else if (toAddGroupComponentVisibility) {
-                AddGroupComponent(
-                    onBack = onBack,
-                    contacts = contacts,
-                    toAddContact = toAddContact,
-                    toRemoveContact = toRemoveContact,
-                    onAdd = onAdd,
-                    contactsAdded = contactsAdded,
-                    modifier = modifier,
-                )
+               AddOrEditGroupComponent(
+                   onBack = onBack,
+                   contacts = contacts,
+                   onAddOrEdit = onAddOrEdit,
+                   onGroupChange = onSelectContactChange,
+                   group = if (selectContact is Group) selectContact else Group.unspecified
+               )
            } else {
                ContactsComponent(
                    activity = activity,
@@ -109,10 +105,7 @@ fun ContactsScreen(
                     .padding(vertical = 8.dp),
                 displayFeatures = displayFeatures,
                 contacts = contacts,
-                onAdd = onAdd,
-                toAddContact = toAddContact,
-                toRemoveContact = toRemoveContact,
-                contactsAdded = contactsAdded,
+                onAdd = onAddOrEdit,
                 toAddUserComponentVisibility = toAddUserComponentVisibility,
                 toAddGroupComponentVisibility = toAddGroupComponentVisibility,
                 onToAddUserComponentVisibilityChange = onToAddUserComponentVisibilityChange,
