@@ -15,9 +15,9 @@ import com.google.accompanist.adaptive.TwoPane
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.model.message.Message
+import fr.messager.popmes.presentation.components.conversation.ConversationComponent
+import fr.messager.popmes.presentation.components.conversation.HomeComponent
 import fr.messager.popmes.presentation.components.navigation.Navigation
-import fr.messager.popmes.presentation.components.views.ConversationComponent
-import fr.messager.popmes.presentation.components.views.HomeComponent
 import fr.messager.popmes.presentation.navigation.NavItem
 import kotlinx.coroutines.CoroutineScope
 

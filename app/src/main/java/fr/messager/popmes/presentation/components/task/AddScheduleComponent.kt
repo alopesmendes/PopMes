@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.task
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.card
+package fr.messager.popmes.presentation.components.task
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement

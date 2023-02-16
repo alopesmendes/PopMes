@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.contact
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -35,9 +35,7 @@ import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.PopMesTextButton
 import fr.messager.popmes.presentation.components.dialog.PopMesAlertDialog
-import fr.messager.popmes.presentation.components.dialog.PopMesContactDialog
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
-import fr.messager.popmes.presentation.components.list.items.ContactItem
 import fr.messager.popmes.presentation.components.navigation.Navigation
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen

@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.conversation
 
 import android.app.Activity
 import android.util.Log
@@ -14,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.message.Message
-import fr.messager.popmes.presentation.components.card.DetailedMessageCard
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.navigation.Navigation
 import fr.messager.popmes.presentation.navigation.NavItem
@@ -35,7 +34,7 @@ fun HomeComponent(
         modifier = modifier,
         values = messages,
     ) { _, value ->
-        DetailedMessageCard(
+        SmallMessageCard(
             icon = user,
             fullName = value.destination.fullName(),
             date = value.date,

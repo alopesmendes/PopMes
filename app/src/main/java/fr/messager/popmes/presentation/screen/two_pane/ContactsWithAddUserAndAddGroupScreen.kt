@@ -11,9 +11,9 @@ import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
-import fr.messager.popmes.presentation.components.views.AddGroupComponent
-import fr.messager.popmes.presentation.components.views.AddOrEditUserComponent
-import fr.messager.popmes.presentation.components.views.ContactsComponent
+import fr.messager.popmes.presentation.components.contact.AddGroupComponent
+import fr.messager.popmes.presentation.components.contact.AddOrEditUserComponent
+import fr.messager.popmes.presentation.components.contact.ContactsComponent
 
 @Composable
 fun ContactsWithAddOrEditUserAndAddGroupScreen(

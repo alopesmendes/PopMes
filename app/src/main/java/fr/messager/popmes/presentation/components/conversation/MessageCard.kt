@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.card
+package fr.messager.popmes.presentation.components.conversation
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import fr.messager.popmes.domain.model.message.MessageType
-import fr.messager.popmes.presentation.components.image.ProfileImage
+import fr.messager.popmes.presentation.components.contact.ProfileImage
 import fr.messager.popmes.presentation.components.state.rememberTimeAgo
 import fr.messager.popmes.presentation.components.text.TextAndLabel
 import java.time.Instant

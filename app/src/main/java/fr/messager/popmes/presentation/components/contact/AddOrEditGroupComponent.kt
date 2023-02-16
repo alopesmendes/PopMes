@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.contact
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -37,11 +37,8 @@ import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.contact.Group
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.ValidationButton
-import fr.messager.popmes.presentation.components.image.ProfileImage
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.list.PopMesListRow
-import fr.messager.popmes.presentation.components.list.items.ContactItem
-import fr.messager.popmes.presentation.components.list.items.SmallContactItem
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)

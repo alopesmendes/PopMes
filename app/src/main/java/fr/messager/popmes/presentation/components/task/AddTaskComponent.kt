@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.task
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -45,12 +45,12 @@ import fr.messager.popmes.domain.model.task.Task
 import fr.messager.popmes.domain.model.task.TaskType
 import fr.messager.popmes.domain.model.task.priorities
 import fr.messager.popmes.presentation.components.buttons.ValidationButton
+import fr.messager.popmes.presentation.components.contact.ContactItem
+import fr.messager.popmes.presentation.components.contact.SmallContactItem
 import fr.messager.popmes.presentation.components.dialog.PopMesDatePickerDialog
 import fr.messager.popmes.presentation.components.list.PopMesDropMenu
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.list.PopMesListRow
-import fr.messager.popmes.presentation.components.list.items.ContactItem
-import fr.messager.popmes.presentation.components.list.items.SmallContactItem
 import fr.messager.popmes.presentation.components.text.InputDescriptionTextField
 import fr.messager.popmes.presentation.components.text.PopMesOutlinedTextField
 import java.time.Instant

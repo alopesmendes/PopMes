@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.task
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +25,6 @@ import fr.messager.popmes.domain.model.task.Task
 import fr.messager.popmes.domain.model.task.TaskPriority
 import fr.messager.popmes.domain.model.task.TaskType
 import fr.messager.popmes.presentation.components.buttons.PopMesTextButton
-import fr.messager.popmes.presentation.components.card.TaskCard
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.navigation.Navigation
 import fr.messager.popmes.presentation.navigation.NavItem

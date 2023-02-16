@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.image
+package fr.messager.popmes.presentation.components.contact
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size

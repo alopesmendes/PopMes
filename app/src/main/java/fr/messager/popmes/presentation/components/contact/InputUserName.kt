@@ -1,12 +1,11 @@
-package fr.messager.popmes.presentation.components.text
+package fr.messager.popmes.presentation.components.contact
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -18,17 +17,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.messager.popmes.presentation.components.text.transformation.PhoneNumberVisualTransformation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InputPhoneNumber(
+fun InputUserName(
     modifier: Modifier = Modifier,
-    phoneNumber: String,
-    onPhoneNumberChange: (String) -> Unit,
+    firstName: String,
+    onFirstNameChange: (String) -> Unit,
+    lastName: String,
+    onLastNameChange: (String) -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -36,37 +35,45 @@ fun InputPhoneNumber(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            Icons.Filled.Phone,
+            Icons.Filled.Person,
             contentDescription = null,
         )
+
         OutlinedTextField(
-            value = phoneNumber,
-            onValueChange = onPhoneNumberChange,
-            label = {
-                Text(text = "phone number")
-            },
-//            trailingIcon = {
-//            },
+            value = firstName,
+            onValueChange = onFirstNameChange,
+            singleLine = true,
+            label = { Text(text = "first name") },
+            modifier = Modifier.weight(1f),
+        )
+
+        OutlinedTextField(
+            value = lastName,
+            onValueChange = onLastNameChange,
+            label = { Text(text = "last name") },
             singleLine = true,
             modifier = Modifier.weight(1f),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-            visualTransformation = PhoneNumberVisualTransformation(),
         )
     }
-
 }
 
-@Preview(showBackground = true)
 @Composable
-private fun InputPhoneNumberPreview() {
-    var phoneNumber by remember {
+@Preview(showBackground = true)
+private fun InputUserNamePreview() {
+    var firstName by remember {
         mutableStateOf("")
     }
-    InputPhoneNumber(
-        phoneNumber = phoneNumber,
-        onPhoneNumberChange = { phoneNumber = it },
+    var lastName by remember {
+        mutableStateOf("")
+    }
+
+    InputUserName(
+        firstName = firstName,
+        onFirstNameChange = { firstName = it },
+        lastName = lastName,
+        onLastNameChange = { lastName = it },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp),
+            .padding(16.dp)
     )
 }

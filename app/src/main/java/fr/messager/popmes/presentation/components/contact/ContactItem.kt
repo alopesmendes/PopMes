@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.list.items
+package fr.messager.popmes.presentation.components.contact
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
-import fr.messager.popmes.presentation.components.image.ProfileImage
 import fr.messager.popmes.presentation.components.text.TextAndLabel
 
 @Composable

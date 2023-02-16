@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.conversation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -35,8 +35,7 @@ import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.model.message.Message
 import fr.messager.popmes.domain.model.message.MessageType
-import fr.messager.popmes.presentation.components.card.MessageCard
-import fr.messager.popmes.presentation.components.image.ProfileImage
+import fr.messager.popmes.presentation.components.contact.ProfileImage
 import fr.messager.popmes.presentation.components.list.PopMesListColumn
 import fr.messager.popmes.presentation.components.state.rememberTimeAgo
 import fr.messager.popmes.presentation.components.text.InputFieldText

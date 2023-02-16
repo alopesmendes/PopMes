@@ -17,7 +17,7 @@ import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
 import fr.messager.popmes.presentation.components.state.saver.InstantSaver
 import fr.messager.popmes.presentation.components.state.saver.InstantSaverNullable
-import fr.messager.popmes.presentation.components.views.TaskComponent
+import fr.messager.popmes.presentation.components.task.TaskComponent
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.navigation.Screen
 import fr.messager.popmes.presentation.navigation.arguments.TaskParams

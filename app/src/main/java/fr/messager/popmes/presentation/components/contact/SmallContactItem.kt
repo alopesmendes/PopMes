@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.list.items
+package fr.messager.popmes.presentation.components.contact
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.messager.popmes.R
-import fr.messager.popmes.presentation.components.image.ProfileImage
 
 @Composable
 fun SmallContactItem(

@@ -11,10 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.window.layout.DisplayFeature
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
+import fr.messager.popmes.presentation.components.contact.AddGroupComponent
+import fr.messager.popmes.presentation.components.contact.AddOrEditUserComponent
 import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
-import fr.messager.popmes.presentation.components.views.AddGroupComponent
-import fr.messager.popmes.presentation.components.views.AddOrEditUserComponent
 import fr.messager.popmes.presentation.screen.two_pane.ContactsWithAddOrEditUserAndAddGroupScreen
 
 @Composable

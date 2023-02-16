@@ -15,8 +15,8 @@ import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
 import fr.messager.popmes.presentation.components.state.saver.InstantSaver
 import fr.messager.popmes.presentation.components.state.saver.InstantSaverNullable
-import fr.messager.popmes.presentation.components.views.AddScheduleComponent
-import fr.messager.popmes.presentation.components.views.AddTaskComponent
+import fr.messager.popmes.presentation.components.task.AddScheduleComponent
+import fr.messager.popmes.presentation.components.task.AddTaskComponent
 import fr.messager.popmes.presentation.screen.two_pane.TaskWithAddTaskAndAddScheduleScreen
 import java.time.Instant
 

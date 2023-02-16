@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.dialog
+package fr.messager.popmes.presentation.components.contact
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +36,7 @@ import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.PopMesTextButton
+import fr.messager.popmes.presentation.components.dialog.PopMesAlertDialog
 
 @Composable
 fun PopMesContactDialog(

@@ -10,9 +10,9 @@ import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
 import com.google.accompanist.adaptive.TwoPane
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.task.Task
-import fr.messager.popmes.presentation.components.views.AddScheduleComponent
-import fr.messager.popmes.presentation.components.views.AddTaskComponent
-import fr.messager.popmes.presentation.components.views.TaskComponent
+import fr.messager.popmes.presentation.components.task.AddScheduleComponent
+import fr.messager.popmes.presentation.components.task.AddTaskComponent
+import fr.messager.popmes.presentation.components.task.TaskComponent
 import java.time.Instant
 
 @Composable

@@ -11,10 +11,10 @@ import androidx.window.layout.DisplayFeature
 import fr.messager.popmes.domain.model.contact.Contact
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.domain.model.message.Message
+import fr.messager.popmes.presentation.components.conversation.ConversationComponent
+import fr.messager.popmes.presentation.components.conversation.HomeComponent
 import fr.messager.popmes.presentation.components.dimensions.PopMesWindowSize
 import fr.messager.popmes.presentation.components.dimensions.WindowSizeDimension
-import fr.messager.popmes.presentation.components.views.ConversationComponent
-import fr.messager.popmes.presentation.components.views.HomeComponent
 import fr.messager.popmes.presentation.navigation.NavItem
 import fr.messager.popmes.presentation.screen.two_pane.HomeWithConversationScreen
 import kotlinx.coroutines.CoroutineScope

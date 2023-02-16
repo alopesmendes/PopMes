@@ -1,4 +1,4 @@
-package fr.messager.popmes.presentation.components.views
+package fr.messager.popmes.presentation.components.contact
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -32,10 +32,7 @@ import androidx.compose.ui.unit.dp
 import fr.messager.popmes.R
 import fr.messager.popmes.domain.model.contact.User
 import fr.messager.popmes.presentation.components.buttons.ValidationButton
-import fr.messager.popmes.presentation.components.image.ProfileImage
 import fr.messager.popmes.presentation.components.text.InputDescriptionTextField
-import fr.messager.popmes.presentation.components.text.InputPhoneNumber
-import fr.messager.popmes.presentation.components.text.InputUserName
 
 @Composable
 fun AddOrEditUserComponent(
